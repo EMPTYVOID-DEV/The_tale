@@ -1,124 +1,143 @@
 <script lang="ts">
+	import { emailSchema, passwordSchema } from '$lib/schema/authSchema';
+	import SyncButton from '$components/button/syncButton.svelte';
+	import ReactiveInput from '$components/input/reactiveInput.svelte';
+	import StaticInput from '$components/input/staticInput.svelte';
+	import { goto } from '$app/navigation';
 	import { enhance } from '$app/forms';
+	import CloseIcon from '$icons/closeIcon.svelte';
 
-	export let form: string;
-	let action: 'signin' | 'signup' = 'signup';
+	export let form = '';
+
+	let stage: 'sign up' | 'sign in' = 'sign up';
+
+	function validateEmail(email: string): { state: 'valid' | 'invalid'; errorMsg: string } {
+		const parseResult = emailSchema.safeParse(email);
+		if (parseResult.success == true)
+			return {
+				state: 'valid',
+				errorMsg: ''
+			};
+		else
+			return {
+				errorMsg: parseResult.error.errors[0].message,
+				state: 'invalid'
+			};
+	}
+
+	function validatePassword(password: string): { state: 'valid' | 'invalid'; errorMsg: string } {
+		const parseResult = passwordSchema.safeParse(password);
+		if (parseResult.success == true) return { state: 'valid', errorMsg: '' };
+		else return { state: 'invalid', errorMsg: parseResult.error.errors[0].message };
+	}
 </script>
 
-<div class="auth">
-	<form class="auth-form" method="post" action="?/{action}" use:enhance>
-		{#if action == 'signup'}
-			<input class="auth-input" type="text" name="username" placeholder="Username" />
+<div class="authPage">
+	<div class="leftSide">
+		{#if stage == 'sign in'}
+			<h1>Welcome Back</h1>
+			<p>
+				Reconnect and resume your journey through seamless communication. Dive back into meaningful
+				conversations with ease, catching up where you left off, and forging new connections
+				effortlessly.
+			</p>
+		{:else}
+			<h1>Where it All Began</h1>
+			<p>
+				Embark on your communication journey effortlessly by signing up. Start engaging in vibrant
+				discussions, meeting like-minded individuals, and exploring new horizons—all in one place,
+				tailored to your preferences.
+			</p>
 		{/if}
-		<input class="auth-input" type="email" name="email" placeholder="Email" />
-		<input class="auth-input" type="password" name="password" placeholder="Password" />
-		<button class="auth-btn" type="submit">{action === 'signup' ? 'Sign Up' : 'Sign In'}</button>
-		<span class="error">{form || ''}</span>
-	</form>
+	</div>
+	<form action="?/{stage}" class="rightSide" use:enhance>
+		<StaticInput name="username" label="Username" />
+		<ReactiveInput name="email" label="Email" checkFunction={validateEmail} />
+		<ReactiveInput name="password" label="password" checkFunction={validatePassword} />
+		<SyncButton text={stage} />
+		<SyncButton text="{stage} with github" on:click={() => goto('/auth/github')} type="passive" />
 
-	<div class="change-action">
-		{#if action == 'signup'}
-			<span
-				>Already have an account <button
-					class="change-action-btn"
-					on:click={() => (action = 'signin')}>Sign In</button
+		{#if stage == 'sign in'}
+			<!-- svelte-ignore a11y-interactive-supports-focus -->
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<span class="status"
+				>Don't have an account? <span role="button" on:click={() => (stage = 'sign up')}
+					>Sign in.</span
 				></span
 			>
 		{:else}
-			<span
-				>Don't have an account <button
-					class="change-action-btn"
-					on:click={() => (action = 'signup')}>Sign Up</button
+			<!-- svelte-ignore a11y-interactive-supports-focus -->
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<span class="status"
+				>Already have an account? <span role="button" on:click={() => (stage = 'sign in')}
+					>Sign up.</span
 				></span
 			>
 		{/if}
-	</div>
-
-	<a href="/auth/github" class="github">{action == 'signin' ? 'Sign in' : 'Sign up'} with GitHub</a>
+		{#if form == ''}
+			<div class="error">
+				<CloseIcon />
+				<span>{form}</span>
+			</div>
+		{/if}
+	</form>
 </div>
 
 <style>
-	.auth {
+	.authPage {
+		background: linear-gradient(to right, var(--backgroundColor), var(--secondBackgroundColor));
 		width: 100vw;
 		height: 100vh;
+		display: grid;
+		grid-template-columns: 45% 40%;
+		align-items: center;
+		gap: 5%;
+		padding-inline: 5%;
+	}
+	.leftSide {
+		width: 100%;
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
+		gap: 20px;
+	}
+	.leftSide h1 {
+		font-size: var(--huge);
+		color: var(--foregroundColor);
+	}
+	.leftSide p {
+		color: var(--foregroundColor);
+	}
+	.rightSide {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
 		align-items: center;
 	}
 
-	.auth-form {
-		width: 30%;
+	.rightSide .status {
+		cursor: pointer;
+		color: var(--foregroundColor);
+	}
+	.rightSide .status span {
+		color: var(--primaryColor);
+	}
+	.rightSide .error {
 		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-		margin-bottom: 2rem;
+		gap: 4px;
+		--icon: var(--dangerColor);
 	}
-
-	.auth-input {
-		padding: 0.5rem;
-		border: 1px solid #000000;
-		border-radius: 0.25rem;
-		font-size: 1rem;
-		outline: none;
-	}
-
-	.auth-input:focus {
-		border: 2px solid #3498db;
-	}
-
-	.auth-btn {
-		padding: 0.75rem 1.5rem;
-		background-color: #3498dbb9;
-		color: #fff;
-		border: none;
-		border-radius: 0.25rem;
-		font-weight: 500;
-		cursor: pointer;
-		transition: background-color 0.2s ease-in-out;
-	}
-
-	.error {
-		font-size: 0.9rem;
-		color: #ff0000;
-	}
-
-	.auth-btn:hover {
-		background-color: #3498db;
-	}
-
-	.change-action {
-		margin-bottom: 1rem;
-		font-size: 0.9rem;
-	}
-
-	.change-action-btn {
-		background: none;
-		border: none;
-		color: #3498db;
-		font-weight: 500;
-		cursor: pointer;
-		transition: color 0.2s ease-in-out;
-	}
-
-	.github {
-		display: inline-block;
-		padding: 0.75rem 1.5rem;
-		background-color: #000000b9;
-		color: #fff;
-		text-decoration: none;
-		border-radius: 0.25rem;
-		font-weight: 500;
-		transition: background-color 0.2s ease-in-out;
-	}
-
-	.github:hover {
-		background-color: #000000;
+	.rightSide .error span {
+		color: var(--dangerColor);
 	}
 
 	@media screen and (width<768px) {
-		.auth-form {
-			width: 90%;
+		.authPage {
+			grid-template-columns: 95%;
+			align-items: 2.5%;
+		}
+		.leftSide {
+			display: none;
 		}
 	}
 </style>

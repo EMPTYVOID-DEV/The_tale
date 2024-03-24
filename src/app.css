@@ -1,37 +1,71 @@
-a {
-	color: inherit;
-	text-decoration: none;
+:root {
+	--primaryColor: #a219e6;
+	--secondaryColor: #f9d506;
+	--backgroundColor: #13111c;
+	--secondBackgroundColor: #2f1129;
+	--foregroundColor: hsl(0, 0%, 100%);
+	--dangerColor: hsl(0, 80%, 50%);
+	--successColor: hsl(115, 80%, 50%);
+	--mutedColor: hsl(270, 1%, 42%);
+	--huge: clamp(3.5rem, calc(3.5rem + ((1vw - 0.48rem) * 0.9722)), 4rem);
+	--h1: clamp(2rem, calc(2rem + ((1vw - 0.48rem) * 0.9722)), 2.5rem);
+	--h2: clamp(1.725rem, calc(1.725rem + ((1vw - 0.48rem) * 0.9722)), 2rem);
+	--h3: clamp(1.5rem, calc(1.5rem + ((1vw - 0.48rem) * 0.9722)), 1.725rem);
+	--h4: clamp(1.275rem, calc(1.275rem + ((1vw - 0.48rem) * 0.3472)), 1.5rem);
+	--body: clamp(1rem, calc(1rem + ((1vw - 0.48rem) * 0.1736)), 1.275rem);
+	--small: clamp(0.875rem, calc(0.875rem + ((1vw - 0.48rem) * 0.1736)), 1rem);
+	--border-radius: 0.3rem;
+	--bodyFont: Helvetica, sans-serif;
+	--headerFont: Helvetica, sans-serif;
 }
 
-* {
-	padding: 0;
+:not(dialog) {
 	margin: 0;
-	list-style: none;
+	padding: 0;
 	box-sizing: border-box;
 }
 
-:root {
-	/* default font sizes polled from https://websemantics.uk/tools/responsive-font-calculator/
-	 responsive font sizes for screens between 768px-1920px */
-	--huge: clamp(3.8rem, calc(3.8rem + ((1vw - 0.48rem) * 1.3889)), 4.8rem);
-	--h1: clamp(2.8rem, calc(2.8rem + ((1vw - 0.48rem) * 1.3889)), 3.8rem);
-	--h2: clamp(2rem, calc(2rem + ((1vw - 0.48rem) * 1.3889)), 3rem);
-	--h3: clamp(1.5rem, calc(1.5rem + ((1vw - 0.48rem) * 0.5208)), 1.875rem);
-	--h4: clamp(1.125rem, calc(1.125rem + ((1vw - 0.48rem) * 0.3472)), 1.375rem);
-	--body: clamp(1rem, calc(1rem + ((1vw - 0.48rem) * 0.1736)), 1.125rem);
-	--small: clamp(0.875rem, calc(0.875rem + ((1vw - 0.48rem) * 0.1736)), 1rem);
-	/* this is the corresponding line heights for each header */
-	--lh1: 1.3;
-	--lh2: 1.35;
-	--lh3: 1.4;
-	--lh4: 1.5;
-	--lhbody: 1.6;
+body {
+	overflow-x: hidden;
+}
 
-	--primaryColor: #3498db;
-	--secondaryColor: #e74c3c;
-	--backgroundColor: #ffffff;
-	--foregroundColor: #000000;
-	--dangerColor: #ff0000;
-	--successColor: #27cf22;
-	--mutedColor: #505050;
+:where(h1, h2, h3, h4) {
+	font-family: var(--headerFont);
+	font-weight: bold;
+}
+h1 {
+	font-size: var(--h1);
+	line-height: var(--lh1);
+}
+h2 {
+	font-size: var(--h2);
+	line-height: var(--lh2);
+}
+h3 {
+	font-size: var(--h3);
+	line-height: var(--lh3);
+}
+h4 {
+	font-size: var(--h4);
+	line-height: var(--lh4);
+}
+
+:where(label, code, span, li, p, i) {
+	font-family: var(--bodyFont);
+	font-size: var(--body);
+	font-weight: 400;
+	line-height: var(--lbody);
+}
+
+*::-webkit-scrollbar {
+	width: 0.5rem;
+}
+*::-webkit-scrollbar-track {
+	border-radius: 0;
+	background: color-mix(in srgb, var(--foregroundColor) 40%, transparent 60%);
+}
+
+*::-webkit-scrollbar-thumb {
+	border-radius: 4px;
+	background: var(--primaryColor);
 }

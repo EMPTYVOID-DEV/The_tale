@@ -25,9 +25,13 @@
 		"allowJs": true,
 		"checkJs": true,
 		"paths": {
+			"$icons/*": ["src/lib/icons/*"],
+			"$icons": ["./src/lib/icons"],
+			"$components/*": ["src/lib/components/*"],
+			"$components": ["./src/lib/components"],
 			"$lib/*": ["src/lib/*"],
-			"$lib": ["./src/lib"],	
-			"$/*": ["./src/*"],							 
+			"$lib": ["./src/lib"],
+			"$/*": ["./src/*"],
 			"$app": ["./node_modules/@sveltejs/kit/types"],
 			"$app/*": ["./node_modules/@sveltejs/kit/types/ambient.d.ts"]
 		}
