@@ -14,7 +14,7 @@
 
 	const dispatcher = createEventDispatcher();
 
-	/**@type {import("../types").inputChangeHandler<HTMLInputElement>}*/
+	/**@type {import("$schema/types/components").inputChangeHandler<HTMLInputElement>}*/
 	function handleChange(e) {
 		dispatcher('change', {
 			value: e.currentTarget.value

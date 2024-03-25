@@ -1,14 +1,14 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
-	import LoadingIcon from '$icons/loadingIcon.svelte';
+	import LoadingIcon from '$lib/ui/icons/loadingIcon.svelte';
 
 	/**@type {string}*/
 	export let text = 'button';
 
-	/**@type {import("../types").iconComponent|null} */
+	/**@type {import("$schema/types/components").iconComponent|null} */
 	export let icon = null;
 
-	/**@type {import("../types").asyncButtonAction} This needs to be an async function that handles the button click*/
+	/**@type {import("$schema/types/components").asyncButtonAction} This needs to be an async function that handles the button click*/
 	export let action;
 
 	/**@type {"disabled"|"passive"|"primary"|"secondary"|"danger"} */

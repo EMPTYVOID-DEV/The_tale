@@ -7,7 +7,7 @@
 	export let isBlank = true;
 	/**@type {"primary"|"secondary"}*/
 	export let type = 'primary';
-	/**@type {import("../types").iconComponent|null}*/
+	/**@type {import("$schema/types/components").iconComponent|null}*/
 	export let icon = null;
 </script>
 

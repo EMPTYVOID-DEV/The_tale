@@ -1,108 +1,95 @@
 <script lang="ts">
-	import { emailSchema, passwordSchema } from '$lib/schema/authSchema';
 	import SyncButton from '$components/button/syncButton.svelte';
 	import ReactiveInput from '$components/input/reactiveInput.svelte';
 	import StaticInput from '$components/input/staticInput.svelte';
+	import SyncToast from '$components/toast/syncToast.svelte';
 	import { goto } from '$app/navigation';
 	import { enhance } from '$app/forms';
-	import CloseIcon from '$icons/closeIcon.svelte';
+	import Navbar from '$components/other/navbar.svelte';
+	import { showToast } from '$lib/utils/clientUtils';
+	import { validateEmail, validatePassword } from '$schema/zod/authSchema';
+	import { Toaster } from 'svelte-sonner';
 
-	export let form = '';
+	export let form: string = '';
 
 	let stage: 'sign up' | 'sign in' = 'sign up';
 
-	function validateEmail(email: string): { state: 'valid' | 'invalid'; errorMsg: string } {
-		const parseResult = emailSchema.safeParse(email);
-		if (parseResult.success == true)
-			return {
-				state: 'valid',
-				errorMsg: ''
-			};
-		else
-			return {
-				errorMsg: parseResult.error.errors[0].message,
-				state: 'invalid'
-			};
-	}
-
-	function validatePassword(password: string): { state: 'valid' | 'invalid'; errorMsg: string } {
-		const parseResult = passwordSchema.safeParse(password);
-		if (parseResult.success == true) return { state: 'valid', errorMsg: '' };
-		else return { state: 'invalid', errorMsg: parseResult.error.errors[0].message };
+	$: {
+		showToast(form, SyncToast);
 	}
 </script>
 
 <div class="authPage">
-	<div class="leftSide">
-		{#if stage == 'sign in'}
-			<h1>Welcome Back</h1>
-			<p>
-				Reconnect and resume your journey through seamless communication. Dive back into meaningful
-				conversations with ease, catching up where you left off, and forging new connections
-				effortlessly.
-			</p>
-		{:else}
-			<h1>Where it All Began</h1>
-			<p>
-				Embark on your communication journey effortlessly by signing up. Start engaging in vibrant
-				discussions, meeting like-minded individuals, and exploring new horizons—all in one place,
-				tailored to your preferences.
-			</p>
-		{/if}
-	</div>
-	<form action="?/{stage}" class="rightSide" use:enhance>
-		<StaticInput name="username" label="Username" />
-		<ReactiveInput name="email" label="Email" checkFunction={validateEmail} />
-		<ReactiveInput name="password" label="password" checkFunction={validatePassword} />
-		<SyncButton text={stage} />
-		<SyncButton text="{stage} with github" on:click={() => goto('/auth/github')} type="passive" />
+	<Navbar />
+	<div class="core">
+		<div class="leftSide">
+			{#if stage == 'sign in'}
+				<h1>Welcome Back to QuickLink</h1>
+				<p>
+					Reconnect and resume seamless real-time communication for your applications and services
+					with QuickLink. Dive back into meaningful conversations, catch up where you left off, and
+					forge new connections effortlessly across our robust communication platform.
+				</p>
+			{:else}
+				<h1>Real-Time Communication with QuickLink</h1>
+				<p>
+					Integrate real-time communication capabilities into your applications and services
+					effortlessly by signing up for QuickLink. Start enabling vibrant discussions, connecting
+					users, and exploring new horizons—all tailored to your preferences with our powerful and
+					versatile communication service.
+				</p>
+			{/if}
+		</div>
+		<form method="post" action="?/{stage}" class="rightSide" use:enhance>
+			<StaticInput name="username" label="Username" />
+			<ReactiveInput name="email" label="Email" checkFunction={validateEmail} />
+			<ReactiveInput name="password" label="password" checkFunction={validatePassword} />
+			<SyncButton text={stage} />
+			<SyncButton text="{stage} with github" on:click={() => goto('/auth/github')} type="passive" />
 
-		{#if stage == 'sign in'}
-			<!-- svelte-ignore a11y-interactive-supports-focus -->
-			<!-- svelte-ignore a11y-click-events-have-key-events -->
-			<span class="status"
-				>Don't have an account? <span role="button" on:click={() => (stage = 'sign up')}
-					>Sign in.</span
-				></span
-			>
-		{:else}
-			<!-- svelte-ignore a11y-interactive-supports-focus -->
-			<!-- svelte-ignore a11y-click-events-have-key-events -->
-			<span class="status"
-				>Already have an account? <span role="button" on:click={() => (stage = 'sign in')}
-					>Sign up.</span
-				></span
-			>
-		{/if}
-		{#if form == ''}
-			<div class="error">
-				<CloseIcon />
-				<span>{form}</span>
-			</div>
-		{/if}
-	</form>
+			{#if stage == 'sign in'}
+				<span class="status"
+					>Don't have an account? <button on:click={() => (stage = 'sign up')}>Sign in.</button
+					></span
+				>
+			{:else}
+				<span class="status"
+					>Already have an account? <button on:click={() => (stage = 'sign in')}>Sign up.</button
+					></span
+				>
+			{/if}
+		</form>
+	</div>
 </div>
+
+<Toaster expand duration={2500} />
 
 <style>
 	.authPage {
-		background: linear-gradient(to right, var(--backgroundColor), var(--secondBackgroundColor));
+		background: var(--backgroundColor);
 		width: 100vw;
 		height: 100vh;
+		display: flex;
+		flex-direction: column;
+	}
+	.core {
+		width: 100%;
+		flex-grow: 1;
 		display: grid;
 		grid-template-columns: 45% 40%;
 		align-items: center;
-		gap: 5%;
 		padding-inline: 5%;
+		gap: 5%;
 	}
 	.leftSide {
 		width: 100%;
 		display: flex;
 		flex-direction: column;
-		gap: 20px;
+		gap: 1.25rem;
 	}
 	.leftSide h1 {
 		font-size: var(--huge);
-		color: var(--foregroundColor);
+		color: var(--primaryColor);
 	}
 	.leftSide p {
 		color: var(--foregroundColor);
@@ -111,7 +98,7 @@
 		width: 100%;
 		display: flex;
 		flex-direction: column;
-		gap: 12px;
+		gap: 0.75rem;
 		align-items: center;
 	}
 
@@ -119,20 +106,17 @@
 		cursor: pointer;
 		color: var(--foregroundColor);
 	}
-	.rightSide .status span {
+	.rightSide .status button {
 		color: var(--primaryColor);
-	}
-	.rightSide .error {
-		display: flex;
-		gap: 4px;
-		--icon: var(--dangerColor);
-	}
-	.rightSide .error span {
-		color: var(--dangerColor);
+		font-size: var(--body);
+		font-family: var(--bodyFont);
+		border: none;
+		outline: none;
+		background: none;
 	}
 
 	@media screen and (width<768px) {
-		.authPage {
+		.core {
 			grid-template-columns: 95%;
 			align-items: 2.5%;
 		}

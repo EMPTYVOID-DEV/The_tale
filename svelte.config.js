@@ -8,8 +8,9 @@ const config = {
 
 	kit: {
 		alias: {
-			$components: path.resolve('./src/lib/components'),
-			$icons: path.resolve('./src/lib/icons/*')
+			$components: path.resolve('./src/lib/ui/components'),
+			$icons: path.resolve('./src/lib/ui/icons'),
+			$schema: path.resolve('./src/lib/schema')
 		},
 		env: {
 			dir: './'

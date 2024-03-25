@@ -1,5 +1,5 @@
 <script>
-	import CloseIcon from '$icons/closeIcon.svelte';
+	import CloseIcon from '$lib/ui/icons/closeIcon.svelte';
 	/**@type {string}*/
 	export let name = '';
 	/**@type {string}*/
@@ -10,9 +10,9 @@
 	export let inputType = 'text';
 	/**@type {boolean}*/
 	export let disabled = false;
-	/**@type {import("../types").checkFunction} This function will be used to validate the input on every change*/
+	/**@type {import("$schema/types/components").checkFunction} This function will be used to validate the input on every change*/
 	export let checkFunction;
-	/**@type {import("../types").reactiveInputStatus}*/
+	/**@type {import("$schema/types/components").reactiveInputStatus}*/
 	let status = {
 		state: 'idle',
 		errorMsg: ''
