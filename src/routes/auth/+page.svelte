@@ -18,7 +18,7 @@
 	}
 </script>
 
-<div class="authPage">
+<div class="auth">
 	<Navbar />
 	<div class="core">
 		<div class="leftSide">
@@ -65,7 +65,7 @@
 <Toaster expand duration={2500} />
 
 <style>
-	.authPage {
+	.auth {
 		background-image: linear-gradient(
 				45deg,
 				var(--backgroundColor) 25%,

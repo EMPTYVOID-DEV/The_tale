@@ -1,14 +1,25 @@
 <script>
+	import { page } from '$app/stores';
 	import DefaultLink from '$components/link/defaultLink.svelte';
 	import Logo from '$icons/logo.svelte';
+	const activeRoute = $page.url.pathname;
 </script>
 
 <nav class="navBar">
 	<Logo />
 	<div class="links">
-		<DefaultLink href="/about" text="About" isBlank={false} />
-		<DefaultLink href="/docs" text="Docs" isBlank={false} />
-		<DefaultLink href="/auth" text="Sign in" isBlank={false} />
+		<DefaultLink href="/about" text="About" isBlank={false} active={activeRoute == '/about'} />
+		<DefaultLink href="/docs" text="Docs" isBlank={false} active={activeRoute == '/docs'} />
+		{#if $page.data.isAuthenticated}
+			<DefaultLink
+				href="/dashboard"
+				text="Dashboard"
+				isBlank={false}
+				active={activeRoute == '/dashboard'}
+			/>
+		{:else}
+			<DefaultLink href="/auth" text="Sign in" isBlank={false} active={activeRoute == '/auth'} />
+		{/if}
 	</div>
 </nav>
 

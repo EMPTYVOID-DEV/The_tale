@@ -15,7 +15,16 @@ const config = {
 		env: {
 			dir: './'
 		},
-		adapter: nodeAdapter()
+		adapter: nodeAdapter(),
+		csrf: {
+			checkOrigin: true
+		},
+		csp: {
+			mode: 'auto',
+			directives: {
+				'script-src': ['self']
+			}
+		}
 	}
 };
 

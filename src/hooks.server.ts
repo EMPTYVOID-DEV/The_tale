@@ -1,5 +1,5 @@
 import { lucia } from '$lib/auth/lucia';
-import type { Handle } from '@sveltejs/kit';
+import { redirect, type Handle } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 
 const luciaHook: Handle = async ({ event, resolve }) => {
@@ -7,27 +7,27 @@ const luciaHook: Handle = async ({ event, resolve }) => {
 	if (!sessionId) {
 		event.locals.user = null;
 		event.locals.session = null;
-		return resolve(event);
+	} else {
+		const { session, user } = await lucia.validateSession(sessionId);
+		if (session && session.fresh) {
+			const sessionCookie = lucia.createSessionCookie(session.id);
+			event.cookies.set(sessionCookie.name, sessionCookie.value, {
+				path: '.',
+				...sessionCookie.attributes
+			});
+		}
+		if (!session) {
+			const sessionCookie = lucia.createBlankSessionCookie();
+			event.cookies.set(sessionCookie.name, sessionCookie.value, {
+				path: '.',
+				...sessionCookie.attributes
+			});
+		}
+		event.locals.user = user;
+		event.locals.session = session;
 	}
-
-	const { session, user } = await lucia.validateSession(sessionId);
-	if (session && session.fresh) {
-		const sessionCookie = lucia.createSessionCookie(session.id);
-		event.cookies.set(sessionCookie.name, sessionCookie.value, {
-			path: '.',
-			...sessionCookie.attributes
-		});
-	}
-	if (!session) {
-		const sessionCookie = lucia.createBlankSessionCookie();
-		event.cookies.set(sessionCookie.name, sessionCookie.value, {
-			path: '.',
-			...sessionCookie.attributes
-		});
-	}
-
-	event.locals.user = user;
-	event.locals.session = session;
+	if (!event.locals.user && event.url.pathname.startsWith('/dashboard')) redirect(302, '/auth');
+	if (event.locals.user && event.url.pathname.startsWith('/auth')) redirect(302, '/dashboard');
 	return resolve(event);
 };
 

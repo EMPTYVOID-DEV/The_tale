@@ -9,9 +9,11 @@
 	export let type = 'primary';
 	/**@type {import("$schema/types/components").iconComponent|null}*/
 	export let icon = null;
+	/**@type {boolean}*/
+	export let active = false;
 </script>
 
-<a class="link {type}" {href} target={isBlank ? '_blank' : '_self'}>
+<a class:active class="link {type}" {href} target={isBlank ? '_blank' : '_self'}>
 	<svelte:component this={icon} />
 	<span>{text}</span>
 </a>
@@ -43,6 +45,10 @@
 		--icon: var(--main-color);
 	}
 
+	.active {
+		--text: var(--main-color);
+		--icon: var(--main-color);
+	}
 	.link span:empty {
 		display: none;
 	}
