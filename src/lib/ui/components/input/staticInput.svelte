@@ -66,6 +66,7 @@
 	.input-container input::-webkit-inner-spin-button {
 		-webkit-appearance: none;
 	}
+
 	.disabled input {
 		border-color: var(--mutedColor);
 		color: var(--mutedColor);

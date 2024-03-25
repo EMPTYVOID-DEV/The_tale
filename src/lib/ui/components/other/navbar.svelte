@@ -6,9 +6,9 @@
 <nav class="navBar">
 	<Logo />
 	<div class="links">
-		<DefaultLink href="/about" text="About" />
-		<DefaultLink href="/docs" text="Docs" />
-		<DefaultLink href="/login" text="Login" />
+		<DefaultLink href="/about" text="About" isBlank={false} />
+		<DefaultLink href="/docs" text="Docs" isBlank={false} />
+		<DefaultLink href="/auth" text="Sign in" isBlank={false} />
 	</div>
 </nav>
 
