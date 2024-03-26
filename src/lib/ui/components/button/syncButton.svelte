@@ -1,7 +1,7 @@
 <script>
 	/**@type {string}*/
 	export let text = 'button';
-	/**@type {import("$schema/components").iconComponent|null} */
+	/**@type {import("$schema/types/components").iconComponent|null} */
 	export let icon = null;
 	/**@type {"disabled"|"passive"|"primary"|"secondary"|"danger"} */
 	export let type = 'primary';
@@ -38,9 +38,9 @@
 		align-items: center;
 		justify-content: center;
 		gap: 0.25rem;
-		width: var(--width, 80%);
-		padding-inline: 1rem;
-		padding-block: 0.5rem;
+		width: var(--width, fit-content);
+		padding-inline: var(--padding-inline, 1rem);
+		padding-block: var(--padding-block, 0.5rem);
 		cursor: pointer;
 		outline: none;
 		border: none;

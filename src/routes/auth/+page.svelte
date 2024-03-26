@@ -10,7 +10,6 @@
 	import { Toaster } from 'svelte-sonner';
 
 	export let form: string = '';
-
 	let stage: 'sign up' | 'sign in' = 'sign up';
 
 	$: {
@@ -21,7 +20,7 @@
 <div class="auth">
 	<Navbar />
 	<div class="core">
-		<div class="leftSide">
+		<div class="left-side">
 			{#if stage == 'sign in'}
 				<h1>Welcome Back to QuickLink</h1>
 				<p>
@@ -36,17 +35,34 @@
 				</p>
 			{/if}
 		</div>
-		<div class="rightSide">
-			<form method="post" action="?/{stage}" use:enhance>
+		<div class="right-side">
+			<form
+				method="post"
+				action="?/{stage}"
+				use:enhance={() => {
+					return ({ update }) => {
+						update({ reset: false });
+					};
+				}}
+			>
 				{#if stage == 'sign up'}
 					<ReactiveInput name="username" label="Username" checkFunction={validateUsername} />
 				{/if}
 				<ReactiveInput name="email" label="Email" checkFunction={validateEmail} />
-				<ReactiveInput name="password" label="password" checkFunction={validatePassword} />
-				<SyncButton text={stage} />
+				<ReactiveInput
+					name="password"
+					label="password"
+					checkFunction={validatePassword}
+					inputType="password"
+				/>
+				<SyncButton text={stage} --width="80%" />
 			</form>
-			<SyncButton text="{stage} with github" on:click={() => goto('/auth/github')} type="passive" />
-
+			<SyncButton
+				text="{stage} with github"
+				on:click={() => goto('/auth/github')}
+				type="passive"
+				--width="80%"
+			/>
 			{#if stage == 'sign in'}
 				<span class="status"
 					>Don't have an account? <button on:click={() => (stage = 'sign up')}>Sign in.</button
@@ -61,34 +77,17 @@
 		</div>
 	</div>
 </div>
-
 <Toaster expand duration={2500} />
 
 <style>
 	.auth {
-		background-image: linear-gradient(
-				45deg,
-				var(--backgroundColor) 25%,
-				var(--secondBackgroundColor) 25%,
-				var(--secondBackgroundColor) 75%,
-				var(--backgroundColor) 75%
-			),
-			linear-gradient(
-				-45deg,
-				var(--backgroundColor) 25%,
-				var(--secondBackgroundColor) 25%,
-				var(--secondBackgroundColor) 75%,
-				var(--backgroundColor) 75%
-			);
-		background-size: 75px 75px;
-		background-position:
-			0px 0px,
-			25px 25px;
+		background-color: var(--backgroundColor);
 		width: 100vw;
 		height: 100vh;
 		display: flex;
 		flex-direction: column;
 	}
+
 	.core {
 		width: 100%;
 		flex-grow: 1;
@@ -98,35 +97,40 @@
 		padding-inline: 5%;
 		gap: 5%;
 	}
-	.leftSide {
+
+	.left-side {
 		width: 100%;
 		display: flex;
 		flex-direction: column;
 		gap: 1.25rem;
 	}
-	.leftSide h1 {
-		font-size: var(--huge);
+
+	.left-side h1 {
 		color: var(--primaryColor);
 	}
-	.leftSide p {
+
+	.left-side p {
 		color: var(--foregroundColor);
 	}
-	.rightSide {
+
+	.right-side {
 		width: 100%;
 		display: flex;
 		flex-direction: column;
 		gap: 0.75rem;
 		align-items: center;
 	}
-	.rightSide form {
+
+	.right-side form {
 		display: contents;
 	}
 
-	.rightSide .status {
+	.status {
 		cursor: pointer;
 		color: var(--foregroundColor);
 	}
-	.rightSide .status button {
+
+	.status button {
 		color: var(--primaryColor);
 		font-size: var(--body);
 		font-family: var(--bodyFont);
@@ -135,13 +139,18 @@
 		background: none;
 	}
 
-	@media screen and (width<768px) {
+	@media screen and (max-width: 768px) {
 		.core {
 			grid-template-columns: 95%;
-			align-items: 2.5%;
+			gap: 0;
 		}
-		.leftSide {
-			display: none;
+
+		.left-side {
+			flex-grow: 0;
+		}
+
+		.right-side {
+			align-self: flex-start;
 		}
 	}
 </style>

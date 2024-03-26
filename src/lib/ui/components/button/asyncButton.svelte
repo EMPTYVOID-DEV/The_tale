@@ -77,7 +77,7 @@
 		align-items: center;
 		justify-content: center;
 		gap: 0.25rem;
-		width: var(--width, 80%);
+		width: var(--width, fit-content);
 		padding-inline: 1rem;
 		padding-block: 0.5rem;
 		cursor: pointer;

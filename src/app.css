@@ -1,13 +1,11 @@
 :root {
 	--primaryColor: #9a25d0;
-	--secondaryColor: #f9d506;
-	--backgroundColor: #13111c;
-	--secondBackgroundColor: #23202b;
-	--foregroundColor: hsl(0, 0%, 100%);
+	--backgroundColor: #e5dee7;
+	--foregroundColor: hsl(282, 36%, 5%);
 	--dangerColor: hsl(0, 80%, 50%);
 	--successColor: hsl(115, 80%, 50%);
-	--mutedColor: hsl(270, 1%, 42%);
-	--huge: clamp(3rem, calc(3rem + ((1vw - 0.48rem) * 0.9722)), 3.5rem);
+	--mutedColor: hsl(280, 16%, 26%);
+	--huge: clamp(2.8rem, calc(2.8rem + ((1vw - 0.48rem) * 0.9722)), 3.3em);
 	--h1: clamp(2rem, calc(2rem + ((1vw - 0.48rem) * 0.9722)), 2.5rem);
 	--h2: clamp(1.725rem, calc(1.725rem + ((1vw - 0.48rem) * 0.9722)), 2rem);
 	--h3: clamp(1.5rem, calc(1.5rem + ((1vw - 0.48rem) * 0.9722)), 1.725rem);
