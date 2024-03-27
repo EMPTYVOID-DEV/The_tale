@@ -1,38 +1,24 @@
-# create-svelte
+# QuickLink
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+QuickLink is a powerful service that allows you to easily integrate real-time communication capabilities into your applications through a simple and flexible API.
 
-## Creating a project
+## Features
 
-If you're seeing this, you've probably already done this step. Congrats!
+- **Real-Time Communication**: Enable voice, video, and text chat functionality in your apps with WebRTC and Socket.IO.
+- **Authentication and API Keys**: Secure access with email/password or GitHub authentication and manage multiple API keys for different services.
+- **Session Management**: Create, stop, restart, and delete communication sessions with customizable settings like timeouts, user modes, and maximum participants.
+- **User Roles**: Assign different roles (host, co-host, participant, attendee) with varying privileges for better session control.
+- **Notification Webhooks**: Receive notifications for session events like creation, user join/leave, and more.
+- **Data Persistence (Coming Soon)**: Store and retrieve chat history, voice/video recordings, and file transfers across session restarts.
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+## Getting Started
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+1. Sign up for a QuickLink account.
+2. Create an API key for your service.
+3. Integrate the QuickLink API calls to manage sessions and real-time communication.
+4. Deploy and start using QuickLink in your application!
 
-## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## License
 
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+QuickLink is licensed under the [MIT License](https://mit-license.org).
