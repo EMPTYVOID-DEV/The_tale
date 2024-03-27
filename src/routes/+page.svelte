@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import SyncButton from '$components/button/syncButton.svelte';
@@ -49,6 +49,7 @@
 		display: flex;
 		flex-direction: column;
 		overflow: hidden;
+		padding-bottom: 30px;
 	}
 
 	.content {

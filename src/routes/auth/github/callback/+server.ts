@@ -6,19 +6,7 @@ import { fetchGithubEmail, fetchGithubUser, createSession } from '$lib/utils/aut
 import type { RequestEvent } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
 import { github } from '$lib/auth/github';
-
-type GithubUser = {
-	id: number;
-	login: string;
-	email: string;
-};
-
-type GithubEmail = {
-	email: string;
-	primary: boolean;
-	verified: boolean;
-	visibility: string | null;
-};
+import type { GithubUser, GithubEmail } from '$schema/types/server.types';
 
 export async function GET(event: RequestEvent): Promise<Response> {
 	const code = event.url.searchParams.get('code');

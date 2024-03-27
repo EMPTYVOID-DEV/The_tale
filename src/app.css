@@ -1,7 +1,7 @@
 :root {
 	--primaryColor: #9a25d0;
 	--backgroundColor: #e5dee7;
-	--foregroundColor: hsl(282, 36%, 5%);
+	--foregroundColor: #0f0811;
 	--dangerColor: hsl(0, 80%, 50%);
 	--successColor: hsl(115, 80%, 50%);
 	--mutedColor: hsl(280, 16%, 26%);
