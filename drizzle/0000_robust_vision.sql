@@ -1,3 +1,11 @@
+CREATE TABLE `key` (
+	`userId` text NOT NULL,
+	`provider_name` text NOT NULL,
+	`provider_id` text,
+	PRIMARY KEY(`provider_id`, `provider_name`),
+	FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
 CREATE TABLE `session` (
 	`id` text PRIMARY KEY NOT NULL,
 	`user_id` text NOT NULL,
@@ -8,10 +16,5 @@ CREATE TABLE `session` (
 CREATE TABLE `user` (
 	`id` text PRIMARY KEY NOT NULL,
 	`username` text NOT NULL,
-	`github_id` integer,
-	`email` text NOT NULL,
-	`hashedPassword` text
+	`verified` integer NOT NULL
 );
---> statement-breakpoint
-CREATE UNIQUE INDEX `user_github_id_unique` ON `user` (`github_id`);--> statement-breakpoint
-CREATE UNIQUE INDEX `user_email_unique` ON `user` (`email`);

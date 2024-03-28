@@ -8,7 +8,7 @@
 	import { showToast } from '$lib/utils/clientUtils';
 	import { validateEmail, validatePassword, validateUsername } from '$schema/zod/authSchema';
 	import { Toaster } from 'svelte-sonner';
-
+	import GithubIcon from '$icons/githubIcon.svelte';
 	export let form: string = '';
 	let stage: 'sign up' | 'sign in' = 'sign up';
 
@@ -58,8 +58,9 @@
 				<SyncButton text={stage} --width="80%" />
 			</form>
 			<SyncButton
-				text="{stage} with github"
 				on:click={() => goto('/auth/github')}
+				icon={GithubIcon}
+				text="{stage} with github"
 				type="passive"
 				--width="80%"
 			/>
@@ -137,6 +138,7 @@
 		border: none;
 		outline: none;
 		background: none;
+		cursor: pointer;
 	}
 
 	@media screen and (max-width: 768px) {

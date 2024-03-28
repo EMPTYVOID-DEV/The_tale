@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "a53f1c91-be08-4246-a89e-cb816c6bdac9",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "92e77e90-31f6-4739-a7bf-eb66b6247553",
+  "prevId": "a53f1c91-be08-4246-a89e-cb816c6bdac9",
   "tables": {
     "key": {
       "name": "key",
@@ -24,6 +24,13 @@
         "provider_id": {
           "name": "provider_id",
           "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "verified": {
+          "name": "verified",
+          "type": "integer",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false

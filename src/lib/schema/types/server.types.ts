@@ -1,3 +1,5 @@
+import type { keyTable, userTable } from '$lib/database/schema';
+
 export type mailOptions = {
 	from: string;
 	to: string;
@@ -20,12 +22,8 @@ export type cookieOptions = {
 export type GithubUser = {
 	id: number;
 	login: string;
-	email: string;
 };
 
-export type GithubEmail = {
-	email: string;
-	primary: boolean;
-	verified: boolean;
-	visibility: string | null;
-};
+export type user = typeof userTable.$inferInsert;
+
+export type key = typeof keyTable.$inferInsert;

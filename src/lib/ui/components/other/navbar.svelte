@@ -74,10 +74,11 @@
 			position: fixed;
 			top: 80px;
 			left: -100%;
-			transition: all 600ms ease-in;
+			transition: all 600ms ease-in-out;
 			padding-left: 1rem;
 			padding-top: 1rem;
 			--body: var(--h4);
+			gap: 2.5rem;
 		}
 		.mobileAppear {
 			left: 0;

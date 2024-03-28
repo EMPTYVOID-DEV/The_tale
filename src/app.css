@@ -2,7 +2,7 @@
 	--primaryColor: #9a25d0;
 	--backgroundColor: #e5dee7;
 	--foregroundColor: #0f0811;
-	--dangerColor: hsl(0, 80%, 50%);
+	--dangerColor: #e61919;
 	--successColor: hsl(115, 80%, 50%);
 	--mutedColor: hsl(280, 16%, 26%);
 	--huge: clamp(2.8rem, calc(2.8rem + ((1vw - 0.48rem) * 0.9722)), 3.3em);

@@ -20,12 +20,3 @@ export async function fetchGithubUser(tokens: GitHubTokens) {
 	});
 	return githubUserResponse.json();
 }
-
-export async function fetchGithubEmail(tokens: GitHubTokens) {
-	const githubEmailResponse = await fetch('https://api.github.com/user/emails', {
-		headers: {
-			Authorization: `Bearer ${tokens.accessToken}`
-		}
-	});
-	return githubEmailResponse.json();
-}

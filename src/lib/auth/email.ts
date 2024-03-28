@@ -17,6 +17,9 @@ export async function sendVerificationEmail(email: string, code: number, subject
 		template: Template,
 		props: {
 			code
+		},
+		options: {
+			pretty: true
 		}
 	});
 	const mailOptions: mailOptions = {
