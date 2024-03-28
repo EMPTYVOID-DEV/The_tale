@@ -1,13 +1,13 @@
 import { OAuth2RequestError } from 'arctic';
 import { generateId } from 'lucia';
-import { db } from '$lib/database/database';
-import { keyTable } from '$lib/database/schema';
-import { fetchGithubUser, createSession } from '$lib/utils/authUtils';
+import { db } from '$server/database/database';
+import { keyTable } from '$server/database/schema';
+import { fetchGithubUser, createSession } from '$lib/server/utils/authUtils';
 import type { RequestEvent } from '@sveltejs/kit';
 import { and, eq } from 'drizzle-orm';
-import { github } from '$lib/auth/github';
-import type { GithubUser, key, user } from '$schema/types/server.types';
-import { insertUser } from '$lib/utils/databaseUtils';
+import { github } from '$lib/server/auth/github';
+import type { GithubUser, key, user } from '$server/types.server';
+import { insertUser } from '$lib/server/utils/databaseUtils';
 
 export async function GET(event: RequestEvent): Promise<Response> {
 	const code = event.url.searchParams.get('code');

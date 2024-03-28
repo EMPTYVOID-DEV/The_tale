@@ -6,9 +6,9 @@
 	export let header;
 	/**@type {string}*/
 	export let description;
-	/**@type {import("$schema/types/components").toastAction|null}*/
+	/**@type {import("$client/components").toastAction|null}*/
 	export let toastAction;
-	/**@type {import("$schema/types/components").iconComponent}*/
+	/**@type {import("$client/components").iconComponent}*/
 	export let icon;
 	const dispatcher = createEventDispatcher();
 

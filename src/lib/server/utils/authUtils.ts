@@ -1,7 +1,7 @@
-import { lucia } from '$lib/auth/lucia';
+import { lucia } from '$server/auth/lucia';
 import type { Cookies } from '@sveltejs/kit';
 import type { GitHubTokens } from 'arctic';
-import type { cookieOptions } from '$schema/types/server.types';
+import type { cookieOptions } from '$server/types.server';
 
 export async function createSession(cookies: Cookies, cookieOptions: cookieOptions, id: string) {
 	const session = await lucia.createSession(id, {});

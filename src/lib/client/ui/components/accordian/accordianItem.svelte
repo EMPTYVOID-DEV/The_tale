@@ -1,6 +1,6 @@
 <script>
-	import UpIcon from '$lib/ui/icons/upIcon.svelte';
-	import DownIcon from '$lib/ui/icons/downIcon.svelte';
+	import UpIcon from '$icons/upIcon.svelte';
+	import DownIcon from '$icons/downIcon.svelte';
 	import { slide } from 'svelte/transition';
 
 	/**@type {string}*/

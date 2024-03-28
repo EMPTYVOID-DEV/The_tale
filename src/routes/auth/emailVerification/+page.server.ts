@@ -1,4 +1,4 @@
-import { sendVerificationEmail } from '$lib/auth/email';
+import { sendVerificationEmail } from '$lib/server/auth/email';
 import type { Actions } from '@sveltejs/kit';
 
 export const actions: Actions = {

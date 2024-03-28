@@ -8,9 +8,11 @@ const config = {
 
 	kit: {
 		alias: {
-			$components: path.resolve('./src/lib/ui/components'),
-			$icons: path.resolve('./src/lib/ui/icons'),
-			$schema: path.resolve('./src/lib/schema')
+			$components: path.resolve('./src/lib/client/ui/components'),
+			$icons: path.resolve('./src/lib/client/ui/icons'),
+			$global: path.resolve('./src/lib/global'),
+			$client: path.resolve('./src/lib/client'),
+			$server: path.resolve('./src/lib/server')
 		},
 		env: {
 			dir: './'

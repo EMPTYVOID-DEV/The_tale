@@ -1,7 +1,7 @@
 <script>
 	/**@type {string}*/
 	export let text = 'button';
-	/**@type {import("$schema/types/components").iconComponent|null} */
+	/**@type {import("$client/components").iconComponent|null} */
 	export let icon = null;
 	/**@type {"disabled"|"passive"|"primary"|"secondary"|"danger"} */
 	export let type = 'primary';

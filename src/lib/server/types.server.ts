@@ -1,4 +1,4 @@
-import type { keyTable, userTable } from '$lib/database/schema';
+import type { keyTable, userTable } from '$server/database/schema';
 
 export type mailOptions = {
 	from: string;

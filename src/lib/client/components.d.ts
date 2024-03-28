@@ -4,7 +4,7 @@ import { ComponentType, SvelteComponent } from 'svelte';
 export type iconComponent = ComponentType<SvelteComponent>;
 
 // Type for the asyncButton action prop
-export type asyncButtonAction = (ev: MouseEvent) => Promise<any>;
+export type asyncButtonAction = (ev: MouseEvent) => Promise<unknown>;
 
 // Type for default checklist component
 export type checkItem = {
@@ -41,7 +41,7 @@ export type sliderEvent = (
 
 // Type for the default select variant change event
 export type selectEvent = Event & {
-	detail: { value: any; label: string }[] | { value: any; label: string } | null;
+	detail: { value: unknown; label: string }[] | { value: unknown; label: string } | null;
 };
 
 // Type for the checkFunction prop - reactive input variant

@@ -7,7 +7,7 @@
 	export let isBlank = true;
 	/**@type {"primary"|"secondary"}*/
 	export let type = 'primary';
-	/**@type {import("$schema/types/components").iconComponent|null}*/
+	/**@type {import("$client/components").iconComponent|null}*/
 	export let icon = null;
 	/**@type {boolean}*/
 	export let active = false;

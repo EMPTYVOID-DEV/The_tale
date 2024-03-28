@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import SyncButton from '$components/button/syncButton.svelte';
-	import DefaultLink from '$components/link/defaultLink.svelte';
+	import Link from './link.svelte';
 	import Logo from '$icons/logo.svelte';
 	import MenuClose from '$icons/menuCloseIcon.svelte';
 	import MenuOpen from '$icons/menuOpenIcon.svelte';
@@ -20,16 +20,11 @@
 		{/if}
 	</button>
 	<div class="links" class:mobileAppear>
-		<DefaultLink href="/" text="Home" isBlank={false} active={activeRoute == '/'} />
-		<DefaultLink href="/docs" text="Docs" isBlank={false} active={activeRoute == '/docs'} />
-		<DefaultLink
-			href="/contact"
-			text="Contact"
-			isBlank={false}
-			active={activeRoute == '/contact'}
-		/>
+		<Link href="/" text="Home" isBlank={false} active={activeRoute == '/'} />
+		<Link href="/docs" text="Docs" isBlank={false} active={activeRoute == '/docs'} />
+		<Link href="/contact" text="Contact" isBlank={false} active={activeRoute == '/contact'} />
 		{#if $page.data.isAuthenticated}
-			<DefaultLink
+			<Link
 				href="/dashboard"
 				text="Dashboard"
 				isBlank={false}

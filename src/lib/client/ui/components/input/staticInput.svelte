@@ -1,5 +1,6 @@
 <script>
-	import CloseIcon from '$lib/ui/icons/closeIcon.svelte';
+	import { createEventDispatcher } from 'svelte';
+
 	/**@type {string}*/
 	export let name = '';
 	/**@type {string}*/
@@ -10,47 +11,23 @@
 	export let inputType = 'text';
 	/**@type {boolean}*/
 	export let disabled = false;
-	/**@type {import("$schema/types/components").checkFunction} This function will be used to validate the input on every change*/
-	export let checkFunction;
-	/**@type {import("$schema/types/components").reactiveInputStatus}*/
-	let status = {
-		state: 'idle',
-		errorMsg: ''
-	};
+
+	const dispatcher = createEventDispatcher();
+
+	/**@type {import("$client/components").inputChangeHandler<HTMLInputElement>}*/
+	function handleChange(e) {
+		dispatcher('change', {
+			value: e.currentTarget.value
+		});
+	}
 </script>
 
-<div class="input-container {status.state}" class:disabled>
+<div class="input-container" class:disabled>
 	<label for="input">{label}</label>
-	<input
-		{name}
-		{disabled}
-		{value}
-		type={inputType}
-		on:input={(e) => {
-			status = checkFunction(e.currentTarget.value);
-		}}
-	/>
-	{#if status.state == 'invalid'}
-		<div class="error">
-			<CloseIcon />
-			<span>{status.errorMsg}</span>
-		</div>
-	{/if}
+	<input type={inputType} {disabled} {value} {name} on:input={handleChange} />
 </div>
 
 <style>
-	.idle {
-		--main-color: var(--primaryColor);
-	}
-	.valid {
-		--main-color: var(--successColor);
-	}
-
-	.invalid {
-		--icon: var(--dangerColor);
-		--main-color: var(--dangerColor);
-	}
-
 	.input-container {
 		width: var(--width, 100%);
 		display: flex;
@@ -65,10 +42,10 @@
 		font-weight: 600;
 		color: var(--foregroundColor);
 	}
+
 	.input-container label:empty {
 		display: none;
 	}
-
 	.input-container input {
 		width: 100%;
 		padding-left: 0.5rem;
@@ -82,33 +59,19 @@
 		outline: none;
 	}
 	.input-container input:focus {
-		border-color: var(--main-color);
-		background-color: color-mix(in srgb, var(--main-color) 30%, transparent 70%);
+		border-color: var(--primaryColor);
+		background-color: color-mix(in srgb, var(--primaryColor) 30%, transparent 70%);
 	}
 	.input-container input[type='number']::-webkit-outer-spin-button,
 	.input-container input::-webkit-inner-spin-button {
 		-webkit-appearance: none;
 	}
-	.error {
-		display: grid;
-		grid-template-columns: auto 1fr;
-		align-items: center;
-		gap: 0.25rem;
-	}
-	.error span {
-		font-size: var(--small);
-		font-family: var(--bodyFont);
-		color: var(--main-color);
-		text-transform: capitalize;
-	}
+
 	.disabled input {
 		border-color: var(--mutedColor);
 		color: var(--mutedColor);
 	}
 	.disabled label {
 		color: var(--mutedColor);
-	}
-	.disabled .error {
-		display: none;
 	}
 </style>

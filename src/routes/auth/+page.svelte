@@ -5,10 +5,10 @@
 	import { goto } from '$app/navigation';
 	import { enhance } from '$app/forms';
 	import Navbar from '$components/other/navbar.svelte';
-	import { showToast } from '$lib/utils/clientUtils';
-	import { validateEmail, validatePassword, validateUsername } from '$schema/zod/authSchema';
+	import { showToast } from '$lib/client/utils/toast';
+	import { validateEmail, validatePassword, validateUsername } from '$global/zod/authSchema';
 	import { Toaster } from 'svelte-sonner';
-	import GithubIcon from '$icons/githubIcon.svelte';
+	import GithubIcon from '$lib/client/ui/icons/githubIcon.svelte';
 	export let form: string = '';
 	let stage: 'sign up' | 'sign in' = 'sign up';
 
