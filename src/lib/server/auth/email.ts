@@ -4,7 +4,7 @@ import { createTransport } from 'nodemailer';
 import { render } from 'svelte-email';
 import Template from '$components/other/emailVerifyTemplate.svelte';
 
-export async function sendVerificationEmail(email: string, code: number, subject: string) {
+export async function sendVerificationEmail(email: string, code: string) {
 	const transport = createTransport({
 		host: 'smtp-relay.brevo.com',
 		port: 587,
@@ -24,7 +24,7 @@ export async function sendVerificationEmail(email: string, code: number, subject
 	});
 	const mailOptions: mailOptions = {
 		from: API_EMAIL,
-		subject: subject,
+		subject: 'Email verification',
 		to: email,
 		html: emailHtml
 	};

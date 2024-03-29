@@ -35,6 +35,8 @@
 			"$client/*": ["src/lib/client/*"],
 			"$server": ["./src/lib/server"],
 			"$server/*": ["src/lib/server/*"],
+			"$assets/*": ["src/lib/assets/*"],
+			"$assets": ["./src/lib/assets"],
 			"$lib/*": ["src/lib/*"],
 			"$lib": ["./src/lib"],
 			"$/*": ["./src/*"],

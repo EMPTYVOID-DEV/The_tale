@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Html, Heading, Text, Section } from 'svelte-email';
-	export let code: number;
+	export let code: string;
 </script>
 
 <Html lang="en">

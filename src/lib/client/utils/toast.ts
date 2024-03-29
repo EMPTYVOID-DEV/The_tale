@@ -1,13 +1,19 @@
 import { toast } from 'svelte-sonner';
-import type { ComponentType, SvelteComponent } from 'svelte';
+import SyncToast from '$components/toast/syncToast.svelte';
 
-export function showToast(description: string, SyncToast: ComponentType<SvelteComponent>) {
+export function showToast(
+	header: string,
+	description: string,
+	type: 'primary' | 'success' | 'danger',
+	toastAction?: { label: string; action: (e: MouseEvent) => void }
+) {
 	if (description)
 		toast.custom(SyncToast, {
 			componentProps: {
-				header: 'Error',
+				header: header,
 				description,
-				type: 'danger'
+				type,
+				toastAction
 			}
 		});
 }

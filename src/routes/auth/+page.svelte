@@ -1,7 +1,6 @@
 <script lang="ts">
 	import SyncButton from '$components/button/syncButton.svelte';
 	import ReactiveInput from '$components/input/reactiveInput.svelte';
-	import SyncToast from '$components/toast/syncToast.svelte';
 	import { goto } from '$app/navigation';
 	import { enhance } from '$app/forms';
 	import Navbar from '$components/other/navbar.svelte';
@@ -9,12 +8,14 @@
 	import { validateEmail, validatePassword, validateUsername } from '$global/zod/authSchema';
 	import { Toaster } from 'svelte-sonner';
 	import GithubIcon from '$lib/client/ui/icons/githubIcon.svelte';
-	export let form: string = '';
+	import type { SubmitFunction } from '@sveltejs/kit';
 	let stage: 'sign up' | 'sign in' = 'sign up';
-
-	$: {
-		showToast(form, SyncToast);
-	}
+	const handleAction: SubmitFunction = async () => {
+		return ({ result, update }) => {
+			if (result.type == 'failure') showToast('Error', result.data.message, 'danger');
+			update({ reset: false });
+		};
+	};
 </script>
 
 <div class="auth">
@@ -36,15 +37,7 @@
 			{/if}
 		</div>
 		<div class="right-side">
-			<form
-				method="post"
-				action="?/{stage}"
-				use:enhance={() => {
-					return ({ update }) => {
-						update({ reset: false });
-					};
-				}}
-			>
+			<form method="post" action="?/{stage}" use:enhance={handleAction}>
 				{#if stage == 'sign up'}
 					<ReactiveInput name="username" label="Username" checkFunction={validateUsername} />
 				{/if}
@@ -78,7 +71,7 @@
 		</div>
 	</div>
 </div>
-<Toaster expand duration={2500} />
+<Toaster expand duration={3500} />
 
 <style>
 	.auth {

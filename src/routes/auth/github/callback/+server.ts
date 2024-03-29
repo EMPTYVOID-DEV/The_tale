@@ -23,21 +23,21 @@ export async function GET(event: RequestEvent): Promise<Response> {
 	try {
 		const tokens = await github.validateAuthorizationCode(code);
 		const githubUser: GithubUser = await fetchGithubUser(tokens);
-		const keyExist = await db.query.keyTable.findFirst({
+		const userKey = await db.query.keyTable.findFirst({
 			where: and(
 				eq(keyTable.provider_name, 'github'),
 				eq(keyTable.provider_id, githubUser.id.toString())
 			)
 		});
 
-		if (keyExist) {
+		if (userKey) {
 			await createSession(
 				event.cookies,
 				{
 					httpOnly: true,
 					path: '/'
 				},
-				keyExist.userId
+				userKey.userId
 			);
 		} else {
 			const id = generateId(12);
