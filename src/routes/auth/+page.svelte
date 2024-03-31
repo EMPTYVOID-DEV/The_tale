@@ -9,6 +9,7 @@
 	import { Toaster } from 'svelte-sonner';
 	import GithubIcon from '$lib/client/ui/icons/githubIcon.svelte';
 	import type { SubmitFunction } from '@sveltejs/kit';
+
 	let stage: 'sign up' | 'sign in' = 'sign up';
 	const handleAction: SubmitFunction = async () => {
 		return ({ result, update }) => {

@@ -8,6 +8,7 @@
 	import MenuOpen from '$icons/menuOpenIcon.svelte';
 	const activeRoute = $page.url.pathname;
 	let mobileAppear = false;
+	$: isAuthenticated = $page.data.isAuthenticated;
 </script>
 
 <nav class="navBar">
@@ -23,7 +24,7 @@
 		<Link href="/" text="Home" isBlank={false} active={activeRoute == '/'} />
 		<Link href="/docs" text="Docs" isBlank={false} active={activeRoute == '/docs'} />
 		<Link href="/contact" text="Contact" isBlank={false} active={activeRoute == '/contact'} />
-		{#if $page.data.isAuthenticated}
+		{#if isAuthenticated}
 			<Link
 				href="/dashboard"
 				text="Dashboard"

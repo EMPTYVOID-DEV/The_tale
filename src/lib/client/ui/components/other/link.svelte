@@ -4,7 +4,7 @@
 	/**@type {string}*/
 	export let href;
 	/**@type {boolean}*/
-	export let isBlank = true;
+	export let isBlank = false;
 	/**@type {"primary"|"secondary"}*/
 	export let type = 'primary';
 	/**@type {import("$client/components").iconComponent|null}*/
@@ -13,7 +13,7 @@
 	export let active = false;
 </script>
 
-<a class:active class="link {type}" {href} target={isBlank ? '_blank' : '_self'}>
+<a class:active class="link {type}" {href} target={isBlank ? '_blank' : ''}>
 	<svelte:component this={icon} />
 	<span>{text}</span>
 </a>

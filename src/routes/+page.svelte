@@ -6,7 +6,7 @@
 	import Bubbles from '$components/other/bubbles.svelte';
 	import Navbar from '$components/other/navbar.svelte';
 
-	$: signin = $page.data.isAuthenticated;
+	$: isAuthenticated = $page.data.isAuthenticated;
 </script>
 
 <div class="home">
@@ -20,9 +20,9 @@
 				video, chat, and more for enhanced user engagement.
 			</p>
 			<SyncButton
-				text={signin ? 'Continue your journey' : 'Get started'}
+				text={isAuthenticated ? 'Continue your journey' : 'Get started'}
 				on:click={() => {
-					if (signin) goto('/dashboard');
+					if (isAuthenticated) goto('/dashboard');
 					else goto('/auth');
 				}}
 			/>
