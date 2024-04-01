@@ -1,20 +1,22 @@
-import { sqliteTable, text, integer, primaryKey } from 'drizzle-orm/sqlite-core';
+import { pgTable, text, primaryKey, boolean, timestamp } from 'drizzle-orm/pg-core';
 
-// if you have more than provider you may want to replace github_id with provider and provider_id
-export const userTable = sqliteTable('user', {
+export const userTable = pgTable('user', {
 	id: text('id').notNull().primaryKey(),
 	username: text('username').notNull()
 });
 
-export const sessionTable = sqliteTable('session', {
+export const sessionTable = pgTable('session', {
 	id: text('id').notNull().primaryKey(),
 	userId: text('user_id')
 		.notNull()
 		.references(() => userTable.id),
-	expiresAt: integer('expires_at').notNull()
+	expiresAt: timestamp('expires_at', {
+		withTimezone: true,
+		mode: 'date'
+	}).notNull()
 });
 
-export const keyTable = sqliteTable(
+export const keyTable = pgTable(
 	'key',
 	{
 		userId: text('userId')
@@ -25,7 +27,7 @@ export const keyTable = sqliteTable(
 		provider_name: text('provider_name').notNull(),
 		provider_id: text('provider_id').notNull(),
 		secret: text('secret'),
-		verified: integer('verified')
+		verified: boolean('verified')
 	},
 	(table) => {
 		return {

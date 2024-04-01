@@ -52,6 +52,7 @@
 	}
 	.menu {
 		display: none;
+		cursor: pointer;
 	}
 
 	.menu :global(svg) {

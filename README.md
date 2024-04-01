@@ -18,7 +18,6 @@ QuickLink is a powerful service that allows you to easily integrate real-time co
 3. Integrate the QuickLink API calls to manage sessions and real-time communication.
 4. Deploy and start using QuickLink in your application!
 
-
 ## License
 
 QuickLink is licensed under the [MIT License](https://mit-license.org).

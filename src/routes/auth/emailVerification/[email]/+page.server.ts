@@ -38,7 +38,7 @@ export const actions: Actions = {
 		const userKey = (
 			await db
 				.update(keyTable)
-				.set({ verified: 1 })
+				.set({ verified: true })
 				.where(and(eq(keyTable.provider_name, 'email'), eq(keyTable.provider_id, email)))
 				.returning({ userId: keyTable.userId })
 		)[0];

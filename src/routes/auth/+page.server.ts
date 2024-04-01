@@ -33,12 +33,12 @@ export const actions: Actions = {
 			provider_id: email,
 			userId: id,
 			secret: hashedPassword,
-			verified: 0
+			verified: false
 		};
 		try {
 			await insertUser(newUser, key);
 		} catch (error) {
-			if (error.code === 'SQLITE_CONSTRAINT_PRIMARYKEY')
+			if (error.code === '23505')
 				return fail(409, { message: 'It seems that this account already exist.' });
 			error(500, 'Service unavailable');
 		}
@@ -60,7 +60,7 @@ export const actions: Actions = {
 		if (!userKey) return fail(404, { message: 'It seems the user does not exist.' });
 		const isValid = await new Argon2id().verify(userKey.secret, password);
 		if (!isValid) return fail(403, { message: 'The password is not correct.' });
-		if (userKey.verified == 1) {
+		if (userKey.verified) {
 			await createSession(
 				cookies,
 				{
