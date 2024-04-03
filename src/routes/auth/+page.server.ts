@@ -61,14 +61,7 @@ export const actions: Actions = {
 		const isValid = await new Argon2id().verify(userKey.secret, password);
 		if (!isValid) return fail(403, { message: 'The password is not correct.' });
 		if (userKey.verified) {
-			await createSession(
-				cookies,
-				{
-					httpOnly: true,
-					path: '/'
-				},
-				userKey.userId
-			).catch(() => error(500, 'Service unavailable'));
+			await createSession(cookies, userKey.userId).catch(() => error(500, 'Service unavailable'));
 			redirect(302, '/dashboard');
 		}
 		redirect(302, `/auth/emailVerification/${email}`);

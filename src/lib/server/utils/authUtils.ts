@@ -1,14 +1,13 @@
 import { lucia } from '$server/auth/lucia';
 import type { Cookies } from '@sveltejs/kit';
 import type { GitHubTokens } from 'arctic';
-import type { cookieOptions } from '$server/types.server';
 
-export async function createSession(cookies: Cookies, cookieOptions: cookieOptions, id: string) {
+export async function createSession(cookies: Cookies, id: string) {
 	const session = await lucia.createSession(id, {});
 	const sessionCookie = lucia.createSessionCookie(session.id);
 	cookies.set(sessionCookie.name, sessionCookie.value, {
-		...cookieOptions,
-		...sessionCookie.attributes
+		...sessionCookie.attributes,
+		path: '/'
 	});
 }
 

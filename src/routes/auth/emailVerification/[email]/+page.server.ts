@@ -42,14 +42,7 @@ export const actions: Actions = {
 				.where(and(eq(keyTable.provider_name, 'email'), eq(keyTable.provider_id, email)))
 				.returning({ userId: keyTable.userId })
 		)[0];
-		await createSession(
-			cookies,
-			{
-				httpOnly: true,
-				path: '/'
-			},
-			userKey.userId
-		).catch(() => error(500, 'Service unavailable'));
+		await createSession(cookies, userKey.userId).catch(() => error(500, 'Service unavailable'));
 		redirect(302, '/dashboard');
 	}
 };

@@ -5,7 +5,6 @@
 	import BubbleCursor from '$components/other/bubbleCursor.svelte';
 	import Bubbles from '$components/other/bubbles.svelte';
 	import Navbar from '$components/other/navbar.svelte';
-
 	$: isAuthenticated = $page.data.isAuthenticated;
 </script>
 

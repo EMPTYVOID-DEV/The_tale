@@ -19,9 +19,6 @@ const config = {
 			dir: './'
 		},
 		adapter: nodeAdapter(),
-		csrf: {
-			checkOrigin: true
-		},
 		csp: {
 			mode: 'auto',
 			directives: {
