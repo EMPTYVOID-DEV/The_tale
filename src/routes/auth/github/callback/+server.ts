@@ -31,14 +31,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		});
 
 		if (userKey) {
-			await createSession(
-				event.cookies,
-				{
-					httpOnly: true,
-					path: '/'
-				},
-				userKey.userId
-			);
+			await createSession(event.cookies, userKey.userId);
 		} else {
 			const id = generateId(12);
 			const newUser: user = {
@@ -51,14 +44,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 				userId: id
 			};
 			await insertUser(newUser, key);
-			await createSession(
-				event.cookies,
-				{
-					httpOnly: true,
-					path: '/'
-				},
-				id
-			);
+			await createSession(event.cookies, id);
 		}
 		return new Response(null, {
 			status: 302,

@@ -10,6 +10,7 @@
 	import { changeTheme } from '$client/utils/theme';
 	import type { theme } from '$global/types.global';
 	import { onMount } from 'svelte';
+	import Avatar from './avatar.svelte';
 	let mobileAppear = false;
 	let currentTheme: theme = 'dark';
 	$: activeRoute = $page.url.pathname;
@@ -41,12 +42,12 @@
 			on:click={() => (mobileAppear = false)}
 		/>
 		{#if isAuthenticated}
-			<Link
-				on:click={() => (mobileAppear = false)}
-				href="/dashboard"
-				text="Dashboard"
-				isBlank={false}
-				active={activeRoute == '/dashboard'}
+			<Avatar
+				active={activeRoute.startsWith('/dashboard')}
+				on:click={() => {
+					goto('/dashboard');
+					mobileAppear = false;
+				}}
 			/>
 		{:else}
 			<SyncButton

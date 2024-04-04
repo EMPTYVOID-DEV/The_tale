@@ -47,6 +47,9 @@ dependencies:
   socket.io-client:
     specifier: ^4.7.5
     version: 4.7.5
+  svelte-boring-avatars:
+    specifier: ^1.2.6
+    version: 1.2.6
   svelte-email:
     specifier: ^0.0.4
     version: 0.0.4
@@ -5265,6 +5268,10 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
     dev: true
+
+  /svelte-boring-avatars@1.2.6:
+    resolution: {integrity: sha512-8+Z1DhsMUVI/V/5ik00Arw0PgbJcMdhTXq3YGqccBc5bYFeceCtMEMB0aWGhi8xFV+0aqZbWvS89Hcj16LlfHA==}
+    dev: false
 
   /svelte-check@3.6.8(svelte@4.2.12):
     resolution: {integrity: sha512-rhXU7YCDtL+lq2gCqfJDXKTxJfSsCgcd08d7VWBFxTw6IWIbMWSaASbAOD3N0VV9TYSSLUqEBiratLd8WxAJJA==}
