@@ -11,7 +11,7 @@
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"migrate": "npx drizzle-kit generate:pg --config ./drizzle.config.ts",
-		"push-migrations": "npx drizzle-kit push: --config ./drizzle.config.ts",
+		"push-migrations": "npx drizzle-kit push:pg --config ./drizzle.config.ts",
 		"dev-express": "HOST=127.0.0.1 PORT=5173  ORIGIN=http://localhost:5173 node express"
 	},
 	"dependencies": {

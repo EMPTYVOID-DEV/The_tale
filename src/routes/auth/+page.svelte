@@ -3,7 +3,6 @@
 	import ReactiveInput from '$components/input/reactiveInput.svelte';
 	import { goto } from '$app/navigation';
 	import { enhance } from '$app/forms';
-	import Navbar from '$components/other/navbar.svelte';
 	import { showToast } from '$lib/client/utils/toast';
 	import { validateEmail, validatePassword, validateUsername } from '$global/zod/authSchema';
 	import { Toaster } from 'svelte-sonner';
@@ -20,70 +19,58 @@
 </script>
 
 <div class="auth">
-	<Navbar />
-	<div class="core">
-		<div class="left-side">
-			{#if stage == 'sign in'}
-				<h1>Welcome Back to QuickLink</h1>
-				<p>
-					Reconnect and resume seamless real-time communication for your applications and services
-					with QuickLink. Dive back into conversations, catch up where you left off.
-				</p>
-			{:else}
-				<h1>Real-Time Communication with QuickLink</h1>
-				<p>
-					Integrate real-time communication into your applications and services effortlessly by
-					signing up for QuickLink. Start enabling vibrant discussions, connecting users.
-				</p>
+	<div class="left-side">
+		{#if stage == 'sign in'}
+			<h1>Welcome Back to QuickLink</h1>
+			<p>
+				Reconnect and resume seamless real-time communication for your applications and services
+				with QuickLink. Dive back into conversations, catch up where you left off.
+			</p>
+		{:else}
+			<h1>Real-Time Communication with QuickLink</h1>
+			<p>
+				Integrate real-time communication into your applications and services effortlessly by
+				signing up for QuickLink. Start enabling vibrant discussions, connecting users.
+			</p>
+		{/if}
+	</div>
+	<div class="right-side">
+		<form method="post" action="?/{stage}" use:enhance={handleAction}>
+			{#if stage == 'sign up'}
+				<ReactiveInput name="username" label="Username" checkFunction={validateUsername} />
 			{/if}
-		</div>
-		<div class="right-side">
-			<form method="post" action="?/{stage}" use:enhance={handleAction}>
-				{#if stage == 'sign up'}
-					<ReactiveInput name="username" label="Username" checkFunction={validateUsername} />
-				{/if}
-				<ReactiveInput name="email" label="Email" checkFunction={validateEmail} />
-				<ReactiveInput
-					name="password"
-					label="password"
-					checkFunction={validatePassword}
-					inputType="password"
-				/>
-				<SyncButton text={stage} --width="80%" />
-			</form>
-			<SyncButton
-				on:click={() => goto('/auth/github')}
-				icon={GithubIcon}
-				text="{stage} with github"
-				type="passive"
-				--width="80%"
+			<ReactiveInput name="email" label="Email" checkFunction={validateEmail} />
+			<ReactiveInput
+				name="password"
+				label="password"
+				checkFunction={validatePassword}
+				inputType="password"
 			/>
-			{#if stage == 'sign in'}
-				<span class="status"
-					>Don't have an account? <button on:click={() => (stage = 'sign up')}>Sign in.</button
-					></span
-				>
-			{:else}
-				<span class="status"
-					>Already have an account? <button on:click={() => (stage = 'sign in')}>Sign up.</button
-					></span
-				>
-			{/if}
-		</div>
+			<SyncButton text={stage} --width="80%" />
+		</form>
+		<SyncButton
+			on:click={() => goto('/auth/github')}
+			icon={GithubIcon}
+			text="{stage} with github"
+			type="passive"
+			--width="80%"
+		/>
+		{#if stage == 'sign in'}
+			<span class="status"
+				>Don't have an account? <button on:click={() => (stage = 'sign up')}>Sign in.</button></span
+			>
+		{:else}
+			<span class="status"
+				>Already have an account? <button on:click={() => (stage = 'sign in')}>Sign up.</button
+				></span
+			>
+		{/if}
 	</div>
 </div>
 <Toaster expand duration={3500} />
 
 <style>
 	.auth {
-		background-color: var(--backgroundColor);
-		width: 100vw;
-		height: 100vh;
-		display: flex;
-		flex-direction: column;
-	}
-
-	.core {
 		width: 100%;
 		flex-grow: 1;
 		display: grid;
@@ -136,7 +123,7 @@
 	}
 
 	@media screen and (max-width: 768px) {
-		.core {
+		.auth {
 			grid-template-columns: 95%;
 			gap: 0;
 		}

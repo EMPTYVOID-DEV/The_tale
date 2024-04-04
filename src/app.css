@@ -1,10 +1,4 @@
 :root {
-	--primaryColor: #9a25d0;
-	--backgroundColor: #e5dee7;
-	--foregroundColor: #0f0811;
-	--dangerColor: #e61919;
-	--successColor: hsl(115, 80%, 50%);
-	--mutedColor: hsl(280, 16%, 26%);
 	--huge: clamp(2.8rem, calc(2.8rem + ((1vw - 0.48rem) * 0.9722)), 3.3em);
 	--h1: clamp(2rem, calc(2rem + ((1vw - 0.48rem) * 0.9722)), 2.5rem);
 	--h2: clamp(1.725rem, calc(1.725rem + ((1vw - 0.48rem) * 0.9722)), 2rem);
@@ -21,6 +15,23 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+}
+
+html[data-theme='dark'] {
+	--primaryColor: #ae5edc;
+	--backgroundColor: #08020a;
+	--foregroundColor: #e5dee7;
+	--dangerColor: #d62e2e;
+	--successColor: #42da34;
+	--mutedColor: #8e8792;
+}
+html[data-theme='light'] {
+	--primaryColor: #9a25d0;
+	--backgroundColor: #e5dee7;
+	--foregroundColor: #08020a;
+	--dangerColor: #e61919;
+	--successColor: #2ae619;
+	--mutedColor: #46384d;
 }
 
 body {

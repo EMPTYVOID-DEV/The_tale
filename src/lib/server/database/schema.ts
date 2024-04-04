@@ -2,7 +2,8 @@ import { pgTable, text, primaryKey, boolean, timestamp } from 'drizzle-orm/pg-co
 
 export const userTable = pgTable('user', {
 	id: text('id').notNull().primaryKey(),
-	username: text('username').notNull()
+	username: text('username').notNull(),
+	avatar: text('avatar')
 });
 
 export const sessionTable = pgTable('session', {

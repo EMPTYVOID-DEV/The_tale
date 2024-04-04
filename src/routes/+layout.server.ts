@@ -4,12 +4,17 @@ import type { ServerLoad } from '@sveltejs/kit';
 export const load: ServerLoad = async ({ locals, url }) => {
 	const isAuthenticated = locals.user != null;
 	let csrfToken = '';
+	let avatar = null;
 
-	if (url.pathname.startsWith('/dashboard') && isAuthenticated) {
-		csrfToken = createCsrfToken(locals.user.id);
+	if (isAuthenticated) {
+		avatar = locals.user.avatar;
+		if (url.pathname.startsWith('/dashboard')) {
+			csrfToken = createCsrfToken(locals.user.id);
+		}
 	}
 
 	return {
+		avatar,
 		isAuthenticated,
 		csrfToken
 	};

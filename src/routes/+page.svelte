@@ -1,102 +1,79 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import SyncButton from '$components/button/syncButton.svelte';
-	import BubbleCursor from '$components/other/bubbleCursor.svelte';
-	import Bubbles from '$components/other/bubbles.svelte';
-	import Navbar from '$components/other/navbar.svelte';
 	$: isAuthenticated = $page.data.isAuthenticated;
 </script>
 
 <div class="home">
-	<Navbar />
 	<div class="content">
-		<section class="left">
-			<h1>Fast way to connect your users</h1>
-			<p>
-				QuickLink is a service that aims to provide an easy and seamless way to integrate real-time
-				communication capabilities into your applications through a powerful API. Enable voice,
-				video, chat, and more for enhanced user engagement.
-			</p>
-			<SyncButton
-				text={isAuthenticated ? 'Continue your journey' : 'Get started'}
-				on:click={() => {
-					if (isAuthenticated) goto('/dashboard');
-					else goto('/auth');
-				}}
-			/>
-		</section>
-		<section class="right">
-			<svg xmlns="http://www.w3.org/2000/svg">
-				<filter id="blend">
-					<feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
-					<feColorMatrix values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 18 -8" />
-					<feBlend in2="SourceGraphic" mode="normal" />
-				</filter>
-			</svg>
-			<BubbleCursor />
-			<Bubbles />
-		</section>
+		<h1>Rapid User Connectivity</h1>
+		<p>
+			QuickLink is a service that aims to provide an easy and seamless way to integrate real-time
+			communication capabilities into your applications through a powerful API. Enable voice, video,
+			chat, and more for enhanced user engagement.
+		</p>
+		<button
+			on:click={() => {
+				if (isAuthenticated) goto('/dashboard');
+				else goto('/auth');
+			}}
+		>
+			{isAuthenticated ? 'Continue your journey' : 'Get started'}</button
+		>
 	</div>
 </div>
 
 <style>
 	.home {
-		width: 100vw;
-		min-height: 100vh;
-		background-color: var(--backgroundColor);
+		width: 100%;
+		flex-grow: 1;
 		display: flex;
-		flex-direction: column;
-		overflow: hidden;
-		padding-bottom: 30px;
+		justify-content: center;
+		align-items: center;
 	}
 
 	.content {
-		width: 100%;
-		flex-grow: 1;
-		display: grid;
-		grid-template-columns: 50% 40%;
-		align-items: center;
-		padding-inline: 2.5%;
-		gap: 5%;
-		--width: 40%;
-	}
-
-	.left {
-		width: 100%;
+		width: 60%;
 		display: flex;
 		flex-direction: column;
-		gap: 1.5rem;
+		justify-content: center;
+		align-items: center;
+		gap: 1.25rem;
 	}
 
-	.left h1 {
+	.content h1 {
 		font-size: var(--huge);
 		color: var(--primaryColor);
+		text-align: center;
 	}
 
-	.left p {
+	.content p {
 		color: var(--foregroundColor);
+		text-align: center;
 	}
 
-	.right {
-		width: 100%;
-		height: 100%;
-		filter: url('#blend');
-	}
-
-	.right svg {
-		display: none;
+	.content button {
+		width: var(--width, fit-content);
+		padding-inline: var(--padding-inline, 2rem);
+		padding-block: var(--padding-block, 0.8rem);
+		cursor: pointer;
+		outline: none;
+		border: 1px solid var(--primaryColor);
+		border-radius: var(--border-radius);
+		background-color: transparent;
+		text-transform: capitalize;
+		color: var(--foregroundColor);
+		font-family: var(--bodyFont);
+		font-size: var(--h4);
+		font-weight: 600;
+		box-shadow:
+			4px 4px 4px var(--primaryColor),
+			4px 4px 4px var(--primaryColor);
 	}
 
 	@media screen and (max-width: 768px) {
 		.content {
-			grid-template-columns: 95%;
-			padding-inline: 2.5%;
-			--width: 70%;
-		}
-
-		.right {
-			display: none;
+			width: 95%;
 		}
 	}
 </style>

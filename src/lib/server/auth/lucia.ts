@@ -10,7 +10,8 @@ export const lucia = new Lucia(adapter, {
 	sessionExpiresIn: new TimeSpan(7, 'd'),
 	getUserAttributes: (attributes: DatabaseUserAttributes) => {
 		return {
-			username: attributes.username
+			username: attributes.username,
+			avatar: attributes.avatar
 		};
 	},
 	sessionCookie: {
@@ -32,4 +33,5 @@ interface DatabaseSessionAttributes {}
 
 interface DatabaseUserAttributes {
 	username: string;
+	avatar: string;
 }

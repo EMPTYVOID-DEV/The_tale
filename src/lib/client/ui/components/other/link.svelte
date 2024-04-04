@@ -13,24 +13,19 @@
 	export let active = false;
 </script>
 
-<a class:active class="link {type}" {href} target={isBlank ? '_blank' : ''}>
+<a class:active class="link {type}" {href} target={isBlank ? '_blank' : ''} on:click>
 	<svelte:component this={icon} />
 	<span>{text}</span>
 </a>
 
 <style>
-	.primary {
-		--main-color: var(--primaryColor);
-	}
-	.secondary {
-		--main-color: var(--secondaryColor);
-	}
 	.link {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.25rem;
 		cursor: pointer;
 		text-decoration: none;
+		padding-bottom: 2px;
 		--text: var(--foregroundColor);
 		--icon: var(--foregroundColor);
 	}
@@ -41,13 +36,14 @@
 		font-weight: 600;
 	}
 	.link:hover {
-		--text: var(--main-color);
-		--icon: var(--main-color);
+		--text: var(--primaryColor);
+		--icon: var(--primaryColor);
 	}
 
 	.active {
-		--text: var(--main-color);
-		--icon: var(--main-color);
+		border-bottom: 0.2rem solid var(--primaryColor);
+		--text: var(--primaryColor);
+		--icon: var(--primaryColor);
 	}
 	.link span:empty {
 		display: none;

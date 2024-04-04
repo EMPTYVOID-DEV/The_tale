@@ -1,13 +1,27 @@
 {
-	"version": "5",
-	"dialect": "sqlite",
-	"entries": [
-		{
-			"idx": 0,
-			"version": "5",
-			"when": 1711933759576,
-			"tag": "0000_powerful_lilandra",
-			"breakpoints": true
-		}
-	]
+  "version": "5",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1711933759576,
+      "tag": "0000_powerful_lilandra",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1712192344074,
+      "tag": "0001_military_mandrill",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1712192405027,
+      "tag": "0002_smooth_leader",
+      "breakpoints": true
+    }
+  ]
 }

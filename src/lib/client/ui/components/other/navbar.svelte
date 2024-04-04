@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import SyncButton from '$components/button/syncButton.svelte';
@@ -6,13 +6,65 @@
 	import Logo from '$icons/logo.svelte';
 	import MenuClose from '$icons/menuCloseIcon.svelte';
 	import MenuOpen from '$icons/menuOpenIcon.svelte';
-	const activeRoute = $page.url.pathname;
+	import ThemeToggle from '$components/toggle/themeToggle.svelte';
+	import { changeTheme } from '$client/utils/theme';
+	import type { theme } from '$global/types.global';
+	import { onMount } from 'svelte';
 	let mobileAppear = false;
+	let currentTheme: theme = 'dark';
+	$: activeRoute = $page.url.pathname;
 	$: isAuthenticated = $page.data.isAuthenticated;
+	onMount(() => {
+		const html = document.querySelector('html');
+		const dataset = html?.dataset;
+		currentTheme = dataset.theme as theme;
+	});
 </script>
 
 <nav class="navBar">
-	<Logo />
+	<div class="logoWrapper">
+		<Logo />
+	</div>
+	<div class="links" class:mobileAppear>
+		<Link
+			href="/docs"
+			text="Docs"
+			isBlank={false}
+			active={activeRoute == '/docs'}
+			on:click={() => (mobileAppear = false)}
+		/>
+		<Link
+			href="/contact"
+			text="Contact"
+			isBlank={false}
+			active={activeRoute == '/contact'}
+			on:click={() => (mobileAppear = false)}
+		/>
+		{#if isAuthenticated}
+			<Link
+				on:click={() => (mobileAppear = false)}
+				href="/dashboard"
+				text="Dashboard"
+				isBlank={false}
+				active={activeRoute == '/dashboard'}
+			/>
+		{:else}
+			<SyncButton
+				text="Sign in"
+				on:click={() => {
+					goto('/auth');
+					mobileAppear = false;
+				}}
+				type="passive"
+			/>
+		{/if}
+	</div>
+	<ThemeToggle
+		on:change={(e) => changeTheme(e.detail.theme)}
+		--left="-56px"
+		--top="38px"
+		active={currentTheme}
+	/>
 	<button class="menu" on:click={() => (mobileAppear = !mobileAppear)}>
 		{#if mobileAppear}
 			<MenuClose />
@@ -20,21 +72,6 @@
 			<MenuOpen />
 		{/if}
 	</button>
-	<div class="links" class:mobileAppear>
-		<Link href="/" text="Home" isBlank={false} active={activeRoute == '/'} />
-		<Link href="/docs" text="Docs" isBlank={false} active={activeRoute == '/docs'} />
-		<Link href="/contact" text="Contact" isBlank={false} active={activeRoute == '/contact'} />
-		{#if isAuthenticated}
-			<Link
-				href="/dashboard"
-				text="Dashboard"
-				isBlank={false}
-				active={activeRoute == '/dashboard'}
-			/>
-		{:else}
-			<SyncButton text="Sign in" on:click={() => goto('/auth')} type="passive" />
-		{/if}
-	</div>
 </nav>
 
 <style>
@@ -42,9 +79,13 @@
 		width: 100%;
 		height: 80px;
 		display: flex;
-		justify-content: space-between;
 		align-items: center;
 		padding-inline: 2.5%;
+		gap: 20px;
+	}
+
+	.logoWrapper {
+		margin-right: auto;
 	}
 	.links {
 		display: flex;
@@ -65,8 +106,8 @@
 		}
 		.links {
 			background-color: var(--backgroundColor);
-			width: 100vw;
-			height: 100vh;
+			width: 100%;
+			height: 100%;
 			flex-direction: column;
 			position: fixed;
 			top: 80px;
@@ -74,8 +115,8 @@
 			transition: all 600ms ease-in-out;
 			padding-left: 1rem;
 			padding-top: 1rem;
-			--body: var(--h4);
 			gap: 2.5rem;
+			--body: var(--h4);
 		}
 		.mobileAppear {
 			left: 0;
