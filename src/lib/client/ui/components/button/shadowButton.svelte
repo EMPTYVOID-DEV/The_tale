@@ -3,36 +3,14 @@
 	export let text = 'button';
 	/**@type {import("$client/components").iconComponent|null} */
 	export let icon = null;
-	/**@type {"disabled"|"passive"|"primary"|"secondary"|"danger"} */
-	export let type = 'primary';
 </script>
 
-<button on:click class={type} disabled={type == 'disabled'}>
+<button on:click>
 	<svelte:component this={icon} />
 	<span>{text}</span>
 </button>
 
 <style>
-	:is(.disabled, .primary, .secondary, .danger, .secondary, .passive) {
-		--icon: var(--backgroundColor);
-	}
-	.disabled {
-		--bg: var(--mutedColor);
-		cursor: not-allowed;
-	}
-	.passive {
-		--bg: var(--foregroundColor);
-	}
-	.primary {
-		--bg: var(--primaryColor);
-	}
-	.secondary {
-		--bg: var(--secondaryColor);
-	}
-	.danger {
-		--bg: var(--dangerColor);
-	}
-	/**The padding will determine the width and height of the button*/
 	button {
 		display: flex;
 		align-items: center;
@@ -44,12 +22,18 @@
 		cursor: pointer;
 		outline: none;
 		border: none;
-		background-color: var(--bg);
+		background-color: transparent;
+		border: 1px solid var(--primaryColor);
 		border-radius: var(--border-radius);
+		box-shadow:
+			4px 4px 4px var(--primaryColor),
+			4px 4px 4px var(--primaryColor),
+			4px 4px 4px var(--primaryColor);
 	}
+
 	button span {
 		text-transform: capitalize;
-		color: var(--backgroundColor);
+		color: var(--foregroundColor);
 		font-family: var(--bodyFont);
 		font-size: var(--body);
 		font-weight: bold;

@@ -1,79 +1,70 @@
-<script lang="ts">
+<script>
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import ShadowButton from '$components/button/shadowButton.svelte';
 	$: isAuthenticated = $page.data.isAuthenticated;
 </script>
 
 <div class="home">
-	<div class="content">
-		<h1>Rapid User Connectivity</h1>
+	<div class="wrapper">
+		<h1>The code documentation platform</h1>
 		<p>
-			QuickLink is a service that aims to provide an easy and seamless way to integrate real-time
-			communication capabilities into your applications through a powerful API. Enable voice, video,
-			chat, and more for enhanced user engagement.
+			Got docs to write? Our platform makes it a breeze. Streamlined documentation tools keep your
+			package info clear and up-to-date with minimal hassle. Spend less time formatting, more time
+			shipping great software.
 		</p>
-		<button
+		<ShadowButton
+			--padding-inline="1.75rem"
+			--padding-block=".75rem"
+			text={isAuthenticated ? 'Continue your journey' : 'Getting started'}
 			on:click={() => {
-				if (isAuthenticated) goto('/dashboard');
+				if (isAuthenticated) goto('/profile');
 				else goto('/auth');
 			}}
-		>
-			{isAuthenticated ? 'Continue your journey' : 'Get started'}</button
-		>
+		/>
 	</div>
 </div>
 
 <style>
 	.home {
-		width: 100%;
-		flex-grow: 1;
-		display: flex;
-		justify-content: center;
-		align-items: center;
+		--intermediate-color: color-mix(in srgb, var(--backgroundColor) 80%, var(--primaryColor) 20%);
+		--mixed: color-mix(in srgb, var(--foregroundColor) 60%, var(--backgroundColor) 40%);
 	}
 
-	.content {
-		width: 60%;
+	.home {
+		width: 100%;
+		flex-grow: 1;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		gap: 1.25rem;
+		background: linear-gradient(to bottom, var(--backgroundColor), var(--intermediate-color));
 	}
 
-	.content h1 {
-		font-size: var(--huge);
-		color: var(--primaryColor);
-		text-align: center;
+	.wrapper {
+		width: 70%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 1.5rem;
 	}
 
-	.content p {
+	.wrapper h1 {
 		color: var(--foregroundColor);
 		text-align: center;
 	}
 
-	.content button {
-		width: var(--width, fit-content);
-		padding-inline: var(--padding-inline, 2rem);
-		padding-block: var(--padding-block, 0.8rem);
-		cursor: pointer;
-		outline: none;
-		border: 1px solid var(--primaryColor);
-		border-radius: var(--border-radius);
-		background-color: transparent;
-		text-transform: capitalize;
-		color: var(--foregroundColor);
-		font-family: var(--bodyFont);
-		font-size: var(--h4);
-		font-weight: 600;
-		box-shadow:
-			4px 4px 4px var(--primaryColor),
-			4px 4px 4px var(--primaryColor);
+	.wrapper p {
+		color: var(--mixed);
+		font-weight: bold;
+		text-align: center;
+		line-height: 1.8;
 	}
 
-	@media screen and (max-width: 768px) {
-		.content {
-			width: 95%;
+	@media screen and (width<768px) {
+		.wrapper {
+			width: 90%;
 		}
 	}
 </style>

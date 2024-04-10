@@ -10,7 +10,7 @@ export const load: ServerLoad = async ({ locals, url }) => {
 	if (isAuthenticated) {
 		avatar = locals.user.avatar;
 		username = locals.user.username;
-		if (url.pathname.startsWith('/dashboard')) {
+		if (url.pathname.startsWith('/profile')) {
 			csrfToken = createCsrfToken(locals.user.id);
 		}
 	}

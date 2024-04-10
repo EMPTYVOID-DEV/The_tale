@@ -41,7 +41,7 @@
 	}
 
 	.active {
-		border-bottom: 0.2rem solid var(--primaryColor);
+		color: var(--primaryColor);
 		--text: var(--primaryColor);
 		--icon: var(--primaryColor);
 	}

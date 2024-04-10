@@ -21,13 +21,13 @@
 <div class="auth">
 	<div class="left-side">
 		{#if stage == 'sign in'}
-			<h1>Welcome Back to QuickLink</h1>
+			<h1>Welcome Back to CodeNest</h1>
 			<p>
 				Reconnect and resume seamless real-time communication for your applications and services
 				with QuickLink. Dive back into conversations, catch up where you left off.
 			</p>
 		{:else}
-			<h1>Real-Time Communication with QuickLink</h1>
+			<h1>Breeze documentation with CodeNest</h1>
 			<p>
 				Integrate real-time communication into your applications and services effortlessly by
 				signing up for QuickLink. Start enabling vibrant discussions, connecting users.

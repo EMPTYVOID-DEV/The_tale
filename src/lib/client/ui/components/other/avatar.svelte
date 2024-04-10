@@ -11,8 +11,8 @@
 <!-- svelte-ignore missing-declaration -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div class="avatar" on:click>
-	<div class="wrapper" class:active>
+<div class="avatar" class:active on:click>
+	<div class="wrapper">
 		{#if avatar}
 			<img src={avatar} alt="avatar" />
 		{:else}
@@ -35,6 +35,10 @@
 		cursor: pointer;
 	}
 
+	.avatar span {
+		display: none;
+	}
+
 	.wrapper {
 		display: flex;
 		justify-content: center;
@@ -42,6 +46,7 @@
 		width: 42px;
 		height: 42px;
 		padding: 2px;
+		border-radius: 50%;
 	}
 
 	.wrapper img {
@@ -52,19 +57,17 @@
 		object-position: center;
 	}
 
-	.wrapper.active {
-		border-radius: 50%;
+	.active .wrapper {
 		border: 3px solid var(--primaryColor);
-	}
-
-	.avatar span {
-		display: none;
 	}
 
 	@media screen and (width<768px) {
 		.avatar span {
 			display: inline-block;
 			color: var(--foregroundColor);
+		}
+		.active span {
+			color: var(--primaryColor);
 		}
 	}
 </style>

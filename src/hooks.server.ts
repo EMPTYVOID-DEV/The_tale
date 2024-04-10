@@ -1,25 +1,6 @@
-import type { theme } from '$global/types.global';
 import { lucia } from '$server/auth/lucia';
 import { redirect, type Handle } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
-
-const themeHook: Handle = async ({ event, resolve }) => {
-	return resolve(event, {
-		transformPageChunk: ({ html, done }) => {
-			if (done) {
-				let theme = event.cookies.get('theme') as theme;
-				if (!theme) {
-					event.cookies.set('theme', 'dark', {
-						path: '/',
-						httpOnly: false
-					});
-					theme = 'dark';
-				}
-				return html.replace('data-theme="light"', `data-theme="${theme}"`);
-			}
-		}
-	});
-};
 
 const luciaHook: Handle = async ({ event, resolve }) => {
 	const sessionId = event.cookies.get(lucia.sessionCookieName);
@@ -45,9 +26,9 @@ const luciaHook: Handle = async ({ event, resolve }) => {
 		event.locals.user = user;
 		event.locals.session = session;
 	}
-	if (!event.locals.user && event.url.pathname.startsWith('/dashboard')) redirect(302, '/auth');
-	if (event.locals.user && event.url.pathname.startsWith('/auth')) redirect(302, '/dashboard');
+	if (!event.locals.user && event.url.pathname.startsWith('/profile')) redirect(302, '/auth');
+	if (event.locals.user && event.url.pathname.startsWith('/auth')) redirect(302, '/profile');
 	return resolve(event);
 };
 
-export const handle = sequence(themeHook, luciaHook);
+export const handle = sequence(luciaHook);

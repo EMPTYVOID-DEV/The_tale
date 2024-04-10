@@ -92,7 +92,7 @@
 		color: var(--backgroundColor);
 		font-family: var(--bodyFont);
 		font-size: var(--body);
-		font-weight: 600;
+		font-weight: bold;
 	}
 	button :global(svg) {
 		width: 1.25rem;

@@ -6,20 +6,10 @@
 	import Logo from '$icons/logo.svelte';
 	import MenuClose from '$icons/menuCloseIcon.svelte';
 	import MenuOpen from '$icons/menuOpenIcon.svelte';
-	import ThemeToggle from '$components/toggle/themeToggle.svelte';
-	import { changeTheme } from '$client/utils/theme';
-	import type { theme } from '$global/types.global';
-	import { onMount } from 'svelte';
 	import Avatar from './avatar.svelte';
 	let mobileAppear = false;
-	let currentTheme: theme = 'dark';
 	$: activeRoute = $page.url.pathname;
 	$: isAuthenticated = $page.data.isAuthenticated;
-	onMount(() => {
-		const html = document.querySelector('html');
-		const dataset = html?.dataset;
-		currentTheme = dataset.theme as theme;
-	});
 </script>
 
 <nav class="navBar">
@@ -28,10 +18,10 @@
 	</div>
 	<div class="links" class:mobileAppear>
 		<Link
-			href="/docs"
-			text="Docs"
+			href="/about"
+			text="About"
 			isBlank={false}
-			active={activeRoute == '/docs'}
+			active={activeRoute == '/about'}
 			on:click={() => (mobileAppear = false)}
 		/>
 		<Link
@@ -43,9 +33,9 @@
 		/>
 		{#if isAuthenticated}
 			<Avatar
-				active={activeRoute.startsWith('/dashboard')}
+				active={activeRoute.startsWith('/profile')}
 				on:click={() => {
-					goto('/dashboard');
+					goto('/profile');
 					mobileAppear = false;
 				}}
 			/>
@@ -60,12 +50,6 @@
 			/>
 		{/if}
 	</div>
-	<ThemeToggle
-		on:change={(e) => changeTheme(e.detail.theme)}
-		--left="-56px"
-		--top="38px"
-		active={currentTheme}
-	/>
 	<button class="menu" on:click={() => (mobileAppear = !mobileAppear)}>
 		{#if mobileAppear}
 			<MenuClose />
@@ -78,11 +62,12 @@
 <style>
 	.navBar {
 		width: 100%;
-		height: 80px;
+		height: 68px;
 		display: flex;
 		align-items: center;
 		padding-inline: 2.5%;
 		gap: 20px;
+		border-bottom: 0.1px solid color-mix(in srgb, var(--foregroundColor) 20%, transparent 80%);
 	}
 
 	.logoWrapper {
@@ -100,6 +85,7 @@
 	.menu :global(svg) {
 		width: 1.75rem;
 		height: 1.75rem;
+		flex-shrink: 0;
 	}
 	@media screen and (width<768px) {
 		.menu {
@@ -107,13 +93,13 @@
 		}
 		.links {
 			background-color: var(--backgroundColor);
-			width: 100%;
+			width: 0;
 			height: 100%;
 			flex-direction: column;
 			position: fixed;
 			top: 80px;
-			left: -100%;
-			transition: all 600ms ease-in-out;
+			left: -50%;
+			transition: all 800ms cubic-bezier(0.215, 0.61, 0.355, 1);
 			padding-left: 1rem;
 			padding-top: 1rem;
 			gap: 2.5rem;
@@ -121,6 +107,7 @@
 		}
 		.mobileAppear {
 			left: 0;
+			width: 100%;
 		}
 	}
 </style>
