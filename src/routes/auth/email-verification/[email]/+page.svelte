@@ -19,13 +19,19 @@
 					label: 'resend',
 					action: () => submitter.click()
 				});
-			else if (result.type == 'success') state = 'verify';
+			else if (result.type == 'success') {
+				state = 'verify';
+				showToast('Success', 'We send you an email.', 'success');
+			}
 		};
 	};
 	const verifyEnhance: SubmitFunction = async ({ formData }) => {
 		formData.append('otp', otpString);
 		return ({ result, update }) => {
-			if (result.type == 'failure') showToast('Failure', result.data.message, 'danger');
+			if (result.type == 'failure') {
+				otpString = '';
+				showToast('Failure', result.data.message, 'danger');
+			}
 			update();
 		};
 	};
@@ -66,7 +72,7 @@
 	.emailVerification {
 		background-color: var(--backgroundColor);
 		width: 100vw;
-		height: 100vh;
+		flex-grow: 1;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -75,11 +81,11 @@
 		width: 40%;
 		display: flex;
 		flex-direction: column;
-		gap: 1.25rem;
+		gap: 1rem;
 		align-items: center;
 	}
 	.wrapper img {
-		width: 300px;
+		width: 280px;
 		aspect-ratio: 1/1;
 		object-fit: contain;
 		object-position: center;

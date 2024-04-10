@@ -45,6 +45,11 @@
 		/>
 		{#if stage == 'sign in'}
 			<span class="status"
+				>Forget your account password? <button on:click={() => goto('/auth/password-reset')}
+					>Reset it.</button
+				></span
+			>
+			<span class="status"
 				>Don't have an account? <button on:click={() => (stage = 'sign up')}>Sign in.</button></span
 			>
 		{:else}

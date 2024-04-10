@@ -42,7 +42,7 @@ export const actions: Actions = {
 				return fail(409, { message: 'It seems that this account already exist.' });
 			error(500, 'Service unavailable');
 		}
-		redirect(302, `/auth/emailVerification/${email}`);
+		redirect(302, `/auth/email-verification/${email}`);
 	},
 	'sign in': async ({ cookies, request }) => {
 		const fd = await request.formData();
@@ -64,6 +64,6 @@ export const actions: Actions = {
 			await createSession(cookies, userKey.userId).catch(() => error(500, 'Service unavailable'));
 			redirect(302, '/dashboard');
 		}
-		redirect(302, `/auth/emailVerification/${email}`);
+		redirect(302, `/auth/email-verification/${email}`);
 	}
 };

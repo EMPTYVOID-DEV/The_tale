@@ -6,8 +6,8 @@
 	onMount(() => {
 		const Morphs: { roundness: number; configuration: number }[] = [
 			{ roundness: 0, configuration: 1 },
-			{ roundness: 4, configuration: 3 },
-			{ roundness: 3, configuration: 2 },
+			{ roundness: 2, configuration: 3 },
+			{ roundness: 1, configuration: 2 },
 			{ roundness: 0, configuration: 2 }
 		];
 		let idx = 0;
@@ -151,19 +151,6 @@
 		bottom: 65%;
 	}
 
-	.wrapper[data-roundness='3'] .shape {
-		border-radius: 7rem;
-	}
-	/* roundness four */
-	.wrapper[data-roundness='4'] .shape {
-		border-radius: 50%;
-		aspect-ratio: 1/1;
-	}
-	.wrapper[data-roundness='4'] {
-		transform: translateX(-15%);
-	}
-	/* config three */
-
 	.wrapper[data-configuration='3'] .shape:nth-child(3) {
 		width: 12.5%;
 		right: 0;
@@ -201,4 +188,17 @@
 		right: 64.4%;
 		bottom: 47.5%;
 	}
+
+	.wrapper[data-roundness='1'] .shape {
+		border-radius: 7rem;
+	}
+	/* roundness four */
+	.wrapper[data-roundness='2'] .shape {
+		border-radius: 50%;
+		aspect-ratio: 1/1;
+	}
+	.wrapper[data-roundness='2'] {
+		transform: translateX(-15%);
+	}
+	/* config three */
 </style>

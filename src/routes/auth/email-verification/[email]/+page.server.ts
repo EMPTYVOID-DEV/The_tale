@@ -18,9 +18,9 @@ export const actions: Actions = {
 		try {
 			await sendVerificationEmail(email, otp);
 			cookies.set('otp', otp, {
-				path: '/auth/emailVerification',
+				path: '/auth/email-verification',
 				httpOnly: true,
-				maxAge: 60 * 5,
+				maxAge: 60 * 10,
 				secure: !dev
 			});
 		} catch (error) {
@@ -43,6 +43,6 @@ export const actions: Actions = {
 				.returning({ userId: keyTable.userId })
 		)[0];
 		await createSession(cookies, userKey.userId).catch(() => error(500, 'Service unavailable'));
-		redirect(302, '/dashboard');
+		redirect(302, '/profile');
 	}
 };
