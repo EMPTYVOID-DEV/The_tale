@@ -8,6 +8,7 @@
 	import { Toaster } from 'svelte-sonner';
 	import GithubIcon from '$lib/client/ui/icons/githubIcon.svelte';
 	import type { SubmitFunction } from '@sveltejs/kit';
+	import Morph from '$components/other/morph.svelte';
 
 	let stage: 'sign up' | 'sign in' = 'sign up';
 	const handleAction: SubmitFunction = async () => {
@@ -19,21 +20,7 @@
 </script>
 
 <div class="auth">
-	<div class="left-side">
-		{#if stage == 'sign in'}
-			<h1>Welcome Back to CodeNest</h1>
-			<p>
-				Reconnect and resume seamless real-time communication for your applications and services
-				with QuickLink. Dive back into conversations, catch up where you left off.
-			</p>
-		{:else}
-			<h1>Breeze documentation with CodeNest</h1>
-			<p>
-				Integrate real-time communication into your applications and services effortlessly by
-				signing up for QuickLink. Start enabling vibrant discussions, connecting users.
-			</p>
-		{/if}
-	</div>
+	<Morph />
 	<div class="right-side">
 		<form method="post" action="?/{stage}" use:enhance={handleAction}>
 			{#if stage == 'sign up'}
@@ -46,6 +33,7 @@
 				checkFunction={validatePassword}
 				inputType="password"
 			/>
+
 			<SyncButton text={stage} --width="80%" />
 		</form>
 		<SyncButton
@@ -71,36 +59,26 @@
 
 <style>
 	.auth {
+		--intermediate-color: color-mix(in srgb, var(--backgroundColor) 80%, var(--primaryColor) 20%);
+		--mixed: color-mix(in srgb, var(--foregroundColor) 70%, var(--backgroundColor) 30%);
+	}
+	.auth {
 		width: 100%;
 		flex-grow: 1;
 		display: grid;
-		grid-template-columns: 45% 40%;
+		grid-template-columns: 50% 40%;
 		align-items: center;
-		padding-inline: 5%;
+		padding-inline: 2.5%;
 		gap: 5%;
-	}
-
-	.left-side {
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		gap: 1.25rem;
-	}
-
-	.left-side h1 {
-		color: var(--primaryColor);
-	}
-
-	.left-side p {
-		color: var(--foregroundColor);
+		background: linear-gradient(to bottom, var(--backgroundColor), var(--intermediate-color));
 	}
 
 	.right-side {
 		width: 100%;
 		display: flex;
 		flex-direction: column;
-		gap: 0.75rem;
 		align-items: center;
+		gap: 0.75rem;
 	}
 
 	.right-side form {
@@ -126,10 +104,7 @@
 		.auth {
 			grid-template-columns: 95%;
 			gap: 0;
-		}
-
-		.left-side {
-			flex-grow: 0;
+			padding-top: 20px;
 		}
 
 		.right-side {

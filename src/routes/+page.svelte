@@ -28,7 +28,7 @@
 <style>
 	.home {
 		--intermediate-color: color-mix(in srgb, var(--backgroundColor) 80%, var(--primaryColor) 20%);
-		--mixed: color-mix(in srgb, var(--foregroundColor) 60%, var(--backgroundColor) 40%);
+		--mixed: color-mix(in srgb, var(--foregroundColor) 70%, var(--backgroundColor) 30%);
 	}
 
 	.home {

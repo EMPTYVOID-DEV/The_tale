@@ -51,12 +51,16 @@
 
 <style>
 	.error {
+		--intermediate-color: color-mix(in srgb, var(--backgroundColor) 80%, var(--dangerColor) 20%);
+		--mixed: color-mix(in srgb, var(--foregroundColor) 70%, var(--backgroundColor) 30%);
+	}
+	.error {
 		width: 100vw;
-		height: 100vh;
+		flex-grow: 1;
 		display: flex;
 		flex-direction: column;
 		gap: 20px;
-		background-color: var(--backgroundColor);
+		background: linear-gradient(to bottom, var(--backgroundColor), var(--intermediate-color));
 		justify-content: center;
 		align-items: center;
 		overflow: hidden;

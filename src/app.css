@@ -16,6 +16,12 @@
 	font-weight: 600;
 }
 
+@font-face {
+	font-family: 'Anek';
+	src: url('./lib/assets/fonts/AnekTamil-Bold.ttf');
+	font-weight: 700;
+}
+
 :root {
 	--huge: clamp(2.5rem, calc(2.5rem + ((1.2vw - 0.48rem) * 0.9722)), 4rem);
 	--h1: clamp(2rem, calc(2rem + ((1vw - 0.48rem) * 0.9722)), 2.5rem);
@@ -37,7 +43,7 @@
 	--lhbody: 1.6;
 	--border-radius: 0.3rem;
 	--bodyFont: 'Aileron', serif;
-	--headerFont: 'Anek Tamil', sans-serif;
+	--headerFont: 'Anek', sans-serif;
 }
 
 :not(dialog) {
