@@ -33,9 +33,9 @@
 		/>
 		{#if isAuthenticated}
 			<Avatar
-				active={activeRoute.startsWith('/profile')}
+				active={activeRoute.startsWith('/account')}
 				on:click={() => {
-					goto('/profile');
+					goto('/account');
 					mobileAppear = false;
 				}}
 			/>

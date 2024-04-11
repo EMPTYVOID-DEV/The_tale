@@ -9,11 +9,10 @@
 			<Heading as="h1">CodeNest</Heading>
 		</Section>
 		<Section style="display: flex;flex-direction: column; gap: 0.75rem;">
-			<Heading as="h3">Verification email</Heading>
+			<Heading as="h3">Password reset</Heading>
 			<Text>
-				We are thrilled to extend our warmest welcome to you as you embark on your journey with
-				CodeNest.Before using our service, we kindly ask for your assistance in verifying your
-				account, simply type the provided code into the verification form provided.
+				In order to reset your passoword we ask you kindly to simply type the provided code into the
+				verification form provided.
 			</Text>
 		</Section>
 		<Heading as="h3">This code will expire in 10 mins</Heading>

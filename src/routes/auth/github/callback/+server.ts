@@ -33,7 +33,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		if (userKey) {
 			await createSession(event.cookies, userKey.userId);
 		} else {
-			const id = generateId(12);
+			const id = generateId(8);
 			const newUser: user = {
 				id,
 				username: githubUser.login

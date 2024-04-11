@@ -6,7 +6,6 @@ export const load: ServerLoad = async ({ locals, url }) => {
 	let csrfToken = '';
 	let username = '';
 	let avatar = null;
-
 	if (isAuthenticated) {
 		avatar = locals.user.avatar;
 		username = locals.user.username;

@@ -18,7 +18,7 @@
 			--padding-block=".75rem"
 			text={isAuthenticated ? 'Continue your journey' : 'Getting started'}
 			on:click={() => {
-				if (isAuthenticated) goto('/profile');
+				if (isAuthenticated) goto('/account');
 				else goto('/auth');
 			}}
 		/>

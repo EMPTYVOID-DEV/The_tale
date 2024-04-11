@@ -4,6 +4,7 @@ import { db } from '$server/database/database';
 import { keyTable } from '$server/database/schema';
 import { createSession } from '$server/utils/authUtils';
 import { fail, type Actions, error, redirect } from '@sveltejs/kit';
+import template from '$components/other/emailVerifyTemplate.svelte';
 import { and, eq } from 'drizzle-orm';
 import otpGen from 'otp-generator';
 
@@ -16,7 +17,7 @@ export const actions: Actions = {
 			upperCaseAlphabets: false
 		});
 		try {
-			await sendVerificationEmail(email, otp);
+			await sendVerificationEmail(email, otp, template);
 			cookies.set('otp', otp, {
 				path: '/auth/email-verification',
 				httpOnly: true,
@@ -24,7 +25,7 @@ export const actions: Actions = {
 				secure: !dev
 			});
 		} catch (error) {
-			return fail(400, { message: 'Failed to send the email' });
+			return fail(400);
 		}
 	},
 	verify: async ({ cookies, request, params }) => {
@@ -43,6 +44,6 @@ export const actions: Actions = {
 				.returning({ userId: keyTable.userId })
 		)[0];
 		await createSession(cookies, userKey.userId).catch(() => error(500, 'Service unavailable'));
-		redirect(302, '/profile');
+		redirect(302, '/account');
 	}
 };
