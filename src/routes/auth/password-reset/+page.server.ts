@@ -5,7 +5,7 @@ import { db } from '$server/database/database';
 import { keyTable } from '$server/database/schema';
 import { fail, type Actions, error, redirect } from '@sveltejs/kit';
 import { and, eq } from 'drizzle-orm';
-import template from '$components/other/emailPasswordTemplate.svelte';
+import template from '../components/emailPasswordTemplate.svelte';
 import otpGen from 'otp-generator';
 import { Argon2id } from 'oslo/password';
 

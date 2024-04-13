@@ -1,11 +1,10 @@
-import nodeAdapter from '@sveltejs/adapter-node';
+import adapter from '@sveltejs/adapter-auto';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import path from 'path';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	preprocess: vitePreprocess(),
-
 	kit: {
 		alias: {
 			$components: path.resolve('./src/lib/client/ui/components'),
@@ -18,12 +17,15 @@ const config = {
 		env: {
 			dir: './'
 		},
-		adapter: nodeAdapter(),
+		adapter: adapter(),
 		csp: {
 			mode: 'auto',
 			directives: {
 				'script-src': ['self']
 			}
+		},
+		csrf: {
+			checkOrigin: true
 		}
 	}
 };

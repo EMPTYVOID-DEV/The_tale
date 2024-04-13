@@ -3,21 +3,19 @@ import type { ServerLoad } from '@sveltejs/kit';
 
 export const load: ServerLoad = async ({ locals, url }) => {
 	const isAuthenticated = locals.user != null;
-	let csrfToken = '';
-	let username = '';
-	let avatar = null;
+	if (!isAuthenticated) return { isAuthenticated };
 	if (isAuthenticated) {
-		avatar = locals.user.avatar;
-		username = locals.user.username;
-		if (url.pathname.startsWith('/profile')) {
+		const avatar = locals.user.avatar;
+		const username = locals.user.username;
+		let csrfToken = '';
+		if (url.pathname.startsWith('/account')) {
 			csrfToken = createCsrfToken(locals.user.id);
 		}
+		return {
+			isAuthenticated,
+			avatar,
+			csrfToken,
+			username
+		};
 	}
-
-	return {
-		avatar,
-		isAuthenticated,
-		csrfToken,
-		username
-	};
 };

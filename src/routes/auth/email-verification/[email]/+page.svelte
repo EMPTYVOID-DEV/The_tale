@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { showToast } from '$client/utils/toast';
-	import Otp from '$components/other/otp.svelte';
+	import { showToast } from '$client/utils.client';
+	import Otp from '$client/ui/components/other/otp.svelte';
 	import { isNumberSchema } from '$global/zod/generalSchema';
 	import MailBox from '$assets/images/mailBox.svg';
 	import EmailSent from '$assets/images/mailSent.svg';

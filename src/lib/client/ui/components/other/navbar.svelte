@@ -35,7 +35,7 @@
 			<Avatar
 				active={activeRoute.startsWith('/account')}
 				on:click={() => {
-					goto('/account');
+					goto('/account/profile');
 					mobileAppear = false;
 				}}
 			/>
@@ -67,7 +67,6 @@
 		align-items: center;
 		padding-inline: 2.5%;
 		gap: 20px;
-		border-bottom: 0.1px solid color-mix(in srgb, var(--foregroundColor) 20%, transparent 80%);
 	}
 
 	.logoWrapper {
@@ -97,7 +96,7 @@
 			height: 100%;
 			flex-direction: column;
 			position: fixed;
-			top: 80px;
+			top: 68px;
 			left: -50%;
 			transition: all 800ms cubic-bezier(0.215, 0.61, 0.355, 1);
 			padding-left: 1rem;

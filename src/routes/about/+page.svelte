@@ -1,4 +1,1 @@
-<div class="docs"></div>
-
-<style>
-</style>
+<h1>about</h1>

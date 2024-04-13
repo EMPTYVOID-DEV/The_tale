@@ -3,12 +3,12 @@
 	import ReactiveInput from '$components/input/reactiveInput.svelte';
 	import { goto } from '$app/navigation';
 	import { enhance } from '$app/forms';
-	import { showToast } from '$lib/client/utils/toast';
+	import { showToast } from '$client/utils.client';
 	import { validateEmail, validatePassword, validateUsername } from '$global/zod/authSchema';
 	import { Toaster } from 'svelte-sonner';
 	import GithubIcon from '$lib/client/ui/icons/githubIcon.svelte';
 	import type { SubmitFunction } from '@sveltejs/kit';
-	import Morph from '$components/other/morph.svelte';
+	import Morph from './components/morph.svelte';
 
 	let stage: 'sign up' | 'sign in' = 'sign up';
 	const handleAction: SubmitFunction = async () => {
@@ -65,7 +65,6 @@
 <style>
 	.auth {
 		--intermediate-color: color-mix(in srgb, var(--backgroundColor) 80%, var(--primaryColor) 20%);
-		--mixed: color-mix(in srgb, var(--foregroundColor) 70%, var(--backgroundColor) 30%);
 	}
 	.auth {
 		width: 100%;

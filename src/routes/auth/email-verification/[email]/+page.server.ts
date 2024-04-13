@@ -4,7 +4,7 @@ import { db } from '$server/database/database';
 import { keyTable } from '$server/database/schema';
 import { createSession } from '$server/utils/authUtils';
 import { fail, type Actions, error, redirect } from '@sveltejs/kit';
-import template from '$components/other/emailVerifyTemplate.svelte';
+import template from '../../components/emailVerifyTemplate.svelte';
 import { and, eq } from 'drizzle-orm';
 import otpGen from 'otp-generator';
 
@@ -44,6 +44,6 @@ export const actions: Actions = {
 				.returning({ userId: keyTable.userId })
 		)[0];
 		await createSession(cookies, userKey.userId).catch(() => error(500, 'Service unavailable'));
-		redirect(302, '/account');
+		redirect(302, '/account/dashboard');
 	}
 };

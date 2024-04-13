@@ -18,7 +18,7 @@
 			--padding-block=".75rem"
 			text={isAuthenticated ? 'Continue your journey' : 'Getting started'}
 			on:click={() => {
-				if (isAuthenticated) goto('/account');
+				if (isAuthenticated) goto('/account/dashboard');
 				else goto('/auth');
 			}}
 		/>
@@ -28,7 +28,6 @@
 <style>
 	.home {
 		--intermediate-color: color-mix(in srgb, var(--backgroundColor) 80%, var(--primaryColor) 20%);
-		--mixed: color-mix(in srgb, var(--foregroundColor) 70%, var(--backgroundColor) 30%);
 	}
 
 	.home {
@@ -56,7 +55,7 @@
 	}
 
 	.wrapper p {
-		color: var(--mixed);
+		color: var(--mutedColor);
 		font-weight: bold;
 		text-align: center;
 		line-height: 1.8;

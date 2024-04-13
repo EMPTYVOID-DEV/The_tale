@@ -14,9 +14,8 @@
 			class="tab"
 			class:active={index == activeTab}
 			on:click={() => {
-				activeTab = index;
 				dispatcher('change', {
-					activeTab
+					activeTab: tab.title
 				});
 			}}
 		>
@@ -43,7 +42,7 @@
 	}
 
 	.tab {
-		height: 2.5rem;
+		height: 2rem;
 		flex-grow: 1;
 		display: flex;
 		align-items: center;

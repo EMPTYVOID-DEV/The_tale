@@ -31,8 +31,8 @@
 	--body: clamp(1rem, calc(1rem + ((1vw - 0.48rem) * 0.1736)), 1.275rem);
 	--small: clamp(0.875rem, calc(0.875rem + ((1vw - 0.48rem) * 0.1736)), 1rem);
 	--primaryColor: #6f3dd4;
-	--backgroundColor: #08020a;
-	--foregroundColor: #e5dee7;
+	--backgroundColor: #040110;
+	--foregroundColor: #dfdafa;
 	--dangerColor: #d62e2e;
 	--successColor: #42da34;
 	--mutedColor: #8e8792;

@@ -1,9 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { AvatarBeam, AvatarMarble, AvatarPixel } from 'svelte-boring-avatars';
 	export let active = false;
-	const randomAvatar = Math.floor(Math.random() * 3);
-	const avatarsList = [AvatarBeam, AvatarMarble, AvatarPixel];
 	$: username = $page.data.username;
 	$: avatar = $page.data.avatar;
 </script>
@@ -16,12 +13,7 @@
 		{#if avatar}
 			<img src={avatar} alt="avatar" />
 		{:else}
-			<svelte:component
-				this={avatarsList[randomAvatar]}
-				size={38}
-				name={username}
-				colors={['#9a25d0', '#e5dee7']}
-			/>
+			<span class="default" />
 		{/if}
 	</div>
 	<span>{username}</span>
@@ -31,14 +23,14 @@
 	.avatar {
 		display: flex;
 		align-items: center;
-		gap: 1rem;
+		gap: 0.5rem;
 		cursor: pointer;
 	}
-
 	.avatar span {
-		display: none;
+		font-size: var(--small);
+		color: var(--foregroundColor);
+		font-weight: bold;
 	}
-
 	.wrapper {
 		display: flex;
 		justify-content: center;
@@ -51,23 +43,24 @@
 
 	.wrapper img {
 		width: 38px;
-		height: 38px;
+		aspect-ratio: 1/1;
 		border-radius: 50%;
 		object-fit: cover;
 		object-position: center;
 	}
 
-	.active .wrapper {
-		border: 3px solid var(--primaryColor);
+	.wrapper .default {
+		width: 38px;
+		aspect-ratio: 1/1;
+		border-radius: 50%;
+		background: radial-gradient(circle at center, var(--primaryColor), var(--foregroundColor));
 	}
 
-	@media screen and (width<768px) {
-		.avatar span {
-			display: inline-block;
-			color: var(--foregroundColor);
-		}
-		.active span {
-			color: var(--primaryColor);
-		}
+	.active span {
+		color: var(--primaryColor);
+	}
+
+	.active .wrapper {
+		border: 3px solid var(--primaryColor);
 	}
 </style>

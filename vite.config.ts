@@ -1,8 +1,6 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
-import { webSocketServer } from './socketPlugin';
-import { enhancedImages } from '@sveltejs/enhanced-img';
 
 export default defineConfig({
-	plugins: [enhancedImages(), sveltekit(), webSocketServer]
+	plugins: [sveltekit()]
 });
