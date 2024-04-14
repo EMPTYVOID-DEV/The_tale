@@ -1,14 +1,14 @@
-import { pgTable, text, primaryKey, boolean, timestamp } from 'drizzle-orm/pg-core';
+import { pgTable, text, varchar, primaryKey, boolean, timestamp } from 'drizzle-orm/pg-core';
 
 export const userTable = pgTable('user', {
-	id: text('id').notNull().primaryKey(),
-	username: text('username').notNull(),
+	id: varchar('id', { length: 8 }).notNull().primaryKey(),
+	username: varchar('username', { length: 28 }).notNull(),
 	avatar: text('avatar')
 });
 
 export const sessionTable = pgTable('session', {
 	id: text('id').notNull().primaryKey(),
-	userId: text('user_id')
+	userId: varchar('user_id', { length: 8 })
 		.notNull()
 		.references(() => userTable.id),
 	expiresAt: timestamp('expires_at', {
@@ -20,12 +20,12 @@ export const sessionTable = pgTable('session', {
 export const keyTable = pgTable(
 	'key',
 	{
-		userId: text('userId')
+		userId: varchar('userId', { length: 8 })
 			.notNull()
 			.references(() => userTable.id, {
 				onDelete: 'cascade'
 			}),
-		provider_name: text('provider_name').notNull(),
+		provider_name: varchar('provider_name', { length: 12 }).notNull(),
 		provider_id: text('provider_id').notNull(),
 		secret: text('secret'),
 		verified: boolean('verified')

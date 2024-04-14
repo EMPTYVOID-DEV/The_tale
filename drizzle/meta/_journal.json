@@ -22,6 +22,13 @@
       "when": 1712192405027,
       "tag": "0002_smooth_leader",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1713102213823,
+      "tag": "0003_bitter_luckman",
+      "breakpoints": true
     }
   ]
 }

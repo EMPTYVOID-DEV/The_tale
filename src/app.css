@@ -1,3 +1,5 @@
+/* TODO: create shades for colors and use them  200,400,600<original>,800,1000*/
+
 @font-face {
 	font-family: 'Aileron';
 	src: url('./lib/assets/fonts/Aileron-Regular.otf');
@@ -35,7 +37,7 @@
 	--foregroundColor: #dfdafa;
 	--dangerColor: #d62e2e;
 	--successColor: #42da34;
-	--mutedColor: #8e8792;
+	--mutedColor: #aaaaaa;
 	--lh1: 1.3;
 	--lh2: 1.35;
 	--lh3: 1.4;
@@ -87,14 +89,13 @@ h4 {
 }
 
 *::-webkit-scrollbar {
-	width: 0.5rem;
+	width: 0.8rem;
 }
 *::-webkit-scrollbar-track {
 	border-radius: 0;
-	background: color-mix(in srgb, var(--foregroundColor) 40%, transparent 60%);
+	background: var(--backgroundColor);
 }
 
 *::-webkit-scrollbar-thumb {
-	border-radius: 4px;
-	background: var(--primaryColor);
+	background: var(--mutedColor);
 }

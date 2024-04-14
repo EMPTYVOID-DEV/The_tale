@@ -13,7 +13,15 @@
 </script>
 
 <nav class="navBar">
-	<div class="logoWrapper">
+	<!-- svelte-ignore a11y-click-events-have-key-events -->
+	<!-- svelte-ignore a11y-no-static-element-interactions -->
+	<div
+		class="logoWrapper"
+		on:click={() => {
+			mobileAppear = false;
+			goto('/');
+		}}
+	>
 		<Logo />
 	</div>
 	<div class="links" class:mobileAppear>

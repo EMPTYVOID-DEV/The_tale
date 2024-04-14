@@ -14,7 +14,10 @@ const passwordSchema = z
 
 const usernameSchema = z
 	.string()
-	.min(4, { message: 'Username need to be at least four characters long' });
+	.min(4, {
+		message: 'Username must at least 4 characters long'
+	})
+	.max(28, { message: 'Username must be no bigger than 28 characters' });
 
 export function validateUsername(username: string): {
 	state: 'valid' | 'invalid';

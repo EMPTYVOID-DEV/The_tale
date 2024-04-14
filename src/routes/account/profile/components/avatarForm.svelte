@@ -34,7 +34,7 @@
 	<section class="input">
 		<div class="info">
 			<h3>Avatar</h3>
-			<span>This is your avatar.<br />You can change your avatar by clicking on it.</span>
+			<span>This is your avatar.<br />You can change it by clicking on it.</span>
 		</div>
 		<input type="file" id="avatarInput" name="avatar" accept="image/*" on:input={handleChange} />
 		<label for="avatarInput">
@@ -66,7 +66,7 @@
 	.input {
 		display: flex;
 		align-items: center;
-		justify-content: space-around;
+		justify-content: space-between;
 		padding: 1rem;
 	}
 
