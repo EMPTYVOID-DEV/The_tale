@@ -50,5 +50,14 @@ export const actions: Actions = {
 			error(500, 'Service unavailable');
 		}
 		redirect(303, '/');
+	},
+	logout: async ({ locals }) => {
+		const id = locals.user.id;
+		try {
+			await lucia.invalidateUserSessions(id);
+		} catch (error) {
+			return fail(500);
+		}
+		redirect(303, '/');
 	}
 };

@@ -1,11 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
-	import { showToast } from '$client/utils.client';
 	import SyncButton from '$components/button/syncButton.svelte';
 	import StaticInput from '$components/input/staticInput.svelte';
 	import DefaultDialog from '$components/other/defaultDialog.svelte';
-	import type { SubmitFunction } from '@sveltejs/kit';
 	import { quadInOut } from 'svelte/easing';
 	import { scale } from 'svelte/transition';
 
@@ -37,8 +35,8 @@
 			>
 				<h2>Delete account</h2>
 				<span
-					>This action will erase all content related to your account.We recommend backing exporting
-					all of your projects</span
+					>This action will erase all content related to your account.We recommend backing all of
+					your projects</span
 				>
 				<StaticInput
 					name="confirmation"

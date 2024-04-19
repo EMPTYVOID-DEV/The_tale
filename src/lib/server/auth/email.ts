@@ -3,20 +3,25 @@ import type { mailOptions } from '$server/types.server';
 import { createTransport } from 'nodemailer';
 import { render } from 'svelte-email';
 import type { ComponentType, SvelteComponent } from 'svelte';
+import { dev } from '$app/environment';
 
 export async function sendVerificationEmail(
 	email: string,
 	code: string,
 	template: ComponentType<SvelteComponent>
 ) {
-	const transport = createTransport({
-		host: 'smtp-relay.brevo.com',
-		port: 587,
-		auth: {
-			user: API_EMAIL,
-			pass: MAIL_KEY
-		}
-	});
+	const transportSettings = dev
+		? { host: 'localhost', port: 1025 }
+		: {
+				host: 'smtp-relay.brevo.com',
+				port: 587,
+				auth: {
+					user: API_EMAIL,
+					pass: MAIL_KEY
+				}
+			};
+
+	const transport = createTransport(transportSettings);
 	const emailHtml = render({
 		template,
 		props: {

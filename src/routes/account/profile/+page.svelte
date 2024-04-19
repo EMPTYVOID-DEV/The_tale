@@ -4,12 +4,14 @@
 	import IdCopy from './components/idCopy.svelte';
 	import DeleteForm from './components/deleteForm.svelte';
 	import { Toaster } from 'svelte-sonner';
+	import LogoutForm from './components/logoutForm.svelte';
 </script>
 
 <div class="profile">
 	<AvatarForm />
 	<UsernameForm />
 	<IdCopy />
+	<LogoutForm />
 	<DeleteForm />
 </div>
 <Toaster duration={3500} expand />
