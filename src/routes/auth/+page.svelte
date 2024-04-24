@@ -9,7 +9,6 @@
 	import GithubIcon from '$lib/client/ui/icons/githubIcon.svelte';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import Morph from './components/morph.svelte';
-
 	let stage: 'sign up' | 'sign in' = 'sign up';
 	const handleAction: SubmitFunction = async () => {
 		return ({ result, update }) => {

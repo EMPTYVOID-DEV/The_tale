@@ -34,22 +34,17 @@
 </script>
 
 <div class="account">
-	<div class="wrapper">
-		<DefaultTabs {tabs} {activeTab} on:change={handleChange} />
-		<slot />
-	</div>
+	<DefaultTabs {tabs} {activeTab} on:change={handleChange} />
+	<slot />
 </div>
 
 <style>
 	.account {
 		width: 100%;
-		flex-grow: 1;
-		padding-inline: 2.5%;
-	}
-	.wrapper {
-		width: 100%;
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
+		flex-grow: 1;
+		padding-inline: 2.5%;
 	}
 </style>
