@@ -32,3 +32,15 @@ export type projectBanner = {
 	type: 'url' | 'color';
 	value: string;
 };
+
+export type sectionsGraph =
+	| { type: 'tier0'; section: string }
+	| { type: 'tier1'; sections: string[] }
+	| { type: 'tier2'; categories: { category: string; sections: string[] }[] }
+	| {
+			type: 'tier3';
+			categories: {
+				category: string;
+				sections: ({ subcategories: string; sections: string[] } | string)[];
+			}[];
+	  };

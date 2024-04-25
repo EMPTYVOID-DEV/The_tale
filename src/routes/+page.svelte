@@ -1,8 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
 	import ShadowButton from '$components/button/shadowButton.svelte';
-	$: isAuthenticated = $page.data.isAuthenticated;
 </script>
 
 <div class="home">
@@ -16,10 +14,9 @@
 		<ShadowButton
 			--padding-inline="1.75rem"
 			--padding-block=".75rem"
-			text={isAuthenticated ? 'Continue your journey' : 'Getting started'}
+			text="Getting started"
 			on:click={() => {
-				if (isAuthenticated) goto('/account/dashboard');
-				else goto('/auth');
+				goto('/auth');
 			}}
 		/>
 	</div>

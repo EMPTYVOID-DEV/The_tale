@@ -36,6 +36,13 @@
       "when": 1713954275331,
       "tag": "0004_tearful_power_pack",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1714048393582,
+      "tag": "0005_solid_nekra",
+      "breakpoints": true
     }
   ]
 }

@@ -19,7 +19,8 @@
 		class="logoWrapper"
 		on:click={() => {
 			mobileAppear = false;
-			goto('/');
+			if (isAuthenticated) goto('/account/projects');
+			else goto('/');
 		}}
 	>
 		<Logo />
@@ -33,10 +34,10 @@
 			on:click={() => (mobileAppear = false)}
 		/>
 		<Link
-			href="/contact"
-			text="Contact"
+			href="/docs"
+			text="Docs"
 			isBlank={false}
-			active={activeRoute == '/contact'}
+			active={activeRoute == '/docs'}
 			on:click={() => (mobileAppear = false)}
 		/>
 		{#if isAuthenticated}
