@@ -1,7 +1,7 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
 
-	/**@type {{icon?:import("$client/components").iconComponent,title:string}[]}*/
+	/**@type {{icon?:import("$client/types.client").iconComponent,title:string}[]}*/
 	export let tabs = [];
 	/**@type {number}*/
 	export let activeTab = 0;

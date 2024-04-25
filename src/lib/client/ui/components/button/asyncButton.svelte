@@ -5,10 +5,10 @@
 	/**@type {string}*/
 	export let text = 'button';
 
-	/**@type {import("$client/components").iconComponent|null} */
+	/**@type {import("$client/types.client").iconComponent|null} */
 	export let icon = null;
 
-	/**@type {import("$client/components").asyncButtonAction} This needs to be an async function that handles the button click*/
+	/**@type {import("$client/types.client").asyncButtonAction} This needs to be an async function that handles the button click*/
 	export let action;
 
 	/**@type {"disabled"|"passive"|"primary"|"secondary"|"danger"} */
@@ -52,7 +52,7 @@
 </button>
 
 <style>
-	:is(.disabled, .primary, .secondary, .danger, .secondary, .passive) {
+	:is(.disabled, .primary, .secondary, .danger, .passive) {
 		--icon: var(--backgroundColor);
 	}
 	.disabled {

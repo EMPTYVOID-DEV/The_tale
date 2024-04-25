@@ -19,8 +19,7 @@
 		class="logoWrapper"
 		on:click={() => {
 			mobileAppear = false;
-			if (isAuthenticated) goto('/account/projects');
-			else goto('/');
+			goto('/');
 		}}
 	>
 		<Logo />
@@ -28,23 +27,37 @@
 	<div class="links" class:mobileAppear>
 		<Link
 			href="/about"
-			text="About"
+			text="about"
 			isBlank={false}
 			active={activeRoute == '/about'}
 			on:click={() => (mobileAppear = false)}
 		/>
 		<Link
 			href="/docs"
-			text="Docs"
+			text="docs"
 			isBlank={false}
 			active={activeRoute == '/docs'}
 			on:click={() => (mobileAppear = false)}
 		/>
+		<Link
+			href="/reading"
+			text="reading"
+			isBlank={false}
+			active={activeRoute == '/reading'}
+			on:click={() => (mobileAppear = false)}
+		/>
 		{#if isAuthenticated}
+			<Link
+				href="/writing"
+				text="writing"
+				isBlank={false}
+				active={activeRoute == '/writing'}
+				on:click={() => (mobileAppear = false)}
+			/>
 			<Avatar
-				active={activeRoute.startsWith('/account')}
+				active={activeRoute.startsWith('/profile')}
 				on:click={() => {
-					goto('/account/profile');
+					goto('/profile');
 					mobileAppear = false;
 				}}
 			/>
@@ -79,6 +92,7 @@
 	}
 
 	.logoWrapper {
+		cursor: pointer;
 		margin-right: auto;
 	}
 	.links {

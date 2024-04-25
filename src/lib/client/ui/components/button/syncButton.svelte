@@ -1,7 +1,7 @@
 <script>
 	/**@type {string}*/
 	export let text = 'button';
-	/**@type {import("$client/components").iconComponent|null} */
+	/**@type {import("$client/types.client").iconComponent|null} */
 	export let icon = null;
 	/**@type {"disabled"|"passive"|"primary"|"secondary"|"danger"} */
 	export let type = 'primary';
@@ -13,7 +13,7 @@
 </button>
 
 <style>
-	:is(.disabled, .primary, .secondary, .danger, .secondary, .passive) {
+	:is(.disabled, .primary, .secondary, .danger, .passive) {
 		--icon: var(--backgroundColor);
 	}
 	.disabled {

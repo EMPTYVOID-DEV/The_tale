@@ -7,7 +7,7 @@
 	export let isBlank = false;
 	/**@type {"primary"|"secondary"}*/
 	export let type = 'primary';
-	/**@type {import("$client/components").iconComponent|null}*/
+	/**@type {import("$client/types.client").iconComponent|null}*/
 	export let icon = null;
 	/**@type {boolean}*/
 	export let active = false;
@@ -41,11 +41,17 @@
 	}
 
 	.active {
-		color: var(--primaryColor);
 		--text: var(--primaryColor);
 		--icon: var(--primaryColor);
+		border-bottom: 3px solid var(--primaryColor);
 	}
 	.link span:empty {
 		display: none;
+	}
+
+	@media screen and (width<768px) {
+		.active {
+			border: 0;
+		}
 	}
 </style>

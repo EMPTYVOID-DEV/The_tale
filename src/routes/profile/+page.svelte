@@ -19,9 +19,11 @@
 <style>
 	.profile {
 		width: 100%;
+		flex-grow: 1;
 		display: flex;
 		flex-direction: column;
-		padding-bottom: 30px;
+		padding-inline: 2.5%;
+		padding-block: 30px;
 		gap: 1.5rem;
 	}
 </style>

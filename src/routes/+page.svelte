@@ -1,24 +1,37 @@
-<script>
+<script lang="ts">
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import ShadowButton from '$components/button/shadowButton.svelte';
+	$: isAuthenticated = $page.data.isAuthenticated as boolean;
 </script>
 
 <div class="home">
 	<div class="wrapper">
-		<h1>The code documentation platform</h1>
+		<h1>Craft Your Tale, Your Way</h1>
 		<p>
-			Got docs to write? Our platform makes it a breeze. Streamlined documentation tools keep your
-			package info clear and up-to-date with minimal hassle. Spend less time formatting, more time
-			shipping great software.
+			Blogs, articles, docs or presentations? Tale's your go-to platform. Compose with a rich text
+			editor, format with flair. Templates, navigation, search - polished content anywhere.
 		</p>
-		<ShadowButton
-			--padding-inline="1.75rem"
-			--padding-block=".75rem"
-			text="Getting started"
-			on:click={() => {
-				goto('/auth');
-			}}
-		/>
+		<div class="actions">
+			<ShadowButton
+				--padding-inline="1.75rem"
+				--padding-block=".75rem"
+				type="passive"
+				text="start reading"
+				on:click={() => {
+					goto('/reading');
+				}}
+			/>
+			<ShadowButton
+				--padding-inline="1.75rem"
+				--padding-block=".75rem"
+				text={isAuthenticated ? 'continue writing' : 'start writing'}
+				on:click={() => {
+					if (isAuthenticated) goto('/writing');
+					else goto('/auth');
+				}}
+			/>
+		</div>
 	</div>
 </div>
 
@@ -56,6 +69,11 @@
 		font-weight: bold;
 		text-align: center;
 		line-height: 1.8;
+	}
+
+	.actions {
+		display: flex;
+		gap: 1.5rem;
 	}
 
 	@media screen and (width<768px) {

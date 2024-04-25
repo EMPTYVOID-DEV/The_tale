@@ -26,8 +26,11 @@ const luciaHook: Handle = async ({ event, resolve }) => {
 		event.locals.user = user;
 		event.locals.session = session;
 	}
-	if (!event.locals.user && event.url.pathname.startsWith('/account')) redirect(302, '/auth');
-	if (event.locals.user && event.url.pathname.startsWith('/auth')) redirect(302, '/account');
+
+	const pathname = event.url.pathname;
+	if (!event.locals.user && (pathname == '/profile' || pathname == '/writing'))
+		redirect(302, '/auth');
+	if (event.locals.user && pathname == '/auth') redirect(302, '/writing');
 
 	return resolve(event);
 };

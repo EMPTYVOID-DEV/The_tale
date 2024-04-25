@@ -6,7 +6,7 @@
 <Html lang="en">
 	<Section style="display: flex; flex-direction: column; gap: 1rem; width: 100%; height: 100%;">
 		<Section style="display: flex;flex-direction: column; gap: 0.5rem; align-self: center;">
-			<Heading as="h1">CodeNest</Heading>
+			<Heading as="h1">The_tale</Heading>
 		</Section>
 		<Section style="display: flex;flex-direction: column; gap: 0.75rem;">
 			<Heading as="h3">Password reset</Heading>

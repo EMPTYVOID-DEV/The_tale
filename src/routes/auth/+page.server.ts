@@ -62,7 +62,7 @@ export const actions: Actions = {
 		if (!isValid) return fail(403, { message: 'The password is not correct.' });
 		if (userKey.verified) {
 			await createSession(cookies, userKey.userId).catch(() => error(500, 'Service unavailable'));
-			redirect(302, '/account/dashboard');
+			redirect(302, '/writing');
 		}
 		redirect(302, `/auth/email-verification/${email}`);
 	}

@@ -9,9 +9,9 @@
 	export let description;
 	/**@type {"primary"|"success"|"danger"}*/
 	export let type = 'primary';
-	/**@type {import("$client/components").toastAction|null}*/
+	/**@type {import("$client/types.client").toastAction|null}*/
 	export let toastAction = null;
-	/**@type {import("$client/components").iconComponent}*/
+	/**@type {import("$client/types.client").iconComponent}*/
 	$: icon = type == 'primary' ? InfoIcon : type == 'danger' ? DangerIcon : SuccessIcon;
 </script>
 

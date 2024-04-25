@@ -10,9 +10,9 @@
 	export let inputType = 'text';
 	/**@type {boolean}*/
 	export let disabled = false;
-	/**@type {import("$client/components").checkFunction} This function will be used to validate the input on every change*/
+	/**@type {import("$client/types.client").checkFunction} This function will be used to validate the input on every change*/
 	export let checkFunction;
-	/**@type {import("$client/components").reactiveInputStatus}*/
+	/**@type {import("$client/types.client").reactiveInputStatus}*/
 	let status = {
 		state: 'idle',
 		errorMsg: ''
