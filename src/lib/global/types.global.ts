@@ -28,7 +28,7 @@ export type projectLogo = {
 	value: string;
 };
 
-export type projectBanner = {
+export type banner = {
 	type: 'url' | 'color';
 	value: string;
 };
@@ -50,6 +50,5 @@ export type contribution = {
 	role: 'owner' | 'manager' | 'writer';
 	writingTime: number;
 	projectName: string;
-	projectBanner: string;
-	creationDate: string;
+	projectBanner: banner;
 };

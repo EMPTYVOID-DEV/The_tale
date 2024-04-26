@@ -60,7 +60,7 @@
 
 <style>
 	.deleteAccount {
-		--mixed-light: color-mix(in srgb, var(--foregroundColor) 4%, var(--backgroundColor) 96%);
+		--mixed-light: color-mix(in srgb, var(--foregroundColor) 8%, transparent 92%);
 		width: 100%;
 		display: flex;
 		flex-direction: column;

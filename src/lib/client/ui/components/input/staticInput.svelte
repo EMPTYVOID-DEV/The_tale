@@ -53,7 +53,6 @@
 		padding-block: 0.5rem;
 		font-size: var(--body);
 		font-family: var(--bodyFont);
-		font-weight: bold;
 		color: var(--foregroundColor);
 		background-color: transparent;
 		border-radius: var(--border-radius);

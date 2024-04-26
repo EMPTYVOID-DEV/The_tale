@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
-	import type { changeEvent } from '$client/components';
+	import type { changeEvent } from '$client/types.client';
 	import { showToast } from '$client/utils.client';
 	import SyncButton from '$components/button/syncButton.svelte';
 	import { checkType, checkSize } from '$global/utils.global';
@@ -53,7 +53,7 @@
 
 <style>
 	.avatar-form {
-		--mixed-light: color-mix(in srgb, var(--foregroundColor) 4%, var(--backgroundColor) 96%);
+		--mixed-light: color-mix(in srgb, var(--foregroundColor) 8%, transparent 92%);
 		width: 100%;
 		display: flex;
 		flex-direction: column;

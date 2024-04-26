@@ -1,5 +1,5 @@
 import type {
-	projectBanner,
+	banner,
 	projectColors,
 	projectFonts,
 	projectLogo,
@@ -60,7 +60,7 @@ export const projectTable = pgTable('project', {
 	id: varchar('id', { length: 8 }).primaryKey().notNull(),
 	name: text('name').notNull(),
 	description: text('description').notNull(),
-	banner: json('banner').$type<projectBanner>().default({ type: 'color', value: '6f3dd4' }),
+	banner: json('banner').$type<banner>().default({ type: 'color', value: '6f3dd4' }),
 	creationDate: date('creation_date').default(new Date().toUTCString()),
 	multiTheme: boolean('mutli_theme').default(false),
 	withSearch: boolean('with_search').default(false),

@@ -126,6 +126,7 @@
 			padding-top: 1rem;
 			gap: 2.5rem;
 			--body: var(--h4);
+			z-index: 999;
 		}
 		.mobileAppear {
 			left: 0;
