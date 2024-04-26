@@ -86,7 +86,7 @@ export const projectLinksTable = pgTable(
 		header: text('header').notNull(),
 		projectId: varchar('project_id', { length: 8 })
 			.notNull()
-			.references(() => userTable.id, {
+			.references(() => projectTable.id, {
 				onDelete: 'cascade'
 			}),
 		description: text('descritpion').notNull(),
@@ -109,7 +109,7 @@ export const projectContributors = pgTable(
 			}),
 		projectId: varchar('project_id', { length: 8 })
 			.notNull()
-			.references(() => userTable.id, {
+			.references(() => projectTable.id, {
 				onDelete: 'cascade'
 			}),
 		role: text('role').$type<'owner' | 'manager' | 'writer'>().notNull(),
@@ -130,7 +130,7 @@ export const projectViewsTable = pgTable('project_views', {
 	timestamp: timestamp('timestamp', { mode: 'date', withTimezone: true }),
 	projectId: varchar('project_id', { length: 8 })
 		.notNull()
-		.references(() => userTable.id, {
+		.references(() => projectTable.id, {
 			onDelete: 'cascade'
 		})
 });
@@ -140,7 +140,7 @@ export const sectionsTable = pgTable('sections', {
 	name: text('name'),
 	projectId: varchar('project_id', { length: 8 })
 		.notNull()
-		.references(() => userTable.id, {
+		.references(() => projectTable.id, {
 			onDelete: 'cascade'
 		})
 });

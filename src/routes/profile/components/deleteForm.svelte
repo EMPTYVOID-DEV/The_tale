@@ -3,7 +3,7 @@
 	import { page } from '$app/stores';
 	import SyncButton from '$components/button/syncButton.svelte';
 	import StaticInput from '$components/input/staticInput.svelte';
-	import DefaultDialog from '$components/other/defaultDialog.svelte';
+	import Dialog from '$components/other/dialog.svelte';
 	import { quadInOut } from 'svelte/easing';
 	import { scale } from 'svelte/transition';
 
@@ -22,7 +22,7 @@
 		>
 	</section>
 	<section class="submitter">
-		<DefaultDialog let:close>
+		<Dialog let:close>
 			<svelte:fragment slot="trigger" let:open>
 				<SyncButton text="Delete account" type="danger" on:click={open} />
 			</svelte:fragment>
@@ -54,7 +54,7 @@
 					<SyncButton text="Confirm" type="danger" on:click={() => close()} />
 				</section>
 			</form>
-		</DefaultDialog>
+		</Dialog>
 	</section>
 </div>
 

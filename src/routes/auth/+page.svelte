@@ -71,8 +71,8 @@
 		display: grid;
 		grid-template-columns: 50% 40%;
 		align-items: center;
-		padding-inline: 2.5%;
 		gap: 5%;
+		padding-inline: 2.5%;
 		background: linear-gradient(to bottom, var(--backgroundColor), var(--intermediate-color));
 	}
 

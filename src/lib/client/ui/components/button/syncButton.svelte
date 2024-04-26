@@ -53,6 +53,7 @@
 		font-family: var(--bodyFont);
 		font-size: var(--body);
 		font-weight: bold;
+		text-wrap: nowrap;
 	}
 	button :global(svg) {
 		width: 1.25rem;

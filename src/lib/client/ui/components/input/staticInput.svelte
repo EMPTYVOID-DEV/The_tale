@@ -11,7 +11,8 @@
 	export let inputType = 'text';
 	/**@type {boolean}*/
 	export let disabled = false;
-
+	/**@type {string}*/
+	export let placeholder = '';
 	const dispatcher = createEventDispatcher();
 
 	/**@type {import("$client/types.client").inputChangeHandler<HTMLInputElement>}*/
@@ -24,7 +25,7 @@
 
 <div class="input-container" class:disabled>
 	<label for="input">{label}</label>
-	<input type={inputType} {disabled} {value} {name} on:input={handleChange} />
+	<input type={inputType} {disabled} {value} {name} {placeholder} on:input={handleChange} />
 </div>
 
 <style>
@@ -52,6 +53,7 @@
 		padding-block: 0.5rem;
 		font-size: var(--body);
 		font-family: var(--bodyFont);
+		font-weight: bold;
 		color: var(--foregroundColor);
 		background-color: transparent;
 		border-radius: var(--border-radius);
@@ -65,6 +67,9 @@
 	.input-container input[type='number']::-webkit-outer-spin-button,
 	.input-container input::-webkit-inner-spin-button {
 		-webkit-appearance: none;
+	}
+	.input-container input::placeholder {
+		color: var(--mutedColor);
 	}
 
 	.disabled input {

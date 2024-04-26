@@ -44,3 +44,12 @@ export type sectionsGraph =
 				sections: ({ subcategories: string; sections: string[] } | string)[];
 			}[];
 	  };
+
+export type contribution = {
+	projectId: string;
+	role: 'owner' | 'manager' | 'writer';
+	writingTime: number;
+	projectName: string;
+	projectBanner: string;
+	creationDate: string;
+};
