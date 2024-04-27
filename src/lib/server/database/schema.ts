@@ -1,8 +1,8 @@
 import type {
 	banner,
-	projectColors,
-	projectFonts,
-	projectLogo,
+	writingColors,
+	writingFonts,
+	writingLogo,
 	sectionsGraph
 } from '$global/types.global';
 import {
@@ -17,7 +17,7 @@ import {
 	json,
 	integer
 } from 'drizzle-orm/pg-core';
-import type { blocks } from '@altron/altron/types';
+import type { dataBlock } from '@altron/altron/types';
 
 export const userTable = pgTable('user', {
 	id: varchar('id', { length: 8 }).notNull().primaryKey(),
@@ -56,37 +56,39 @@ export const keyTable = pgTable(
 	}
 );
 
-export const projectTable = pgTable('project', {
+export const writingTable = pgTable('writing', {
 	id: varchar('id', { length: 8 }).primaryKey().notNull(),
 	name: text('name').notNull(),
-	description: text('description').notNull(),
+	description: text('description').notNull().default(''),
 	banner: json('banner').$type<banner>().default({ type: 'color', value: '6f3dd4' }),
 	creationDate: date('creation_date').default(new Date().toUTCString()),
 	multiTheme: boolean('mutli_theme').default(false),
 	withSearch: boolean('with_search').default(false),
-	logo: json('logo').$type<projectLogo>(),
+	logo: json('logo').$type<writingLogo>(),
 	fonts: json('fonts')
-		.$type<projectFonts>()
+		.$type<writingFonts>()
 		.default({
 			heading: { id: 'anek-tamil', subset: 'latin' },
 			body: { id: 'aileron', subset: 'latin' }
 		}),
 	colors: json('colors')
-		.$type<projectColors>()
+		.$type<writingColors>()
 		.default({ main: { text: 'dfdafa', bg: '040110', primary: '6f3dd4' } }),
-	tempalteName: text('template_name').$type<'sveltekitDocs' | 'nextDocs' | 'nuxtDocs'>().notNull(),
+	tempalteName: text('template_name')
+		.$type<'sveltekitDocs' | 'nextDocs' | 'nuxtDocs'>()
+		.default('nextDocs'),
 	sectionsGraph: json('sections_graph')
 		.$type<sectionsGraph>()
 		.default({ type: 'tier0', section: '' })
 });
 
-export const projectLinksTable = pgTable(
-	'project_links',
+export const writingLinksTable = pgTable(
+	'writing_links',
 	{
 		header: text('header').notNull(),
-		projectId: varchar('project_id', { length: 8 })
+		writingId: varchar('writing_id', { length: 8 })
 			.notNull()
-			.references(() => projectTable.id, {
+			.references(() => writingTable.id, {
 				onDelete: 'cascade'
 			}),
 		description: text('descritpion').notNull(),
@@ -94,22 +96,22 @@ export const projectLinksTable = pgTable(
 	},
 	(table) => {
 		return {
-			pk: primaryKey({ columns: [table.header, table.projectId] })
+			pk: primaryKey({ columns: [table.header, table.writingId] })
 		};
 	}
 );
 
-export const projectContributors = pgTable(
-	'project_contributors',
+export const writingContributors = pgTable(
+	'writing_contributors',
 	{
 		userId: varchar('user_id', { length: 8 })
 			.notNull()
 			.references(() => userTable.id, {
 				onDelete: 'cascade'
 			}),
-		projectId: varchar('project_id', { length: 8 })
+		writingId: varchar('writing_id', { length: 8 })
 			.notNull()
-			.references(() => projectTable.id, {
+			.references(() => writingTable.id, {
 				onDelete: 'cascade'
 			}),
 		role: text('role').$type<'owner' | 'manager' | 'writer'>().notNull(),
@@ -118,19 +120,19 @@ export const projectContributors = pgTable(
 	},
 	(table) => {
 		return {
-			pk: primaryKey({ columns: [table.userId, table.projectId] })
+			pk: primaryKey({ columns: [table.userId, table.writingId] })
 		};
 	}
 );
 
 // after one minut reading
-export const projectViewsTable = pgTable('project_views', {
+export const writingViewsTable = pgTable('writing_views', {
 	id: serial('id').notNull().primaryKey(),
 	// it only considered  a view if reading time exceed certain limit
 	timestamp: timestamp('timestamp', { mode: 'date', withTimezone: true }),
-	projectId: varchar('project_id', { length: 8 })
+	writingId: varchar('writing_id', { length: 8 })
 		.notNull()
-		.references(() => projectTable.id, {
+		.references(() => writingTable.id, {
 			onDelete: 'cascade'
 		})
 });
@@ -138,19 +140,10 @@ export const projectViewsTable = pgTable('project_views', {
 export const sectionsTable = pgTable('sections', {
 	id: varchar('id', { length: 8 }).notNull().primaryKey(),
 	name: text('name'),
-	projectId: varchar('project_id', { length: 8 })
+	content: json('content').array().$type<dataBlock[]>().notNull(),
+	writingId: varchar('writing_id', { length: 8 })
 		.notNull()
-		.references(() => projectTable.id, {
+		.references(() => writingTable.id, {
 			onDelete: 'cascade'
 		})
-});
-
-export const blocksTable = pgTable('blocks', {
-	id: varchar('id', { length: 8 }).notNull().primaryKey(),
-	name: text('type').$type<blocks>().notNull(),
-	data: json('data').notNull(),
-	order: integer('order').notNull(),
-	sectionId: varchar('section_id', { length: 8 })
-		.notNull()
-		.references(() => sectionsTable.id, { onDelete: 'cascade' })
 });

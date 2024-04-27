@@ -27,7 +27,12 @@
 				<SyncButton text="Delete account" type="danger" on:click={open} />
 			</svelte:fragment>
 			<form
-				use:enhance
+				use:enhance={() => {
+					return ({ update }) => {
+						close();
+						update();
+					};
+				}}
 				action="?/deleteAccount"
 				method="post"
 				class="deleteForm"
@@ -51,7 +56,7 @@
 							cancelAction(e, close);
 						}}
 					/>
-					<SyncButton text="Confirm" type="danger" on:click={() => close()} />
+					<SyncButton text="Confirm" type="danger" />
 				</section>
 			</form>
 		</Dialog>

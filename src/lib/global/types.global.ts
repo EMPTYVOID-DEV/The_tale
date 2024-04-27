@@ -13,17 +13,17 @@ type fontDescritpion = {
  * main in case one theme system
  * extra in case we have light and dark (extra is dark)
  */
-export type projectColors = {
+export type writingColors = {
 	main: colorSet;
 	extra?: colorSet;
 };
 
-export type projectFonts = {
+export type writingFonts = {
 	heading: fontDescritpion;
 	body: fontDescritpion;
 };
 
-export type projectLogo = {
+export type writingLogo = {
 	type: 'url' | 'text';
 	value: string;
 };
@@ -46,9 +46,9 @@ export type sectionsGraph =
 	  };
 
 export type contribution = {
-	projectId: string;
+	writingId: string;
 	role: 'owner' | 'manager' | 'writer';
 	writingTime: number;
-	projectName: string;
-	projectBanner: banner;
+	writingName: string;
+	writingBanner: banner;
 };

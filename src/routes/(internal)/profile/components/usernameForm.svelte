@@ -4,7 +4,7 @@
 	import { showToast } from '$client/utils.client';
 	import SyncButton from '$components/button/syncButton.svelte';
 	import ReactiveInput from '$components/input/reactiveInput.svelte';
-	import { validateUsername } from '$global/zod/authSchema';
+	import { validateUsername } from '$global/zod';
 	import type { SubmitFunction } from '@sveltejs/kit';
 
 	$: username = $page.data.username;

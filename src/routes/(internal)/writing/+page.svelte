@@ -1,10 +1,19 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import Dialog from '$components/other/dialog.svelte';
 	import StaticInput from '$components/input/staticInput.svelte';
-	import ProjectBanner from '$components/other/banner.svelte';
+	import WritingBanner from '$components/other/banner.svelte';
 	import Select from '$components/other/select.svelte';
 	import type { contribution } from '$global/types.global';
 	import PlusIcon from '$icons/plusIcon.svelte';
+	import ReactiveInput from '$components/input/reactiveInput.svelte';
+	import { validateWritingName } from '$global/zod';
+	import SyncButton from '$components/button/syncButton.svelte';
+	import { quadInOut } from 'svelte/easing';
+	import { scale } from 'svelte/transition';
+	import { enhance } from '$app/forms';
+	import { showToast } from '$client/utils.client';
+	import { Toaster } from 'svelte-sonner';
 	let contributions: contribution[] = $page.data.contributions as contribution[];
 	const rolesOrder = ['writer', 'manager', 'owner'];
 	const elements: { value: 'name' | 'role' | 'writingTime'; label: string }[] = [
@@ -43,12 +52,12 @@
 	function filter(query: string) {
 		const fullContributions = $page.data.contributions as contribution[];
 		if (query == '') contributions = fullContributions;
-		else contributions = fullContributions.filter((el) => el.projectName.includes(query));
+		else contributions = fullContributions.filter((el) => el.writingName.includes(query));
 	}
 
 	function order(orderCriteria: 'name' | 'role' | 'writingTime') {
 		if (orderCriteria == 'name')
-			contributions = contributions.sort((a, b) => sortNames(a.projectName, b.projectName));
+			contributions = contributions.sort((a, b) => sortNames(a.writingName, b.writingName));
 		else if (orderCriteria == 'writingTime')
 			contributions = contributions.sort((a, b) => b.writingTime - a.writingTime);
 		else
@@ -69,19 +78,48 @@
 				clearable={false}
 				on:change={(e) => order(e.detail.selected[0].value)}
 			/>
-			<button class="add">
-				<PlusIcon />
-				<span>new writing</span>
-			</button>
+			<Dialog let:close>
+				<svelte:fragment let:open slot="trigger">
+					<button class="add" on:click={() => open()}>
+						<PlusIcon />
+						<span>new writing</span>
+					</button>
+				</svelte:fragment>
+
+				<form
+					use:enhance={async () => {
+						return ({ result, update }) => {
+							//@ts-ignore
+							if (result.type == 'failure') showToast('Error', result.data.message, 'danger');
+							else {
+								close();
+								update();
+							}
+						};
+					}}
+					method="post"
+					class="addwriting"
+					transition:scale={{ duration: 520, easing: quadInOut, start: 0, opacity: 0.2 }}
+				>
+					<h3>Create a new writing</h3>
+					<ReactiveInput
+						checkFunction={validateWritingName}
+						label="Writing name"
+						name="writingName"
+					/>
+					<SyncButton text="Create writing" --width="100%" />
+				</form>
+				<Toaster expand duration={3500} />
+			</Dialog>
 		</div>
 	</section>
 	<section class="list">
 		{#each contributions as contribution}
-			<a href="/writing/{contribution.projectId}" class="writingLink">
-				<ProjectBanner banner={contribution.projectBanner} />
+			<a href="/writing/{contribution.writingId}" class="writingLink">
+				<WritingBanner banner={contribution.writingBanner} />
 				<div class="layer">
-					<span>{contribution.projectName}</span>
-					<span>{contribution.projectId}</span>
+					<span>{contribution.writingName}</span>
+					<span>id-{contribution.writingId}</span>
 				</div>
 				<div class="layer">
 					<span>Role</span>
@@ -181,6 +219,18 @@
 		color: var(--foregroundColor);
 	}
 
+	.addwriting {
+		width: 40vw;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.75rem;
+	}
+
+	.addwriting h3 {
+		color: var(--foregroundColor);
+	}
+
 	@media screen and (width < 764px) {
 		.control {
 			flex-wrap: wrap;
@@ -191,6 +241,9 @@
 		}
 		.add span {
 			display: none;
+		}
+		.addwriting {
+			width: 90vw;
 		}
 	}
 </style>

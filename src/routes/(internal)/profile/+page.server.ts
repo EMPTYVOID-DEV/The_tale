@@ -4,7 +4,7 @@ import { checkSize, checkType } from '$global/utils.global';
 import { db } from '$server/database/database';
 import { userTable } from '$server/database/schema';
 import { eq } from 'drizzle-orm';
-import { validateUsername } from '$global/zod/authSchema';
+import { validateUsername } from '$global/zod';
 import { lucia } from '$server/auth/lucia';
 
 export const actions: Actions = {

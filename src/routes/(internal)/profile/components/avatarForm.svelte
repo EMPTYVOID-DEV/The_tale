@@ -3,9 +3,11 @@
 	import { page } from '$app/stores';
 	import type { changeEvent } from '$client/types.client';
 	import { showToast } from '$client/utils.client';
-	import SyncButton from '$components/button/syncButton.svelte';
+	import AsyncButton from '$components/button/asyncButton.svelte';
 	import { checkType, checkSize } from '$global/utils.global';
 	import type { SubmitFunction } from '@sveltejs/kit';
+
+	let state: 'idle' | 'loading' = 'idle';
 	$: avatar = $page.data.avatar;
 
 	function handleChange(e: changeEvent<HTMLInputElement>) {
@@ -16,9 +18,11 @@
 	}
 
 	const changeAvatar: SubmitFunction = async () => {
+		state = 'loading';
 		return ({ result, update }) => {
 			if (result.type == 'failure') showToast('Error', result.data.message, 'danger');
 			if (result.type == 'success') showToast('Success', 'We updated your avatar.', 'success');
+			state = 'idle';
 			update();
 		};
 	};
@@ -47,7 +51,7 @@
 	</section>
 	<section class="submitter">
 		<span>Only images under or equal to 1.2mb are accepted.</span>
-		<SyncButton text="save" type="passive" />
+		<AsyncButton text="save" type="passive" {state} />
 	</section>
 </form>
 

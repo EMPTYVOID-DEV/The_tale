@@ -1,5 +1,5 @@
 import { dev } from '$app/environment';
-import { validateEmail, validatePassword } from '$global/zod/authSchema';
+import { validateEmail, validatePassword } from '$global/zod';
 import { sendVerificationEmail } from '$lib/server/auth/email';
 import { db } from '$server/database/database';
 import { keyTable } from '$server/database/schema';

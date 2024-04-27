@@ -1,5 +1,5 @@
 <script>
-	// TODO: add as jsdoc comments that side of container inside the dialog should be in view-ports not percentage
+	// TODO: add as jsdoc comments that  inside the dialog should be in view-ports not percentage
 	import { tick } from 'svelte';
 	/**@type {HTMLDialogElement}*/
 	let dialogRef;

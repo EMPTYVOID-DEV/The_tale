@@ -2,6 +2,8 @@ import { z } from 'zod';
 
 export const emailSchema = z.string().email('Invalid email address');
 
+export const isNumberSchema = z.string().max(1).regex(/^\d$/);
+
 const passwordSchema = z
 	.string()
 	.min(8, { message: 'Password must be at least 8 characters long' })
@@ -18,6 +20,20 @@ const usernameSchema = z
 		message: 'Username must at least 4 characters long'
 	})
 	.max(28, { message: 'Username must be no bigger than 28 characters' });
+
+const writingNameSchema = z
+	.string()
+	.min(4, { message: 'Writing name must be at least four letters' })
+	.max(32, { message: 'Writing name must no bigger than 32 characters' });
+
+export function validateWritingName(name: string): {
+	state: 'valid' | 'invalid';
+	errorMsg: string;
+} {
+	const parseResult = writingNameSchema.safeParse(name);
+	if (parseResult.success == true) return { state: 'valid', errorMsg: '' };
+	else return { state: 'invalid', errorMsg: parseResult.error.errors[0].message };
+}
 
 export function validateUsername(username: string): {
 	state: 'valid' | 'invalid';

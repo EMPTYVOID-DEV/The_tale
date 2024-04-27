@@ -1,5 +1,4 @@
 <script>
-	import { createEventDispatcher } from 'svelte';
 	import LoadingIcon from '$icons/loadingIcon.svelte';
 
 	/**@type {string}*/
@@ -8,40 +7,23 @@
 	/**@type {import("$client/types.client").iconComponent|null} */
 	export let icon = null;
 
-	/**@type {import("$client/types.client").asyncButtonAction} This needs to be an async function that handles the button click*/
-	export let action;
-
 	/**@type {"disabled"|"passive"|"primary"|"secondary"|"danger"} */
 	export let type = 'primary';
 
-	const dispatcher = createEventDispatcher();
-
 	/**@type {"idle"|"loading"}*/
-	let state = 'idle';
+	export let state = 'idle';
 
 	/**
 	 * @function handleClick This function will take care of state changes
 	 * @param {MouseEvent} event
 	 */
-	async function handleClick(event) {
-		if (state == 'loading') return;
-		state = 'loading';
-		try {
-			const data = await action(event);
-			dispatcher('resolve', { data });
-		} catch (error) {
-			dispatcher('rejected', { error });
-		} finally {
-			state = 'idle';
-		}
-	}
 </script>
 
 <button
-	disabled={type == 'disabled'}
+	on:click
+	disabled={type == 'disabled' || state == 'loading'}
 	class:loading={state == 'loading'}
 	class={type}
-	on:click={handleClick}
 >
 	{#if state == 'loading'}
 		<LoadingIcon />

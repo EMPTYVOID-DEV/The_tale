@@ -56,7 +56,7 @@
 	}
 	.error {
 		width: 100vw;
-		flex-grow: 1;
+		height: 100vh;
 		display: flex;
 		flex-direction: column;
 		gap: 20px;

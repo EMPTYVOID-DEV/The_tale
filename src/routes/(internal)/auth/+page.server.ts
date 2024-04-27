@@ -3,7 +3,7 @@ import { keyTable } from '$server/database/schema';
 import { createSession } from '$server/utils/authUtils';
 import { insertUser } from '$server/utils/databaseUtils';
 import type { key, user } from '$server/types.server';
-import { validateEmail, validatePassword, validateUsername } from '$global/zod/authSchema';
+import { validateEmail, validatePassword, validateUsername } from '$global/zod';
 import { error, type Actions, redirect } from '@sveltejs/kit';
 import { and, eq } from 'drizzle-orm';
 import { generateId } from 'lucia';

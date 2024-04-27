@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { showToast } from '$client/utils.client';
 	import Otp from '$client/ui/components/other/otp.svelte';
-	import { isNumberSchema } from '$global/zod/generalSchema';
+	import { isNumberSchema } from '$global/zod';
 	import MailBox from '$assets/images/mailBox.svg';
 	import EmailSent from '$assets/images/mailSent.svg';
 	import SyncButton from '$components/button/syncButton.svelte';
@@ -10,7 +10,7 @@
 	import { enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import ReactiveInput from '$components/input/reactiveInput.svelte';
-	import { validateEmail, validatePassword } from '$global/zod/authSchema';
+	import { validateEmail, validatePassword } from '$global/zod';
 	let otpString = '';
 	let state: 'send' | 'verify' | 'reset' = 'send';
 	let email = '';

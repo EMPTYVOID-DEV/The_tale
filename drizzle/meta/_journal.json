@@ -1,54 +1,12 @@
 {
   "version": "5",
-  "dialect": "sqlite",
+  "dialect": "pg",
   "entries": [
     {
       "idx": 0,
       "version": "5",
-      "when": 1711933759576,
-      "tag": "0000_powerful_lilandra",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1712192344074,
-      "tag": "0001_military_mandrill",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1712192405027,
-      "tag": "0002_smooth_leader",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1713102213823,
-      "tag": "0003_bitter_luckman",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1713954275331,
-      "tag": "0004_tearful_power_pack",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "5",
-      "when": 1714048393582,
-      "tag": "0005_solid_nekra",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "5",
-      "when": 1714123504221,
-      "tag": "0006_freezing_sharon_carter",
+      "when": 1714242045803,
+      "tag": "0000_salty_jimmy_woo",
       "breakpoints": true
     }
   ]
