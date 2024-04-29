@@ -114,7 +114,7 @@ export const writingContributors = pgTable(
 			.references(() => writingTable.id, {
 				onDelete: 'cascade'
 			}),
-		role: text('role').$type<'owner' | 'manager' | 'writer'>().notNull(),
+		role: text('role').$type<'owner' | 'writer'>().notNull(),
 		// check writing time in seconds when they enter writing page until they save.
 		writingTime: integer('writing_time').default(0)
 	},
@@ -125,10 +125,14 @@ export const writingContributors = pgTable(
 	}
 );
 
-// after one minut reading
+/**
+ * we track writing views per day
+ * any user whether authenticated or not enters and view the writing for specific amount of time we consider it a value
+ * for the rest of the day any view from same user is rejected
+ * we can use either localStorage or cookies to track the old view
+ * */
 export const writingViewsTable = pgTable('writing_views', {
 	id: serial('id').notNull().primaryKey(),
-	// it only considered  a view if reading time exceed certain limit
 	timestamp: timestamp('timestamp', { mode: 'date', withTimezone: true }),
 	writingId: varchar('writing_id', { length: 8 })
 		.notNull()

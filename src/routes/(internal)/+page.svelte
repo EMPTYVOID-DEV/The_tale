@@ -7,7 +7,9 @@
 
 <div class="home">
 	<div class="wrapper">
-		<h1>Craft Your Tale, Your Way</h1>
+		<h1>
+			Craft Stunning Content Experiences with <span class="attention">The_tale</span>
+		</h1>
 		<p>
 			Blogs, articles, docs or presentations? Tale's your go-to platform. Compose with a rich text
 			editor, format with flair. Templates, navigation, search - polished content anywhere.
@@ -27,7 +29,7 @@
 				--padding-block=".75rem"
 				text={isAuthenticated ? 'continue writing' : 'start writing'}
 				on:click={() => {
-					if (isAuthenticated) goto('/writing');
+					if (isAuthenticated) goto('/mywritings');
 					else goto('/auth');
 				}}
 			/>
@@ -62,6 +64,12 @@
 	.wrapper h1 {
 		color: var(--foregroundColor);
 		text-align: center;
+	}
+
+	.wrapper h1 .attention {
+		font-size: var(--h1);
+		font-family: var(--headerFont);
+		color: var(--primaryColor);
 	}
 
 	.wrapper p {

@@ -44,6 +44,6 @@ export const actions: Actions = {
 				.returning({ userId: keyTable.userId })
 		)[0];
 		await createSession(cookies, userKey.userId).catch(() => error(500, 'Service unavailable'));
-		redirect(302, '/writing');
+		redirect(302, '/mywritings');
 	}
 };

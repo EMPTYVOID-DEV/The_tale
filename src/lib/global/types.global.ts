@@ -47,7 +47,7 @@ export type sectionsGraph =
 
 export type contribution = {
 	writingId: string;
-	role: 'owner' | 'manager' | 'writer';
+	role: 'owner' | 'writer';
 	writingTime: number;
 	writingName: string;
 	writingBanner: banner;

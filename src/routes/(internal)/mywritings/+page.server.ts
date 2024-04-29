@@ -12,6 +12,6 @@ export const actions: Actions = {
 		const writingId = await addWriting(userId, writingName).catch(() =>
 			error(500, 'Service Unavailable')
 		);
-		redirect(302, `/writing/${writingId}`);
+		redirect(302, `/mywritings/${writingId}/settings`);
 	}
 };

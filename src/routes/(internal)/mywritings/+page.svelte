@@ -15,7 +15,7 @@
 	import { showToast } from '$client/utils.client';
 	import { Toaster } from 'svelte-sonner';
 	let contributions: contribution[] = $page.data.contributions as contribution[];
-	const rolesOrder = ['writer', 'manager', 'owner'];
+	const rolesOrder = ['writer', 'owner'];
 	const elements: { value: 'name' | 'role' | 'writingTime'; label: string }[] = [
 		{
 			value: 'name',
@@ -68,7 +68,7 @@
 	order('name');
 </script>
 
-<div class="writing">
+<div class="myWritings">
 	<section class="control">
 		<StaticInput placeholder="Search for a writing" on:change={(e) => filter(e.detail.value)} />
 		<div class="actions">
@@ -115,7 +115,7 @@
 	</section>
 	<section class="list">
 		{#each contributions as contribution}
-			<a href="/writing/{contribution.writingId}" class="writingLink">
+			<a href="/mywritings/{contribution.writingId}/settings" class="writingLink">
 				<WritingBanner banner={contribution.writingBanner} />
 				<div class="layer">
 					<span>{contribution.writingName}</span>
@@ -135,7 +135,7 @@
 </div>
 
 <style>
-	.writing {
+	.myWritings {
 		width: 100%;
 		flex-grow: 1;
 		display: flex;

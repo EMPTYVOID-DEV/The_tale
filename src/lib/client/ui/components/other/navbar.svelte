@@ -48,10 +48,10 @@
 		/>
 		{#if isAuthenticated}
 			<Link
-				href="/writing"
-				text="writing"
+				href="/mywritings"
+				text="my-writings"
 				isBlank={false}
-				active={activeRoute == '/writing'}
+				active={activeRoute == '/mywritings'}
 				on:click={() => (mobileAppear = false)}
 			/>
 			<Avatar

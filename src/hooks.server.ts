@@ -28,9 +28,9 @@ const luciaHook: Handle = async ({ event, resolve }) => {
 	}
 
 	const pathname = event.url.pathname;
-	if (!event.locals.user && (pathname == '/profile' || pathname == '/writing'))
+	if (!event.locals.user && (pathname == '/profile' || pathname == '/mywritings'))
 		redirect(302, '/auth');
-	if (event.locals.user && pathname == '/auth') redirect(302, '/writing');
+	if (event.locals.user && pathname == '/auth') redirect(302, '/mywritings');
 
 	return resolve(event);
 };
