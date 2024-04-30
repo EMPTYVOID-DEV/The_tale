@@ -1,6 +1,9 @@
 import { lucia } from '$server/auth/lucia';
+import { db } from '$server/database/database';
+import { writingContributors } from '$server/database/schema';
 import { redirect, type Handle } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
+import { and, eq } from 'drizzle-orm';
 
 const luciaHook: Handle = async ({ event, resolve }) => {
 	const sessionId = event.cookies.get(lucia.sessionCookieName);
@@ -26,13 +29,23 @@ const luciaHook: Handle = async ({ event, resolve }) => {
 		event.locals.user = user;
 		event.locals.session = session;
 	}
-
-	const pathname = event.url.pathname;
-	if (!event.locals.user && (pathname == '/profile' || pathname == '/mywritings'))
-		redirect(302, '/auth');
-	if (event.locals.user && pathname == '/auth') redirect(302, '/mywritings');
-
 	return resolve(event);
 };
 
-export const handle = sequence(luciaHook);
+const authHook: Handle = async ({ resolve, event }) => {
+	const user = event.locals.user;
+	const pathname = event.url.pathname;
+	if (!user && (pathname == '/profile' || pathname.startsWith('/mywritings')))
+		redirect(302, '/auth');
+	if (user && pathname == '/auth') redirect(302, '/mywritings');
+	const writingId = event.params.writingId;
+	if (!writingId) return resolve(event);
+	const userId = user.id;
+	const isPermitted = await db.query.writingContributors.findFirst({
+		where: and(eq(writingContributors.writingId, writingId), eq(writingContributors.userId, userId))
+	});
+	if (!isPermitted) redirect(302, '/mywritings');
+	return resolve(event);
+};
+
+export const handle = sequence(luciaHook, authHook);

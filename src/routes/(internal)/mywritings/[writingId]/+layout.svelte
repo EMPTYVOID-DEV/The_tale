@@ -29,6 +29,7 @@
 			goto(`${activeTab}`);
 		}}
 	/>
+	<h1 class="title">{pathname}</h1>
 	<slot />
 </div>
 
@@ -39,5 +40,10 @@
 		display: flex;
 		flex-direction: column;
 		padding-inline: 2.5%;
+	}
+	.title {
+		text-transform: capitalize;
+		color: var(--primaryColor);
+		margin-block: 1.5rem;
 	}
 </style>
