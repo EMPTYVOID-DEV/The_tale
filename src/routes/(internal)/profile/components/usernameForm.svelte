@@ -4,6 +4,7 @@
 	import { showToast } from '$client/utils.client';
 	import SyncButton from '$components/button/syncButton.svelte';
 	import ReactiveInput from '$components/input/reactiveInput.svelte';
+	import FormWrapper from '$components/other/formWrapper.svelte';
 	import { validateUsername } from '$global/zod';
 	import type { SubmitFunction } from '@sveltejs/kit';
 
@@ -18,30 +19,19 @@
 	};
 </script>
 
-<form action="?/changeUsername" method="post" class="username-form" use:enhance={changeUsername}>
+<FormWrapper actionName="?/changeUsername" action={changeUsername}>
 	<section class="input">
 		<h3>Username</h3>
 		<span>You can change the username to your liking.</span>
 		<ReactiveInput name="username" value={username} checkFunction={validateUsername} />
 	</section>
-	<section class="submitter">
-		<span>Username must between 4 and 28 characters long.</span>
+	<svelte:fragment slot="submitter">
+		<span class="description">Username must between 4 and 28 characters long.</span>
 		<SyncButton text="save" type="passive" />
-	</section>
-</form>
+	</svelte:fragment>
+</FormWrapper>
 
 <style>
-	.username-form {
-		--mixed-light: color-mix(in srgb, var(--foregroundColor) 8%, transparent 92%);
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		background-color: var(--mixed-light);
-		border: 1px solid var(--mutedColor);
-		border-radius: var(--border-radius);
-		overflow: hidden;
-	}
-
 	.input {
 		width: 100%;
 		display: flex;
@@ -55,18 +45,7 @@
 	.input span {
 		color: var(--foregroundColor);
 	}
-
-	.submitter {
-		width: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		padding-inline: 1rem;
-		padding-block: 0.5rem;
-		border-top: 1px solid var(--mutedColor);
-	}
-
-	.submitter span {
+	.description {
 		color: var(--mutedColor);
 	}
 

@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	import { showToast } from '$client/utils.client';
 	import SyncButton from '$components/button/syncButton.svelte';
+	import FormWrapper from '$components/other/formWrapper.svelte';
 	import type { SubmitFunction } from '@sveltejs/kit';
 
 	const logout: SubmitFunction = async () => {
@@ -12,7 +13,7 @@
 	};
 </script>
 
-<form class="logout-form" action="?/logout" method="post" use:enhance={logout}>
+<FormWrapper action={logout} actionName="?/logout" --justify="flex-end">
 	<section class="input">
 		<h3>Logout</h3>
 		<span
@@ -21,23 +22,12 @@
 			unauthorized.
 		</span>
 	</section>
-	<div class="submitter">
+	<svelte:fragment slot="submitter">
 		<SyncButton text="Logout" type="passive" />
-	</div>
-</form>
+	</svelte:fragment>
+</FormWrapper>
 
 <style>
-	.logout-form {
-		--mixed-light: color-mix(in srgb, var(--foregroundColor) 8%, transparent 92%);
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		background-color: var(--mixed-light);
-		border: 1px solid var(--mutedColor);
-		border-radius: var(--border-radius);
-		overflow: hidden;
-	}
-
 	.input {
 		display: flex;
 		flex-direction: column;
@@ -51,15 +41,6 @@
 		color: var(--foregroundColor);
 	}
 
-	.submitter {
-		width: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: flex-end;
-		padding-inline: 1rem;
-		padding-block: 0.5rem;
-		border-top: 1px solid var(--mutedColor);
-	}
 	@media screen and (max-width: 768px) {
 		.input {
 			--width: 80%;

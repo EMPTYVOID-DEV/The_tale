@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
 	import type { changeEvent } from '$client/types.client';
 	import { showToast } from '$client/utils.client';
 	import AsyncButton from '$components/button/asyncButton.svelte';
+	import FormWrapper from '$components/other/formWrapper.svelte';
 	import { checkType, checkSize } from '$global/utils.global';
 	import type { SubmitFunction } from '@sveltejs/kit';
 
@@ -28,13 +28,7 @@
 	};
 </script>
 
-<form
-	action="?/changeAvatar"
-	method="post"
-	class="avatar-form"
-	enctype="multipart/form-data"
-	use:enhance={changeAvatar}
->
+<FormWrapper action={changeAvatar} actionName="?/changeAvatar">
 	<section class="input">
 		<div class="info">
 			<h3>Avatar</h3>
@@ -49,24 +43,14 @@
 			{/if}
 		</label>
 	</section>
-	<section class="submitter">
-		<span>Only images under or equal to 1.2mb are accepted.</span>
+
+	<svelte:fragment slot="submitter">
+		<span class="description">Only images under or equal to 1.2mb are accepted.</span>
 		<AsyncButton text="save" type="passive" {state} />
-	</section>
-</form>
+	</svelte:fragment>
+</FormWrapper>
 
 <style>
-	.avatar-form {
-		--mixed-light: color-mix(in srgb, var(--foregroundColor) 8%, transparent 92%);
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		background-color: var(--mixed-light);
-		border: 1px solid var(--mutedColor);
-		border-radius: var(--border-radius);
-		overflow: hidden;
-	}
-
 	.input {
 		display: flex;
 		align-items: center;
@@ -113,18 +97,7 @@
 		height: 100%;
 		background: radial-gradient(circle at center, var(--primaryColor), var(--foregroundColor));
 	}
-
-	.submitter {
-		width: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		padding-inline: 1rem;
-		padding-block: 0.5rem;
-		border-top: 1px solid var(--mutedColor);
-	}
-
-	.submitter span {
+	.description {
 		color: var(--mutedColor);
 	}
 </style>
