@@ -2,20 +2,49 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import Tabs from '$components/other/tabs.svelte';
+	import type { iconComponent } from '$client/types.client';
+	import type { contribution } from '$global/types.global';
 	import DashboardIcon from '$icons/dashboardIcon.svelte';
+	import LinkIcon from '$icons/linkIcon.svelte';
+	import PeopleIcon from '$icons/peopleIcon.svelte';
 	import SettingsIcon from '$icons/settingsIcon.svelte';
+	import TemplateIcon from '$icons/templateIcon.svelte';
 	import WritingIcon from '$icons/writingIcon.svelte';
-	const tabs: { icon?: import('$client/types.client').iconComponent; title: string }[] = [
-		{ title: 'dashboard', icon: DashboardIcon },
-		{
-			title: 'content',
-			icon: WritingIcon
-		},
-		{
-			title: 'settings',
-			icon: SettingsIcon
-		}
-	];
+
+	function getWritingTabs() {
+		const writerTabs: { icon?: iconComponent; title: string }[] = [
+			{ title: 'dashboard', icon: DashboardIcon },
+			{
+				title: 'content',
+				icon: WritingIcon
+			},
+			{
+				title: 'references',
+				icon: LinkIcon
+			}
+		];
+		const ownerTabs: { icon?: iconComponent; title: string }[] = [
+			{
+				title: 'template',
+				icon: TemplateIcon
+			},
+			{
+				title: 'contributors',
+				icon: PeopleIcon
+			},
+			{
+				title: 'general',
+				icon: SettingsIcon
+			}
+		];
+		const writingId = $page.params.writingId;
+		const contributions = ($page.data.contributions as contribution[]) || [];
+		const isOwner = contributions.find((el) => el.writingId == writingId).role == 'owner';
+		if (isOwner) return writerTabs.concat(ownerTabs);
+		return writerTabs;
+	}
+
+	const tabs = getWritingTabs();
 	$: pathname = $page.url.pathname.split('/').at(-1);
 	$: activeTab = tabs.findIndex((el) => el.title == pathname);
 </script>
@@ -44,6 +73,7 @@
 	.title {
 		text-transform: capitalize;
 		color: var(--primaryColor);
-		margin-block: 1.5rem;
+		margin-top: 2rem;
+		margin-bottom: 0.5rem;
 	}
 </style>

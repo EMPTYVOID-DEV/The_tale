@@ -1,6 +1,6 @@
 import { error, fail, redirect, type Actions } from '@sveltejs/kit';
 import { uploadFile } from '$server/utils/uploadFile';
-import { checkSize, checkType } from '$global/utils.global';
+import { checkSize, checkType, destructorFileName } from '$global/utils.global';
 import { db } from '$server/database/database';
 import { userTable } from '$server/database/schema';
 import { eq } from 'drizzle-orm';
@@ -19,7 +19,8 @@ export const actions: Actions = {
 
 		try {
 			const { id } = locals.user;
-			const name = `${id}.${avatar.name.split('.').at(-1)}`;
+			const { extension, filename } = destructorFileName(avatar.name);
+			const name = `${filename}_${id}.${extension}`;
 			const url = await uploadFile(avatar, name, 'avatars');
 			await db.update(userTable).set({ avatar: url }).where(eq(userTable.id, id));
 		} catch (err) {

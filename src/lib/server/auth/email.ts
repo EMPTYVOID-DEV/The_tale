@@ -39,4 +39,3 @@ export async function sendVerificationEmail(
 	};
 	return transport.sendMail(mailOptions);
 }
-2;

@@ -14,7 +14,7 @@
 	import { enhance } from '$app/forms';
 	import { showToast } from '$client/utils.client';
 	import { Toaster } from 'svelte-sonner';
-	let contributions: contribution[] = $page.data.contributions as contribution[];
+	let contributions = $page.data.contributions as contribution[];
 	const rolesOrder = ['writer', 'owner'];
 	const elements: { value: 'name' | 'role' | 'writingTime'; label: string }[] = [
 		{
@@ -115,7 +115,7 @@
 	</section>
 	<section class="list">
 		{#each contributions as contribution}
-			<a href="/mywritings/{contribution.writingId}/settings" class="writingLink">
+			<a href="/mywritings/{contribution.writingId}/dashboard" class="writingLink">
 				<WritingBanner banner={contribution.writingBanner} />
 				<div class="layer">
 					<span>{contribution.writingName}</span>

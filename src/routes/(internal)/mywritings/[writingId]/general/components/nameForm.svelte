@@ -4,34 +4,34 @@
 	import { showToast } from '$client/utils.client';
 	import SyncButton from '$components/button/syncButton.svelte';
 	import ReactiveInput from '$components/input/reactiveInput.svelte';
-	import { validateUsername } from '$global/zod';
+	import { validateWritingName } from '$global/zod';
 	import type { SubmitFunction } from '@sveltejs/kit';
 
-	$: username = $page.data.username;
+	$: name = $page.data.settings.name;
 
-	const changeUsername: SubmitFunction = async () => {
+	const changeName: SubmitFunction = async () => {
 		return ({ result, update }) => {
 			if (result.type == 'failure') showToast('Failure', result.data.message, 'danger');
 			if (result.type == 'success') showToast('Success', 'We updated your username.', 'success');
-			update();
+			update({ reset: false });
 		};
 	};
 </script>
 
-<form action="?/changeUsername" method="post" class="username-form" use:enhance={changeUsername}>
+<form action="?/changeName" method="post" class="name-form" use:enhance={changeName}>
 	<section class="input">
-		<h3>Username</h3>
-		<span>You can change the username to your liking.</span>
-		<ReactiveInput name="username" value={username} checkFunction={validateUsername} />
+		<h3>Name</h3>
+		<span>You can change the writing name to your liking.</span>
+		<ReactiveInput name="name" value={name} checkFunction={validateWritingName} />
 	</section>
 	<section class="submitter">
-		<span>Username must between 4 and 28 characters long.</span>
+		<span>Writing name must betwee 4 and 32 characters.</span>
 		<SyncButton text="save" type="passive" />
 	</section>
 </form>
 
 <style>
-	.username-form {
+	.name-form {
 		--mixed-light: color-mix(in srgb, var(--foregroundColor) 8%, transparent 92%);
 		width: 100%;
 		display: flex;

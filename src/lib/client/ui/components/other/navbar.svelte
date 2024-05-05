@@ -51,11 +51,11 @@
 				href="/mywritings"
 				text="my-writings"
 				isBlank={false}
-				active={activeRoute == '/mywritings'}
+				active={activeRoute.startsWith('/mywritings')}
 				on:click={() => (mobileAppear = false)}
 			/>
 			<Avatar
-				active={activeRoute.startsWith('/profile')}
+				active={activeRoute == '/profile'}
 				on:click={() => {
 					goto('/profile');
 					mobileAppear = false;

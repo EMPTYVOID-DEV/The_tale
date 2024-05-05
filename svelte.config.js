@@ -17,16 +17,7 @@ const config = {
 		env: {
 			dir: './'
 		},
-		adapter: adapter(),
-		csp: {
-			mode: 'auto',
-			directives: {
-				'script-src': ['self']
-			}
-		},
-		csrf: {
-			checkOrigin: true
-		}
+		adapter: adapter()
 	}
 };
 

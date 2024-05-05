@@ -23,7 +23,7 @@ const usernameSchema = z
 
 const writingNameSchema = z
 	.string()
-	.min(4, { message: 'Writing name must be at least four letters' })
+	.min(4, { message: 'Writing name must be at least four characters' })
 	.max(32, { message: 'Writing name must no bigger than 32 characters' });
 
 export function validateWritingName(name: string): {

@@ -17,3 +17,8 @@ export function checkSize(sizeLimit: number, sizeInBytes: number) {
 	if (sizeInKilos <= sizeLimit) return true;
 	return false;
 }
+
+export function destructorFileName(name: string) {
+	const [filename, extension] = name.split('.');
+	return { filename, extension };
+}

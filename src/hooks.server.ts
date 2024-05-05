@@ -35,16 +35,36 @@ const luciaHook: Handle = async ({ event, resolve }) => {
 const authHook: Handle = async ({ resolve, event }) => {
 	const user = event.locals.user;
 	const pathname = event.url.pathname;
-	if (!user && (pathname == '/profile' || pathname.startsWith('/mywritings')))
-		redirect(302, '/auth');
-	if (user && pathname == '/auth') redirect(302, '/mywritings');
 	const writingId = event.params.writingId;
+	const userId = user?.id;
+
+	if (!user && (pathname === '/profile' || pathname.startsWith('/mywritings'))) {
+		redirect(302, '/auth');
+	}
+
+	if (user && pathname === '/auth') {
+		redirect(302, '/mywritings');
+	}
+
 	if (!writingId) return resolve(event);
-	const userId = user.id;
-	const isPermitted = await db.query.writingContributors.findFirst({
+
+	const contributor = await db.query.writingContributors.findFirst({
 		where: and(eq(writingContributors.writingId, writingId), eq(writingContributors.userId, userId))
 	});
-	if (!isPermitted) redirect(302, '/mywritings');
+
+	if (!contributor) {
+		redirect(302, '/mywritings');
+	}
+
+	const writingSection = pathname.split('/').at(-1);
+
+	if (
+		contributor.role === 'writer' &&
+		['template', 'general', 'contributors'].includes(writingSection)
+	) {
+		redirect(302, '/mywritings');
+	}
+
 	return resolve(event);
 };
 
