@@ -31,6 +31,7 @@
 		"otp-generator": "^4.0.1",
 		"pg": "^8.11.4",
 		"remove": "^0.1.5",
+		"svelte-awesome-color-picker": "^3.0.6",
 		"svelte-email": "^0.0.4",
 		"svelte-select": "^5.8.3",
 		"svelte-sonner": "^0.3.19",

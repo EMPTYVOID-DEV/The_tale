@@ -1,3 +1,5 @@
+import type { changeEvent } from '$client/types.client';
+
 export function checkType(attachmentTypes: string, type: string) {
 	const typeArray = type.split('/');
 	for (const v of attachmentTypes.split(',')) {
@@ -21,4 +23,12 @@ export function checkSize(sizeLimit: number, sizeInBytes: number) {
 export function destructorFileName(name: string) {
 	const [filename, extension] = name.split('.');
 	return { filename, extension };
+}
+
+export function imgHandler(e: changeEvent<HTMLInputElement>, cb: (url: string) => void) {
+	const file = e.currentTarget.files?.[0];
+	if (file && checkType('image/*', file.type) && checkSize(2500, file.size)) {
+		const url = URL.createObjectURL(file);
+		cb(url);
+	}
 }

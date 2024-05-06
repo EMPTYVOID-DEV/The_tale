@@ -2,30 +2,30 @@
 	import { page } from '$app/stores';
 	import { showToast } from '$client/utils.client';
 	import SyncButton from '$components/button/syncButton.svelte';
-	import ReactiveInput from '$components/input/reactiveInput.svelte';
 	import FormWrapper from '$components/other/formWrapper.svelte';
-	import { validateWritingName } from '$global/zod';
+	import TextArea from '$components/other/textArea.svelte';
 	import type { SubmitFunction } from '@sveltejs/kit';
 
-	$: name = $page.data.settings.name;
+	$: description = $page.data.settings.description;
 
-	const changeName: SubmitFunction = async () => {
+	const changeDescription: SubmitFunction = async () => {
 		return ({ result, update }) => {
 			if (result.type == 'failure') showToast('Failure', result.data.message, 'danger');
-			if (result.type == 'success') showToast('Success', 'The name has been updated', 'success');
+			if (result.type == 'success')
+				showToast('Success', 'The description has been updated.', 'success');
 			update({ reset: false });
 		};
 	};
 </script>
 
-<FormWrapper actionName="?/changeName" action={changeName}>
+<FormWrapper actionName="?/changeDescription" action={changeDescription}>
 	<section class="input">
-		<h3>Name</h3>
-		<span>You can change the writing name to your liking.</span>
-		<ReactiveInput name="name" value={name} checkFunction={validateWritingName} />
+		<h3>Description</h3>
+		<span>Writing description will give the readers an idea about the writing topic('s)</span>
+		<TextArea value={description} --height="160px" name="description" />
 	</section>
 	<svelte:fragment slot="submitter">
-		<span class="description">Writing name must betwee 4 and 32 characters.</span>
+		<span class="description">Writing description can't exceed 160 words.</span>
 		<SyncButton text="save" type="passive" />
 	</svelte:fragment>
 </FormWrapper>
@@ -37,7 +37,6 @@
 		flex-direction: column;
 		padding: 1rem;
 		gap: 0.75rem;
-		--width: 50%;
 	}
 
 	.input h3,
@@ -47,11 +46,5 @@
 
 	.description {
 		color: var(--mutedColor);
-	}
-
-	@media screen and (max-width: 768px) {
-		.input {
-			--width: 80%;
-		}
 	}
 </style>

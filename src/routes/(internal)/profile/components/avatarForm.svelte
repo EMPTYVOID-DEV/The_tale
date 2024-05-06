@@ -1,21 +1,13 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import type { changeEvent } from '$client/types.client';
 	import { showToast } from '$client/utils.client';
 	import AsyncButton from '$components/button/asyncButton.svelte';
 	import FormWrapper from '$components/other/formWrapper.svelte';
-	import { checkType, checkSize } from '$global/utils.global';
+	import { imgHandler } from '$global/utils.global';
 	import type { SubmitFunction } from '@sveltejs/kit';
 
 	let state: 'idle' | 'loading' = 'idle';
 	$: avatar = $page.data.avatar;
-
-	function handleChange(e: changeEvent<HTMLInputElement>) {
-		const file = e.currentTarget.files?.[0];
-		if (file && checkType('image/*', file.type) && checkSize(1200, file.size)) {
-			avatar = URL.createObjectURL(file);
-		}
-	}
 
 	const changeAvatar: SubmitFunction = async () => {
 		state = 'loading';
@@ -34,7 +26,15 @@
 			<h3>Avatar</h3>
 			<span>This is your avatar.<br />You can change it by clicking on it.</span>
 		</div>
-		<input type="file" id="avatarInput" name="avatar" accept="image/*" on:input={handleChange} />
+		<input
+			type="file"
+			id="avatarInput"
+			name="avatar"
+			accept="image/*"
+			on:input={(e) => {
+				imgHandler(e, (url) => (avatar = url));
+			}}
+		/>
 		<label for="avatarInput">
 			{#if avatar}
 				<img src={avatar} alt="avatarImg" />
@@ -45,7 +45,7 @@
 	</section>
 
 	<svelte:fragment slot="submitter">
-		<span class="description">Only images under or equal to 1.2mb are accepted.</span>
+		<span class="description">Only images under or equal to 2.5mb are accepted.</span>
 		<AsyncButton text="save" type="passive" {state} />
 	</svelte:fragment>
 </FormWrapper>

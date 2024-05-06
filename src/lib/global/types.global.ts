@@ -28,7 +28,7 @@ export type writingLogo = {
 	value: string;
 };
 
-export type banner = {
+export type background = {
 	type: 'url' | 'color';
 	value: string;
 };
@@ -50,5 +50,10 @@ export type contribution = {
 	role: 'owner' | 'writer';
 	writingTime: number;
 	writingName: string;
-	writingBanner: banner;
+	writingBanner: background;
+};
+
+export type actionStatus = {
+	state: 'valid' | 'invalid';
+	errorMsg: string;
 };

@@ -8,6 +8,20 @@
       "when": 1714242045803,
       "tag": "0000_salty_jimmy_woo",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1714979918169,
+      "tag": "0001_bumpy_scarecrow",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1714987659974,
+      "tag": "0002_nappy_thena",
+      "breakpoints": true
     }
   ]
 }

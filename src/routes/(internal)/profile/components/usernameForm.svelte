@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
 	import { showToast } from '$client/utils.client';
 	import SyncButton from '$components/button/syncButton.svelte';

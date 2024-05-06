@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import type { actionStatus } from './types.global';
 
 export const emailSchema = z.string().email('Invalid email address');
 
@@ -26,25 +27,33 @@ const writingNameSchema = z
 	.min(4, { message: 'Writing name must be at least four characters' })
 	.max(32, { message: 'Writing name must no bigger than 32 characters' });
 
-export function validateWritingName(name: string): {
-	state: 'valid' | 'invalid';
-	errorMsg: string;
-} {
+const writingDescriptionSchema = z.string().refine(
+	(val) => {
+		const wordCount = val.trim().split(/\s+/).length;
+		return wordCount <= 200;
+	},
+	{ message: 'The word count exceeded 160' }
+);
+
+export function validateWritingDescription(description: string): actionStatus {
+	const parseResult = writingDescriptionSchema.safeParse(description);
+	if (parseResult.success == true) return { state: 'valid', errorMsg: '' };
+	else return { state: 'invalid', errorMsg: parseResult.error.errors[0].message };
+}
+
+export function validateWritingName(name: string): actionStatus {
 	const parseResult = writingNameSchema.safeParse(name);
 	if (parseResult.success == true) return { state: 'valid', errorMsg: '' };
 	else return { state: 'invalid', errorMsg: parseResult.error.errors[0].message };
 }
 
-export function validateUsername(username: string): {
-	state: 'valid' | 'invalid';
-	errorMsg: string;
-} {
+export function validateUsername(username: string): actionStatus {
 	const parseResult = usernameSchema.safeParse(username);
 	if (parseResult.success == true) return { state: 'valid', errorMsg: '' };
 	else return { state: 'invalid', errorMsg: parseResult.error.errors[0].message };
 }
 
-export function validateEmail(email: string): { state: 'valid' | 'invalid'; errorMsg: string } {
+export function validateEmail(email: string): actionStatus {
 	const parseResult = emailSchema.safeParse(email);
 	if (parseResult.success == true)
 		return {
@@ -58,10 +67,7 @@ export function validateEmail(email: string): { state: 'valid' | 'invalid'; erro
 		};
 }
 
-export function validatePassword(password: string): {
-	state: 'valid' | 'invalid';
-	errorMsg: string;
-} {
+export function validatePassword(password: string): actionStatus {
 	const parseResult = passwordSchema.safeParse(password);
 	if (parseResult.success == true) return { state: 'valid', errorMsg: '' };
 	else return { state: 'invalid', errorMsg: parseResult.error.errors[0].message };

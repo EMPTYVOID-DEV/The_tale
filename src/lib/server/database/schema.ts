@@ -1,5 +1,5 @@
 import type {
-	banner,
+	background,
 	writingColors,
 	writingFonts,
 	writingLogo,
@@ -60,7 +60,7 @@ export const writingTable = pgTable('writing', {
 	id: varchar('id', { length: 8 }).primaryKey().notNull(),
 	name: text('name').notNull(),
 	description: text('description').notNull().default(''),
-	banner: json('banner').$type<banner>().default({ type: 'color', value: '6f3dd4' }),
+	background: json('background').$type<background>().default({ type: 'color', value: '#dfdafa' }),
 	creationDate: date('creation_date').default(new Date().toUTCString()),
 	multiTheme: boolean('mutli_theme').default(false),
 	withSearch: boolean('with_search').default(false),

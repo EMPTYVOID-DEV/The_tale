@@ -17,6 +17,12 @@ const config = {
 		env: {
 			dir: './'
 		},
+		csp: {
+			directives: {
+				'script-src': ['self']
+			}
+		},
+		csrf: { checkOrigin: true },
 		adapter: adapter()
 	}
 };

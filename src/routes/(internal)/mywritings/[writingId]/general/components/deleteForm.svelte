@@ -13,12 +13,12 @@
 	}
 </script>
 
-<div class="deleteAccount">
+<div class="deleteWriting">
 	<section class="input">
-		<h3>Delete account</h3>
+		<h3>Delete writing</h3>
 		<span
-			>Permanently remove your Personal Account and all of its contents from the The_tale platform.
-			This action is not reversible, so please continue with caution.</span
+			>Permanently remove this writing and all of its contents from the The_tale platform. This
+			action is not reversible, so please continue with caution.</span
 		>
 	</section>
 	<section class="submitter">
@@ -33,19 +33,19 @@
 						update();
 					};
 				}}
-				action="?/deleteAccount"
+				action="?/deleteWriting"
 				method="post"
 				class="deleteForm"
 				transition:scale={{ duration: 520, easing: quadInOut, start: 0, opacity: 0.2 }}
 			>
 				<h2>Delete account</h2>
 				<span
-					>This action will erase all content related to your account.We recommend backing all of
-					your writings</span
+					>This action will erase all content related to this writing.We recommend backing its
+					content</span
 				>
 				<StaticInput
 					name="confirmation"
-					label={`Enter your "${$page.data.username}" to delete.`}
+					label={`Enter your "${$page.params.writingId}" to delete.`}
 					--primaryColor="var(--dangerColor)"
 				/>
 				<section class="actions">
@@ -64,7 +64,7 @@
 </div>
 
 <style>
-	.deleteAccount {
+	.deleteWriting {
 		--mixed-light: color-mix(in srgb, var(--foregroundColor) 8%, transparent 92%);
 		width: 100%;
 		display: flex;

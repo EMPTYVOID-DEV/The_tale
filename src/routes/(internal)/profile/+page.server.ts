@@ -15,7 +15,7 @@ export const actions: Actions = {
 		if (!checkType('image/*', avatar.type))
 			return fail(400, { message: 'You should upload an image file format.' });
 		if (!checkSize(1200, avatar.size))
-			return fail(400, { message: 'Your avatar size should be less than 1.2mb.' });
+			return fail(400, { message: 'Your avatar size should be less than 2.5mb.' });
 
 		try {
 			const { id } = locals.user;

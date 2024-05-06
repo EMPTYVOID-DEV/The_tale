@@ -27,7 +27,6 @@
 		background-color: var(--mixed-light);
 		border: 1px solid var(--mutedColor);
 		border-radius: var(--border-radius);
-		overflow: hidden;
 	}
 	.submitter {
 		width: 100%;

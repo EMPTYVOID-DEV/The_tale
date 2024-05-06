@@ -99,6 +99,7 @@
 		display: flex;
 		gap: 1.5rem;
 	}
+
 	.menu {
 		display: none;
 		cursor: pointer;

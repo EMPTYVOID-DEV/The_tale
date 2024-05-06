@@ -18,7 +18,7 @@ export async function getMyContributions(userId: string) {
 			role: writingContributors.role,
 			writingTime: writingContributors.writingTime,
 			writingName: writingTable.name,
-			writingBanner: writingTable.banner
+			writingBanner: writingTable.background
 		})
 		.from(writingContributors)
 		.where(eq(writingContributors.userId, userId))
