@@ -1,7 +1,7 @@
 import { db } from '$server/database/database';
 import { keyTable, writingContributors, writingTable, userTable } from '$server/database/schema';
 import type { key, user } from '$server/types.server';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 import { generateId } from 'lucia';
 
 export async function insertUser(newUser: user, key: key) {
@@ -32,4 +32,19 @@ export async function addWriting(userId: string, writingName: string) {
 		await tx.insert(writingContributors).values({ role: 'owner', userId, writingId: id });
 		return id;
 	});
+}
+
+export async function getWritingContributors(writingId: string) {
+	return db
+		.select({
+			contributorId: userTable.id,
+			contributorUsername: userTable.username,
+			contributorAvatar: userTable.avatar,
+			writingTime: writingContributors.writingTime
+		})
+		.from(writingContributors)
+		.where(
+			and(eq(writingContributors.writingId, writingId), eq(writingContributors.role, 'writer'))
+		)
+		.innerJoin(userTable, eq(userTable.id, writingContributors.userId));
 }

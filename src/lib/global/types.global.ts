@@ -53,6 +53,13 @@ export type contribution = {
 	writingBanner: background;
 };
 
+export type writingContributors = {
+	contributorId: string;
+	contributorUsername: string;
+	contributorAvatar: string;
+	writingTime: number;
+};
+
 export type actionStatus = {
 	state: 'valid' | 'invalid';
 	errorMsg: string;

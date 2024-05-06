@@ -54,13 +54,18 @@
 				active={activeRoute.startsWith('/mywritings')}
 				on:click={() => (mobileAppear = false)}
 			/>
-			<Avatar
-				active={activeRoute == '/profile'}
+
+			<button
+				class="fullAvatar"
+				class:active={activeRoute == '/profile'}
 				on:click={() => {
 					goto('/profile');
 					mobileAppear = false;
 				}}
-			/>
+			>
+				<Avatar avatar={$page.data.avatar} />
+				<span>{$page.data.username}</span>
+			</button>
 		{:else}
 			<SyncButton
 				text="Sign in"
@@ -100,6 +105,27 @@
 		gap: 1.5rem;
 	}
 
+	.fullAvatar {
+		all: unset;
+		display: flex;
+		align-items: center;
+		gap: 0.25rem;
+		cursor: pointer;
+	}
+
+	.fullAvatar span {
+		font-size: var(--small);
+		color: var(--foregroundColor);
+		font-weight: bold;
+	}
+
+	.active {
+		--color: var(--primaryColor);
+	}
+	.fullAvatar.active span {
+		color: var(--primaryColor);
+	}
+
 	.menu {
 		display: none;
 		cursor: pointer;
@@ -110,6 +136,7 @@
 		height: 1.75rem;
 		flex-shrink: 0;
 	}
+
 	@media screen and (width<768px) {
 		.menu {
 			display: contents;

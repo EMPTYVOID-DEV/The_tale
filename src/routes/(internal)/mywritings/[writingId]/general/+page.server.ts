@@ -5,6 +5,7 @@ import { writingTable } from '$server/database/schema';
 import { validateWritingDescription, validateWritingName } from '$global/zod';
 import { uploadFile } from '$server/utils/uploadFile';
 import { destructorFileName } from '$global/utils.global';
+import { defaultBgUrl } from '$global/const.global';
 
 export const load: Load = async ({ params }) => {
 	const writingId = params.writingId;
@@ -54,9 +55,11 @@ export const actions: Actions = {
 		const type = fd.get('type').toString() as 'url' | 'color';
 		const color = fd.get('color').toString();
 		const file = fd.get('file') as File;
+
 		try {
-			let value = color;
-			if (type == 'url') {
+			let value = defaultBgUrl;
+			if (type == 'color') value = color;
+			else if (file) {
 				const { extension, filename } = destructorFileName(file.name);
 				const name = `${filename}_${writingId}.${extension}`;
 				value = await uploadFile(file, name, 'backgrounds');

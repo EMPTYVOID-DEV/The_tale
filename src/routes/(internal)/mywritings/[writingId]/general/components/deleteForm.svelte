@@ -24,7 +24,7 @@
 	<section class="submitter">
 		<Dialog let:close>
 			<svelte:fragment slot="trigger" let:open>
-				<SyncButton text="Delete account" type="danger" on:click={open} />
+				<SyncButton text="Delete writing" type="danger" on:click={open} />
 			</svelte:fragment>
 			<form
 				use:enhance={() => {

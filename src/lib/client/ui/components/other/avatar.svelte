@@ -1,36 +1,17 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	export let active = false;
-	$: username = $page.data.username;
-	$: avatar = $page.data.avatar;
+	export let avatar: string;
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<div class="avatar" class:active on:click>
-	<div class="wrapper">
-		{#if avatar}
-			<img src={avatar} alt="avatar" />
-		{:else}
-			<span class="default" />
-		{/if}
-	</div>
-	<span>{username}</span>
+<div class="avatar">
+	{#if avatar}
+		<img src={avatar} alt="avatar" />
+	{:else}
+		<span class="default" />
+	{/if}
 </div>
 
 <style>
 	.avatar {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		cursor: pointer;
-	}
-	.avatar span {
-		font-size: var(--small);
-		color: var(--foregroundColor);
-		font-weight: bold;
-	}
-	.wrapper {
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -38,9 +19,10 @@
 		height: 42px;
 		padding: 2px;
 		border-radius: 50%;
+		border: 3px solid var(--color, transparent);
 	}
 
-	.wrapper img {
+	.avatar img {
 		width: 38px;
 		aspect-ratio: 1/1;
 		border-radius: 50%;
@@ -48,18 +30,10 @@
 		object-position: center;
 	}
 
-	.wrapper .default {
+	.avatar .default {
 		width: 38px;
 		aspect-ratio: 1/1;
 		border-radius: 50%;
 		background: radial-gradient(circle at center, var(--primaryColor), var(--foregroundColor));
-	}
-
-	.active span {
-		color: var(--primaryColor);
-	}
-
-	.active .wrapper {
-		border: 3px solid var(--primaryColor);
 	}
 </style>

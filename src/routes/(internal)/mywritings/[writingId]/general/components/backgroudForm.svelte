@@ -5,15 +5,18 @@
 	import ColorPicker from '$components/colorPicker/colorPicker.svelte';
 	import FormWrapper from '$components/other/formWrapper.svelte';
 	import Select from '$components/other/select.svelte';
+	import { defaultBgColor, defaultBgUrl } from '$global/const.global';
 	import type { background as Background } from '$global/types.global';
 	import { imgHandler } from '$global/utils.global';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import { onMount } from 'svelte';
 
 	const changeBackground: SubmitFunction = async ({ formData }) => {
-		state = 'loading';
+		const file = formData.get('file') as File;
+		if (file.size == 0) formData.delete('file');
 		formData.append('type', background.type);
 		formData.append('color', fallback.color);
+		state = 'loading';
 		return ({ result, update }) => {
 			if (result.type === 'failure') showToast('Failure', result.data.message, 'danger');
 			if (result.type === 'success')
@@ -23,18 +26,18 @@
 		};
 	};
 
-	const handleUrlChange = (url: string) => {
-		background.value = url;
-		fallback.url = url;
-	};
-
 	const handleTypeChange = (e: {
 		detail: { selected: { value: 'url' | 'color'; label: string }[] };
 	}) => {
 		const newType = e.detail.selected[0].value;
 		background.type = newType;
 		if (newType === 'color') background.value = fallback.color;
-		else background.value = fallback.url;
+		background.value = fallback.url;
+	};
+
+	const handleUrlChange = (url: string) => {
+		background.value = url;
+		fallback.url = url;
 	};
 
 	const handleColorChange = (e: { detail: { hex: string } }) => {
@@ -42,10 +45,7 @@
 		fallback.color = e.detail.hex;
 	};
 
-	const fallback = {
-		url: '/backgrounds/defaultBg.jpg',
-		color: '#dfdafa'
-	};
+	const fallback = { url: '', color: '' };
 
 	const elements: { value: 'url' | 'color'; label: string }[] = [
 		{ value: 'color', label: 'Use a color as background' },
@@ -56,8 +56,8 @@
 	$: background = $page.data.settings.background as Background;
 
 	onMount(() => {
-		fallback.url = background.type == 'url' ? background.value : '/backgrounds/defaultBg.jpg';
-		fallback.color = background.type == 'color' ? background.value : '#dfdafa';
+		fallback.url = background.type == 'url' ? background.value : defaultBgUrl;
+		fallback.color = background.type == 'color' ? background.value : defaultBgColor;
 	});
 </script>
 

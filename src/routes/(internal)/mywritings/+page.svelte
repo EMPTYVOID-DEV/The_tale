@@ -119,7 +119,7 @@
 				<WritingBanner banner={contribution.writingBanner} />
 				<div class="layer">
 					<span>{contribution.writingName}</span>
-					<span>id-{contribution.writingId}</span>
+					<span>ID-{contribution.writingId}</span>
 				</div>
 				<div class="layer">
 					<span>Role</span>
@@ -236,7 +236,7 @@
 			flex-wrap: wrap;
 		}
 		.add {
-			width: 3rem;
+			width: 2.5rem;
 			aspect-ratio: 1/1;
 		}
 		.add span {
