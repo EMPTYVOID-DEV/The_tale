@@ -3,7 +3,7 @@ import { sendVerificationEmail } from '$lib/server/auth/email';
 import { db } from '$server/database/database';
 import { keyTable } from '$server/database/schema';
 import { createSession } from '$server/utils/authUtils';
-import { fail, type Actions, error, redirect } from '@sveltejs/kit';
+import { fail, type Actions, redirect } from '@sveltejs/kit';
 import template from '../../components/emailVerifyTemplate.svelte';
 import { and, eq } from 'drizzle-orm';
 import otpGen from 'otp-generator';
@@ -16,17 +16,13 @@ export const actions: Actions = {
 			specialChars: false,
 			upperCaseAlphabets: false
 		});
-		try {
-			await sendVerificationEmail(email, otp, template);
-			cookies.set('otp', otp, {
-				path: '/auth/email-verification',
-				httpOnly: true,
-				maxAge: 60 * 10,
-				secure: !dev
-			});
-		} catch (error) {
-			return fail(400);
-		}
+		await sendVerificationEmail(email, otp, template);
+		cookies.set('otp', otp, {
+			path: '/auth/email-verification',
+			httpOnly: true,
+			maxAge: 60 * 10,
+			secure: !dev
+		});
 	},
 	verify: async ({ cookies, request, params }) => {
 		const email = params.email;
@@ -43,7 +39,7 @@ export const actions: Actions = {
 				.where(and(eq(keyTable.provider_name, 'email'), eq(keyTable.provider_id, email)))
 				.returning({ userId: keyTable.userId })
 		)[0];
-		await createSession(cookies, userKey.userId).catch(() => error(500, 'Service unavailable'));
+		await createSession(cookies, userKey.userId);
 		redirect(302, '/mywritings');
 	}
 };

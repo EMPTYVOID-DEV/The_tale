@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import Dialog from '$components/other/dialog.svelte';
 	import StaticInput from '$components/input/staticInput.svelte';
-	import WritingBanner from '$components/other/banner.svelte';
+	import WritingBackground from '$components/other/background.svelte';
 	import Select from '$components/other/select.svelte';
 	import type { contribution } from '$global/types.global';
 	import PlusIcon from '$icons/plusIcon.svelte';
@@ -116,7 +116,7 @@
 	<section class="list">
 		{#each contributions as contribution}
 			<a href="/mywritings/{contribution.writingId}/dashboard" class="writingLink">
-				<WritingBanner banner={contribution.writingBanner} />
+				<WritingBackground background={contribution.writingBackground} />
 				<div class="layer">
 					<span>{contribution.writingName}</span>
 					<span>ID-{contribution.writingId}</span>

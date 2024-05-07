@@ -43,7 +43,7 @@
 			<p>{errorMap.get($page.status).message}</p>
 		{:else}
 			<h3>{$page.status} - unknown</h3>
-			<p>unknown error has occured</p>
+			<p>Unknown error has occured</p>
 		{/if}
 	</div>
 	<button on:click={() => goto('/')}>GO TO HOMEPAGE</button>

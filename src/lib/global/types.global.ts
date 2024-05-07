@@ -50,7 +50,7 @@ export type contribution = {
 	role: 'owner' | 'writer';
 	writingTime: number;
 	writingName: string;
-	writingBanner: background;
+	writingBackground: background;
 };
 
 export type writingContributors = {

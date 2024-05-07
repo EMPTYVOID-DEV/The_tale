@@ -3,7 +3,7 @@ import { validateEmail, validatePassword } from '$global/zod';
 import { sendVerificationEmail } from '$lib/server/auth/email';
 import { db } from '$server/database/database';
 import { keyTable } from '$server/database/schema';
-import { fail, type Actions, error, redirect } from '@sveltejs/kit';
+import { fail, type Actions, redirect } from '@sveltejs/kit';
 import { and, eq } from 'drizzle-orm';
 import template from '../components/emailPasswordTemplate.svelte';
 import otpGen from 'otp-generator';
@@ -16,11 +16,9 @@ export const actions: Actions = {
 		if (validateEmail(email).state == 'invalid')
 			return fail(403, { message: validateEmail(email).errorMsg });
 
-		const user = await db.query.keyTable
-			.findFirst({
-				where: and(eq(keyTable.provider_name, 'email'), eq(keyTable.provider_id, email))
-			})
-			.catch(() => error(500, 'Service unavailable'));
+		const user = await db.query.keyTable.findFirst({
+			where: and(eq(keyTable.provider_name, 'email'), eq(keyTable.provider_id, email))
+		});
 		if (!user) return fail(403, { message: 'This email is not attached to an account.' });
 
 		const otp = otpGen.generate(6, {
@@ -58,8 +56,7 @@ export const actions: Actions = {
 		await db
 			.update(keyTable)
 			.set({ verified: true, secret: hashedPassword })
-			.where(and(eq(keyTable.provider_name, 'email'), eq(keyTable.provider_id, email)))
-			.catch(() => error(500, 'Service unavailable'));
+			.where(and(eq(keyTable.provider_name, 'email'), eq(keyTable.provider_id, email)));
 		redirect(302, '/auth');
 	}
 };

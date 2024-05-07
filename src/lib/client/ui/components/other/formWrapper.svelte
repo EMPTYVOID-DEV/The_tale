@@ -6,8 +6,8 @@
 </script>
 
 <form
-	action={actionName}
 	use:enhance={action}
+	action={actionName}
 	class="formWrapper"
 	enctype="multipart/form-data"
 	method="post"

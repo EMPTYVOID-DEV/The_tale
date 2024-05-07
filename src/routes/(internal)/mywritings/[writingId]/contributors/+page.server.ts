@@ -1,4 +1,4 @@
-import { error, fail, type Actions, type ServerLoad } from '@sveltejs/kit';
+import { fail, type Actions, type ServerLoad } from '@sveltejs/kit';
 import { getWritingContributors } from '$server/utils/databaseUtils';
 import { db } from '$server/database/database';
 import { and, eq } from 'drizzle-orm';
@@ -6,12 +6,8 @@ import { userTable, writingContributors } from '$server/database/schema';
 
 export const load: ServerLoad = async ({ params }) => {
 	const writingId = params.writingId;
-	try {
-		const contributors = await getWritingContributors(writingId);
-		return { contributors };
-	} catch (err) {
-		error(500, 'Service unavailable');
-	}
+	const contributors = await getWritingContributors(writingId);
+	return { contributors };
 };
 
 export const actions: Actions = {
@@ -28,25 +24,21 @@ export const actions: Actions = {
 				.insert(writingContributors)
 				.values({ role: 'writer', userId: contributorId, writingId });
 		} catch (error) {
-			error(500, 'Service unavailable');
+			if (error.code == '23505')
+				return fail(409, { message: 'It seems that this contributor already exist' });
 		}
 	},
 	removeContributor: async ({ request, params }) => {
 		const writingId = params.writingId;
 		const fd = await request.formData();
 		const contributorId = fd.get('contributorId').toString();
-
-		try {
-			await db
-				.delete(writingContributors)
-				.where(
-					and(
-						eq(writingContributors.writingId, writingId),
-						eq(writingContributors.userId, contributorId)
-					)
-				);
-		} catch (error) {
-			error(500, 'Service unavailable');
-		}
+		await db
+			.delete(writingContributors)
+			.where(
+				and(
+					eq(writingContributors.writingId, writingId),
+					eq(writingContributors.userId, contributorId)
+				)
+			);
 	}
 };

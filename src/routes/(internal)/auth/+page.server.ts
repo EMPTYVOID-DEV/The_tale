@@ -4,7 +4,7 @@ import { createSession } from '$server/utils/authUtils';
 import { insertUser } from '$server/utils/databaseUtils';
 import type { key, user } from '$server/types.server';
 import { validateEmail, validatePassword, validateUsername } from '$global/zod';
-import { error, type Actions, redirect } from '@sveltejs/kit';
+import { type Actions, redirect } from '@sveltejs/kit';
 import { and, eq } from 'drizzle-orm';
 import { generateId } from 'lucia';
 import { Argon2id } from 'oslo/password';
@@ -40,7 +40,6 @@ export const actions: Actions = {
 		} catch (error) {
 			if (error.code === '23505')
 				return fail(409, { message: 'It seems that this account already exist.' });
-			error(500, 'Service unavailable');
 		}
 		redirect(302, `/auth/email-verification/${email}`);
 	},
@@ -52,16 +51,14 @@ export const actions: Actions = {
 			return fail(403, { message: validateEmail(email).errorMsg });
 		if (validatePassword(password).state == 'invalid')
 			return fail(403, { message: validatePassword(password).errorMsg });
-		const userKey = await db.query.keyTable
-			.findFirst({
-				where: and(eq(keyTable.provider_name, 'email'), eq(keyTable.provider_id, email))
-			})
-			.catch(() => error(500, 'Service unavailable'));
+		const userKey = await db.query.keyTable.findFirst({
+			where: and(eq(keyTable.provider_name, 'email'), eq(keyTable.provider_id, email))
+		});
 		if (!userKey) return fail(404, { message: 'It seems the user does not exist.' });
 		const isValid = await new Argon2id().verify(userKey.secret, password);
 		if (!isValid) return fail(403, { message: 'The password is not correct.' });
 		if (userKey.verified) {
-			await createSession(cookies, userKey.userId).catch(() => error(500, 'Service unavailable'));
+			await createSession(cookies, userKey.userId);
 			redirect(302, '/mywritings');
 		}
 		redirect(302, `/auth/email-verification/${email}`);

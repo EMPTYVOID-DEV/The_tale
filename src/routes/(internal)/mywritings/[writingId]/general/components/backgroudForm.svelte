@@ -13,7 +13,7 @@
 
 	const changeBackground: SubmitFunction = async ({ formData }) => {
 		const file = formData.get('file') as File;
-		if (file.size == 0) formData.delete('file');
+		if (file && file.size == 0) formData.delete('file');
 		formData.append('type', background.type);
 		formData.append('color', fallback.color);
 		state = 'loading';
@@ -29,10 +29,18 @@
 	const handleTypeChange = (e: {
 		detail: { selected: { value: 'url' | 'color'; label: string }[] };
 	}) => {
-		const newType = e.detail.selected[0].value;
-		background.type = newType;
-		if (newType === 'color') background.value = fallback.color;
-		background.value = fallback.url;
+		background.type = e.detail.selected[0].value;
+		if (background.type === 'color') {
+			background = {
+				...background,
+				value: fallback.color
+			};
+		} else {
+			background = {
+				...background,
+				value: fallback.url
+			};
+		}
 	};
 
 	const handleUrlChange = (url: string) => {

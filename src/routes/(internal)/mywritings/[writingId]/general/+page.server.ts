@@ -1,4 +1,4 @@
-import { error, fail, redirect, type Actions, type Load } from '@sveltejs/kit';
+import { fail, redirect, type Actions, type Load } from '@sveltejs/kit';
 import { db } from '$server/database/database';
 import { eq } from 'drizzle-orm';
 import { writingTable } from '$server/database/schema';
@@ -9,19 +9,15 @@ import { defaultBgUrl } from '$global/const.global';
 
 export const load: Load = async ({ params }) => {
 	const writingId = params.writingId;
-	try {
-		const writingSettings = await db.query.writingTable.findFirst({
-			where: eq(writingTable.id, writingId),
-			columns: {
-				name: true,
-				description: true,
-				background: true
-			}
-		});
-		return { settings: writingSettings };
-	} catch (err) {
-		error(500, 'Service Unavailable');
-	}
+	const writingSettings = await db.query.writingTable.findFirst({
+		where: eq(writingTable.id, writingId),
+		columns: {
+			name: true,
+			description: true,
+			background: true
+		}
+	});
+	return { settings: writingSettings };
 };
 
 export const actions: Actions = {
@@ -31,11 +27,7 @@ export const actions: Actions = {
 		const name = fd.get('name').toString();
 		if (validateWritingName(name).state == 'invalid')
 			return fail(400, { message: validateWritingName(name).errorMsg });
-		try {
-			await db.update(writingTable).set({ name }).where(eq(writingTable.id, writingId));
-		} catch (err) {
-			error(500, 'Service unavailable');
-		}
+		await db.update(writingTable).set({ name }).where(eq(writingTable.id, writingId));
 	},
 	changeDescription: async ({ request, params }) => {
 		const writingId = params.writingId;
@@ -43,11 +35,7 @@ export const actions: Actions = {
 		const description = fd.get('description').toString();
 		if (validateWritingDescription(description).state == 'invalid')
 			return fail(400, { message: validateWritingDescription(description).errorMsg });
-		try {
-			await db.update(writingTable).set({ description }).where(eq(writingTable.id, writingId));
-		} catch (err) {
-			error(500, 'Service unavailable');
-		}
+		await db.update(writingTable).set({ description }).where(eq(writingTable.id, writingId));
 	},
 	changeBackground: async ({ params, request }) => {
 		const writingId = params.writingId;
@@ -55,19 +43,14 @@ export const actions: Actions = {
 		const type = fd.get('type').toString() as 'url' | 'color';
 		const color = fd.get('color').toString();
 		const file = fd.get('file') as File;
-
-		try {
-			let value = defaultBgUrl;
-			if (type == 'color') value = color;
-			else if (file) {
-				const { extension, filename } = destructorFileName(file.name);
-				const name = `${filename}_${writingId}.${extension}`;
-				value = await uploadFile(file, name, 'backgrounds');
-			}
-			await db.update(writingTable).set({ background: { value, type } });
-		} catch (err) {
-			error(500, 'Service unavailable');
+		let value = defaultBgUrl;
+		if (type == 'color') value = color;
+		else if (file) {
+			const { extension, filename } = destructorFileName(file.name);
+			const name = `${filename}_${writingId}.${extension}`;
+			value = await uploadFile(file, name, 'backgrounds');
 		}
+		await db.update(writingTable).set({ background: { value, type } });
 	},
 	deleteWriting: async ({ params, request }) => {
 		const fd = await request.formData();
@@ -75,11 +58,7 @@ export const actions: Actions = {
 		const confirmation = fd.get('confirmation').toString();
 		if (confirmation != writingId)
 			return fail(400, { message: 'The confirmation text is not valid' });
-		try {
-			await db.delete(writingTable).where(eq(writingTable.id, writingId));
-		} catch (error) {
-			error(500, 'Service unavailable');
-		}
+		await db.delete(writingTable).where(eq(writingTable.id, writingId));
 		redirect(303, '/mywritings');
 	}
 };

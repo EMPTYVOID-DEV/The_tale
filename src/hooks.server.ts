@@ -1,11 +1,13 @@
 import { lucia } from '$server/auth/lucia';
 import { db } from '$server/database/database';
 import { writingContributors } from '$server/database/schema';
-import { redirect, type Handle } from '@sveltejs/kit';
+import { error, redirect, type Handle, type HandleServerError } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { and, eq } from 'drizzle-orm';
 
-//TODO:add handle error
+export const handleError: HandleServerError = async ({ status }) => {
+	error(status);
+};
 
 const luciaHook: Handle = async ({ event, resolve }) => {
 	const sessionId = event.cookies.get(lucia.sessionCookieName);
