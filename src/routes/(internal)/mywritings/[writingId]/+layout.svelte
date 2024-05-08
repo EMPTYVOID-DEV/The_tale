@@ -3,7 +3,7 @@
 	import { page } from '$app/stores';
 	import Tabs from '$components/other/tabs.svelte';
 	import type { iconComponent } from '$client/types.client';
-	import type { contribution } from '$global/types.global';
+	import type { Contribution } from '$global/types.global';
 	import DashboardIcon from '$icons/dashboardIcon.svelte';
 	import LinkIcon from '$icons/linkIcon.svelte';
 	import PeopleIcon from '$icons/peopleIcon.svelte';
@@ -38,7 +38,7 @@
 			}
 		];
 		const writingId = $page.params.writingId;
-		const contributions = ($page.data.contributions as contribution[]) || [];
+		const contributions = ($page.data.contributions as Contribution[]) || [];
 		const isOwner = contributions.find((el) => el.writingId == writingId).role == 'owner';
 		if (isOwner) return writerTabs.concat(ownerTabs);
 		return writerTabs;

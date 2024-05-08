@@ -1,10 +1,12 @@
-type colorSet = {
+import { templates } from './const.global';
+
+type ColorSet = {
 	bg: string;
 	text: string;
 	primary: string;
 };
 
-type fontDescritpion = {
+type FontDescritpion = {
 	id: string;
 	subset: string;
 };
@@ -13,27 +15,22 @@ type fontDescritpion = {
  * main in case one theme system
  * extra in case we have light and dark (extra is dark)
  */
-export type writingColors = {
-	main: colorSet;
-	extra?: colorSet;
+export type WritingColors = {
+	main: ColorSet;
+	extra?: ColorSet;
 };
 
-export type writingFonts = {
-	heading: fontDescritpion;
-	body: fontDescritpion;
+export type WritingFonts = {
+	heading: FontDescritpion;
+	body: FontDescritpion;
 };
 
-export type writingLogo = {
-	type: 'url' | 'text';
-	value: string;
-};
-
-export type background = {
+export type Background = {
 	type: 'url' | 'color';
 	value: string;
 };
 
-export type sectionsGraph =
+export type SectionsGraph =
 	| { type: 'tier0'; section: string }
 	| { type: 'tier1'; sections: string[] }
 	| { type: 'tier2'; categories: { category: string; sections: string[] }[] }
@@ -45,22 +42,24 @@ export type sectionsGraph =
 			}[];
 	  };
 
-export type contribution = {
+export type Contribution = {
 	writingId: string;
 	role: 'owner' | 'writer';
 	writingTime: number;
 	writingName: string;
-	writingBackground: background;
+	writingBackground: Background;
 };
 
-export type writingContributors = {
+export type WritingContributors = {
 	contributorId: string;
 	contributorUsername: string;
 	contributorAvatar: string;
 	writingTime: number;
 };
 
-export type actionStatus = {
+export type ActionStatus = {
 	state: 'valid' | 'invalid';
 	errorMsg: string;
 };
+
+export type Templates = keyof typeof templates;

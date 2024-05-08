@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import type { actionStatus } from './types.global';
+import type { ActionStatus } from './types.global';
 
 export const emailSchema = z.string().email('Invalid email address');
 
@@ -35,25 +35,25 @@ const writingDescriptionSchema = z.string().refine(
 	{ message: 'The word count exceeded 160' }
 );
 
-export function validateWritingDescription(description: string): actionStatus {
+export function validateWritingDescription(description: string): ActionStatus {
 	const parseResult = writingDescriptionSchema.safeParse(description);
 	if (parseResult.success == true) return { state: 'valid', errorMsg: '' };
 	else return { state: 'invalid', errorMsg: parseResult.error.errors[0].message };
 }
 
-export function validateWritingName(name: string): actionStatus {
+export function validateWritingName(name: string): ActionStatus {
 	const parseResult = writingNameSchema.safeParse(name);
 	if (parseResult.success == true) return { state: 'valid', errorMsg: '' };
 	else return { state: 'invalid', errorMsg: parseResult.error.errors[0].message };
 }
 
-export function validateUsername(username: string): actionStatus {
+export function validateUsername(username: string): ActionStatus {
 	const parseResult = usernameSchema.safeParse(username);
 	if (parseResult.success == true) return { state: 'valid', errorMsg: '' };
 	else return { state: 'invalid', errorMsg: parseResult.error.errors[0].message };
 }
 
-export function validateEmail(email: string): actionStatus {
+export function validateEmail(email: string): ActionStatus {
 	const parseResult = emailSchema.safeParse(email);
 	if (parseResult.success == true)
 		return {
@@ -67,7 +67,7 @@ export function validateEmail(email: string): actionStatus {
 		};
 }
 
-export function validatePassword(password: string): actionStatus {
+export function validatePassword(password: string): ActionStatus {
 	const parseResult = passwordSchema.safeParse(password);
 	if (parseResult.success == true) return { state: 'valid', errorMsg: '' };
 	else return { state: 'invalid', errorMsg: parseResult.error.errors[0].message };

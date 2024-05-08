@@ -4,7 +4,7 @@
 	import StaticInput from '$components/input/staticInput.svelte';
 	import WritingBackground from '$components/other/background.svelte';
 	import Select from '$components/other/select.svelte';
-	import type { contribution } from '$global/types.global';
+	import type { Contribution } from '$global/types.global';
 	import PlusIcon from '$icons/plusIcon.svelte';
 	import ReactiveInput from '$components/input/reactiveInput.svelte';
 	import { validateWritingName } from '$global/zod';
@@ -14,7 +14,7 @@
 	import { enhance } from '$app/forms';
 	import { showToast } from '$client/utils.client';
 	import { Toaster } from 'svelte-sonner';
-	let contributions = $page.data.contributions as contribution[];
+	let contributions = $page.data.contributions as Contribution[];
 	const rolesOrder = ['writer', 'owner'];
 	const elements: { value: 'name' | 'role' | 'writingTime'; label: string }[] = [
 		{
@@ -50,7 +50,7 @@
 	}
 
 	function filter(query: string) {
-		const fullContributions = $page.data.contributions as contribution[];
+		const fullContributions = $page.data.contributions as Contribution[];
 		if (query == '') contributions = fullContributions;
 		else contributions = fullContributions.filter((el) => el.writingName.includes(query));
 	}

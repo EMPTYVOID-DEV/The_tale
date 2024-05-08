@@ -3,7 +3,7 @@
 	import Dialog from '$components/other/dialog.svelte';
 	import StaticInput from '$components/input/staticInput.svelte';
 	import Select from '$components/other/select.svelte';
-	import type { writingContributors } from '$global/types.global';
+	import type { WritingContributors } from '$global/types.global';
 	import PlusIcon from '$icons/plusIcon.svelte';
 	import SyncButton from '$components/button/syncButton.svelte';
 	import { quadInOut } from 'svelte/easing';
@@ -14,7 +14,7 @@
 	import Avatar from '$components/other/avatar.svelte';
 	import DeleteIcon from '$icons/deleteIcon.svelte';
 	let contributors = [];
-	$: contributors = $page.data.contributors as writingContributors[];
+	$: contributors = $page.data.contributors as WritingContributors[];
 	const elements: { value: 'name' | 'role' | 'writingTime'; label: string }[] = [
 		{
 			value: 'name',
@@ -45,7 +45,7 @@
 	}
 
 	function filter(query: string) {
-		const fullContributions = $page.data.contributors as writingContributors[];
+		const fullContributions = $page.data.contributors as WritingContributors[];
 		if (query == '') contributors = fullContributions;
 		else contributors = fullContributions.filter((el) => el.contributorUsername.includes(query));
 	}
@@ -114,7 +114,6 @@
 					formData.append('contributorId', contributor.contributorId);
 					return ({ result, update }) => {
 						//@ts-ignore
-						if (result.type == 'failure') showToast('Error', result.data.message, 'danger');
 						if (result.type == 'success')
 							showToast('Success', 'The contributor has been removed.', 'success');
 						update();

@@ -4,7 +4,7 @@ import { eq } from 'drizzle-orm';
 import { writingTable } from '$server/database/schema';
 import { validateWritingDescription, validateWritingName } from '$global/zod';
 import { uploadFile } from '$server/utils/uploadFile';
-import { destructorFileName } from '$global/utils.global';
+import { checkSize, checkType, destructorFileName } from '$global/utils.global';
 import { defaultBgUrl } from '$global/const.global';
 
 export const load: Load = async ({ params }) => {
@@ -46,6 +46,11 @@ export const actions: Actions = {
 		let value = defaultBgUrl;
 		if (type == 'color') value = color;
 		else if (file) {
+			if (file.size == 0) return fail(400, { message: "You hav'nt upload an image" });
+			if (!checkType('image/*', file.type))
+				return fail(400, { message: 'You should upload an image file format.' });
+			if (!checkSize(1200, file.size))
+				return fail(400, { message: 'Your background image size should be less than 2.5mb.' });
 			const { extension, filename } = destructorFileName(file.name);
 			const name = `${filename}_${writingId}.${extension}`;
 			value = await uploadFile(file, name, 'backgrounds');

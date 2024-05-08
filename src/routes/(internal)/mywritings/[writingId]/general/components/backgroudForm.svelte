@@ -6,14 +6,12 @@
 	import FormWrapper from '$components/other/formWrapper.svelte';
 	import Select from '$components/other/select.svelte';
 	import { defaultBgColor, defaultBgUrl } from '$global/const.global';
-	import type { background as Background } from '$global/types.global';
+	import type { Background } from '$global/types.global';
 	import { imgHandler } from '$global/utils.global';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import { onMount } from 'svelte';
 
 	const changeBackground: SubmitFunction = async ({ formData }) => {
-		const file = formData.get('file') as File;
-		if (file && file.size == 0) formData.delete('file');
 		formData.append('type', background.type);
 		formData.append('color', fallback.color);
 		state = 'loading';

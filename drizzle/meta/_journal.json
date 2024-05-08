@@ -22,6 +22,27 @@
       "when": 1714987659974,
       "tag": "0002_nappy_thena",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1715161531579,
+      "tag": "0003_abnormal_blade",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1715170143689,
+      "tag": "0004_sharp_scorpion",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1715170529252,
+      "tag": "0005_violet_shard",
+      "breakpoints": true
     }
   ]
 }

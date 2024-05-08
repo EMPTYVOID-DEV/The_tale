@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { background } from '$global/types.global';
-	export let background: background;
+	import type { Background } from '$global/types.global';
+	export let background: Background;
 </script>
 
 {#if background.type == 'color'}

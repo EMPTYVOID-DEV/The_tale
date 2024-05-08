@@ -1,9 +1,9 @@
 import type {
-	background,
-	writingColors,
-	writingFonts,
-	writingLogo,
-	sectionsGraph
+	Background,
+	WritingColors,
+	WritingFonts,
+	SectionsGraph,
+	Templates
 } from '$global/types.global';
 import {
 	pgTable,
@@ -60,25 +60,23 @@ export const writingTable = pgTable('writing', {
 	id: varchar('id', { length: 8 }).primaryKey().notNull(),
 	name: text('name').notNull(),
 	description: text('description').notNull().default(''),
-	background: json('background').$type<background>().default({ type: 'color', value: '#dfdafa' }),
+	background: json('background').$type<Background>().default({ type: 'color', value: '#dfdafa' }),
 	creationDate: date('creation_date').default(new Date().toUTCString()),
 	multiTheme: boolean('mutli_theme').default(false),
 	withSearch: boolean('with_search').default(false),
-	logo: json('logo').$type<writingLogo>(),
+	logo: text('logo'),
 	fonts: json('fonts')
-		.$type<writingFonts>()
+		.$type<WritingFonts>()
 		.default({
 			heading: { id: 'anek-tamil', subset: 'latin' },
 			body: { id: 'aileron', subset: 'latin' }
 		}),
 	colors: json('colors')
-		.$type<writingColors>()
+		.$type<WritingColors>()
 		.default({ main: { text: 'dfdafa', bg: '040110', primary: '6f3dd4' } }),
-	tempalteName: text('template_name')
-		.$type<'sveltekitDocs' | 'nextDocs' | 'nuxtDocs'>()
-		.default('nextDocs'),
+	tempalteName: text('template_name').$type<Templates>().default('Sveltekit'),
 	sectionsGraph: json('sections_graph')
-		.$type<sectionsGraph>()
+		.$type<SectionsGraph>()
 		.default({ type: 'tier0', section: '' })
 });
 
