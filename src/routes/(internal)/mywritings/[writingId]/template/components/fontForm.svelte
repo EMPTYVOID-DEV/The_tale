@@ -24,8 +24,7 @@
 		formData.append('body', fonts.body);
 		formData.append('heading', fonts.heading);
 		return ({ result, update }) => {
-			if (result.type == 'failure') showToast('Failure', result.data.message, 'danger');
-			if (result.type == 'success') showToast('Success', 'The name has been updated', 'success');
+			if (result.type == 'success') showToast('Success', 'The fonts has been updated', 'success');
 			update({ reset: false });
 		};
 	};

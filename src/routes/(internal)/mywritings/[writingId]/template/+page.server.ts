@@ -1,4 +1,4 @@
-import type { Templates } from '$global/types.global';
+import type { Templates, WritingColors } from '$global/types.global';
 import { checkType, checkSize, destructorFileName } from '$global/utils.global';
 import { db } from '$server/database/database';
 import { writingTable } from '$server/database/schema';
@@ -55,5 +55,12 @@ export const actions: Actions = {
 				fonts: { body, heading }
 			})
 			.where(eq(writingTable.id, writingId));
+	},
+	changeColors: async ({ params, request }) => {
+		const writingId = params.writingId;
+		const fd = await request.formData();
+		const colorsString = fd.get('colors').toString();
+		const colors = JSON.parse(colorsString) as WritingColors;
+		await db.update(writingTable).set({ colors }).where(eq(writingTable.id, writingId));
 	}
 };

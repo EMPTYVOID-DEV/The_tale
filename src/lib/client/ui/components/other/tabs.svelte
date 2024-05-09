@@ -13,7 +13,8 @@
 		<button
 			class="tab"
 			class:active={index == activeTab}
-			on:click={() => {
+			on:click={(e) => {
+				e.preventDefault();
 				dispatcher('change', {
 					activeTab: tab.title
 				});

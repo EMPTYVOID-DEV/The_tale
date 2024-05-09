@@ -3,11 +3,13 @@
 	import TemplateForm from './components/templateForm.svelte';
 	import LogoForm from './components/logoForm.svelte';
 	import FontForm from './components/fontForm.svelte';
+	import ColorForm from './components/colorForm.svelte';
 </script>
 
 <div class="template">
 	<TemplateForm />
 	<LogoForm />
+	<ColorForm />
 	<FontForm />
 </div>
 
