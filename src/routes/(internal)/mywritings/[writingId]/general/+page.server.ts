@@ -46,7 +46,6 @@ export const actions: Actions = {
 		let value = defaultBgUrl;
 		if (type == 'color') value = color;
 		else if (file) {
-			if (file.size == 0) return fail(400, { message: "You hav'nt upload an image" });
 			if (!checkType('image/*', file.type))
 				return fail(400, { message: 'You should upload an image file format.' });
 			if (!checkSize(1200, file.size))

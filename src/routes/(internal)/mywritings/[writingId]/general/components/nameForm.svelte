@@ -25,7 +25,7 @@
 		<ReactiveInput name="name" value={name} checkFunction={validateWritingName} />
 	</section>
 	<svelte:fragment slot="submitter">
-		<span class="description">Writing name must betwee 4 and 32 characters.</span>
+		<span class="description">Writing name must betwee 4 and 48 characters.</span>
 		<SyncButton text="save" type="passive" />
 	</svelte:fragment>
 </FormWrapper>

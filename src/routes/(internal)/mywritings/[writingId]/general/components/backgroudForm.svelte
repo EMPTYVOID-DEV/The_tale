@@ -12,6 +12,8 @@
 	import { onMount } from 'svelte';
 
 	const changeBackground: SubmitFunction = async ({ formData }) => {
+		const file = formData.get('file') as File;
+		if (file && file.size == 0) formData.delete('file');
 		formData.append('type', background.type);
 		formData.append('color', fallback.color);
 		state = 'loading';

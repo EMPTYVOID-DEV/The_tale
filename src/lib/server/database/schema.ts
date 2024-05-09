@@ -18,6 +18,7 @@ import {
 	integer
 } from 'drizzle-orm/pg-core';
 import type { dataBlock } from '@altron/altron/types';
+import { defaultColors, defaultFonts } from '$global/const.global';
 
 export const userTable = pgTable('user', {
 	id: varchar('id', { length: 8 }).notNull().primaryKey(),
@@ -62,18 +63,9 @@ export const writingTable = pgTable('writing', {
 	description: text('description').notNull().default(''),
 	background: json('background').$type<Background>().default({ type: 'color', value: '#dfdafa' }),
 	creationDate: date('creation_date').default(new Date().toUTCString()),
-	multiTheme: boolean('mutli_theme').default(false),
-	withSearch: boolean('with_search').default(false),
 	logo: text('logo'),
-	fonts: json('fonts')
-		.$type<WritingFonts>()
-		.default({
-			heading: { id: 'anek-tamil', subset: 'latin' },
-			body: { id: 'aileron', subset: 'latin' }
-		}),
-	colors: json('colors')
-		.$type<WritingColors>()
-		.default({ main: { text: 'dfdafa', bg: '040110', primary: '6f3dd4' } }),
+	fonts: json('fonts').$type<WritingFonts>().default(defaultFonts),
+	colors: json('colors').$type<WritingColors>().default(defaultColors),
 	tempalteName: text('template_name').$type<Templates>().default('Sveltekit'),
 	sectionsGraph: json('sections_graph')
 		.$type<SectionsGraph>()

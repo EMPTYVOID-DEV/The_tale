@@ -6,7 +6,6 @@
 
 	const logout: SubmitFunction = async () => {
 		return ({ result, update }) => {
-			if (result.type == 'failure') showToast('Error', 'Unable to logout.', 'danger');
 			update();
 		};
 	};

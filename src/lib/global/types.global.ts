@@ -1,28 +1,19 @@
 import { templates } from './const.global';
 
-type ColorSet = {
+export type ColorSet = {
 	bg: string;
 	text: string;
 	primary: string;
 };
 
-type FontDescritpion = {
-	id: string;
-	subset: string;
-};
-
-/**
- * main in case one theme system
- * extra in case we have light and dark (extra is dark)
- */
 export type WritingColors = {
-	main: ColorSet;
-	extra?: ColorSet;
+	light: ColorSet;
+	dark: ColorSet;
 };
 
 export type WritingFonts = {
-	heading: FontDescritpion;
-	body: FontDescritpion;
+	heading: string;
+	body: string;
 };
 
 export type Background = {
@@ -63,3 +54,11 @@ export type ActionStatus = {
 };
 
 export type Templates = keyof typeof templates;
+
+export type fontSource = {
+	id: string;
+	family: string;
+	subset: string[];
+	weights: number[];
+	styles: string[];
+};

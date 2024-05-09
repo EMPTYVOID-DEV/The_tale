@@ -59,7 +59,7 @@
 		{name}
 		{placeholder}
 		{disabled}
-		on:input={handleChange}
+		on:change={handleChange}
 		--chevron-color="var(--primaryColor)"
 		--clear-icon-color="var(--primaryColor)"
 		--background="transparent"

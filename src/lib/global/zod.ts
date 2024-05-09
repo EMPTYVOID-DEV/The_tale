@@ -25,7 +25,7 @@ const usernameSchema = z
 const writingNameSchema = z
 	.string()
 	.min(4, { message: 'Writing name must be at least four characters' })
-	.max(32, { message: 'Writing name must no bigger than 32 characters' });
+	.max(48, { message: 'Writing name must no bigger than 48 characters' });
 
 const writingDescriptionSchema = z.string().refine(
 	(val) => {

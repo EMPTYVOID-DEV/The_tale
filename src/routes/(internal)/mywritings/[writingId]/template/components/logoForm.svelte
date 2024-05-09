@@ -26,16 +26,18 @@
 
 <FormWrapper actionName="?/changeLogo" action={changeLogo}>
 	<section class="input">
-		<h3>Logo</h3>
-		<span
-			>You can add a logo that will be displayed in writing page by default we will use the tale
-			logo. Click on it to change.</span
-		>
+		<div class="info">
+			<h3>Logo</h3>
+			<span
+				>You can add a logo that will be displayed on the writing page. By default the tale logo
+				will be used. Click the image to change it.</span
+			>
+		</div>
 		<input
 			type="file"
 			id="imgInput"
 			name="file"
-			accept="image/*"
+			accept="image/svg+xml"
 			on:input={(e) => {
 				imgHandler(e, handleUrlChange);
 			}}
@@ -49,7 +51,10 @@
 		</label>
 	</section>
 	<svelte:fragment slot="submitter">
-		<span class="description">Only images under or equal to 2.5mb are accepted. </span>
+		<span class="description"
+			>Only images of 2.5MB or smaller in size are accepted. Furthermore, for optimal
+			responsiveness, you need to upload an SVG file
+		</span>
 		<AsyncButton text="save" type="passive" {state} />
 	</svelte:fragment>
 </FormWrapper>
@@ -58,41 +63,52 @@
 	.input {
 		width: 100%;
 		display: flex;
-		flex-direction: column;
+		align-items: center;
 		padding: 1rem;
+		gap: 1rem;
+	}
+
+	.info {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
 		gap: 0.75rem;
 	}
 
-	.input h3,
-	.input span {
+	.info h3,
+	.info span {
 		color: var(--foregroundColor);
-	}
-
-	.input {
-		width: 80%;
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
 	}
 
 	.input input {
 		display: none;
 	}
-	.input .url {
-		width: 50%;
+
+	.input label {
+		width: 30%;
 		aspect-ratio: 3/1;
-		cursor: pointer;
 		overflow: hidden;
+		cursor: pointer;
 	}
 
-	.input .url img {
+	.input label img {
 		width: 100%;
 		height: 100%;
 		object-fit: contain;
 		object-position: center;
+		text-transform: capitalize;
 	}
 
 	.description {
 		color: var(--mutedColor);
+	}
+
+	@media screen and (width<768px) {
+		.input {
+			flex-direction: column;
+		}
+		.input label {
+			width: 50%;
+		}
 	}
 </style>

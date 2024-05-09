@@ -25,19 +25,20 @@
 	};
 </script>
 
-<FormWrapper actionName="?/changeTemplate" action={changeTemplate} --justify="flex-end">
+<FormWrapper actionName="?/changeTemplate" action={changeTemplate}>
 	<section class="input">
 		<h3>Template name</h3>
 		<span>The template will define which design you willing to use for this writing.</span>
 		<Select
-			clearable={false}
 			{elements}
+			clearable={false}
 			value={[{ value: tempalteName, label: tempalteName }]}
 			--width="80%"
 			on:change={handleChange}
 		/>
 	</section>
 	<svelte:fragment slot="submitter">
+		<span class="description">By default we going to use Sveltekit template.</span>
 		<SyncButton text="save" type="passive" />
 	</svelte:fragment>
 </FormWrapper>
@@ -54,5 +55,8 @@
 	.input h3,
 	.input span {
 		color: var(--foregroundColor);
+	}
+	.description {
+		color: var(--mutedColor);
 	}
 </style>

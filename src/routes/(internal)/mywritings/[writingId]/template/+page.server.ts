@@ -13,13 +13,11 @@ export const load: Load = async ({ params }) => {
 			colors: true,
 			fonts: true,
 			logo: true,
-			multiTheme: true,
-			tempalteName: true,
-			withSearch: true
+			tempalteName: true
 		},
 		where: eq(writingTable.id, writingId)
 	});
-	return { template };
+	return { ...template };
 };
 
 export const actions: Actions = {
@@ -36,14 +34,26 @@ export const actions: Actions = {
 		const writingId = params.writingId;
 		const fd = await request.formData();
 		const file = fd.get('file') as File;
-		if (file.size == 0) return fail(400, { message: "You hav'nt upload an image" });
-		if (!checkType('image/*', file.type))
-			return fail(400, { message: 'You should upload an image file format.' });
+		if (file.size == 0) return fail(400, { message: "You hav'nt upload an svg" });
+		if (!checkType('image/svg+xml', file.type))
+			return fail(400, { message: 'You should upload an svg file format.' });
 		if (!checkSize(1200, file.size))
-			return fail(400, { message: 'Your background image size should be less than 2.5mb.' });
+			return fail(400, { message: 'Your logo svg size should be less than 2.5mb.' });
 		const { extension, filename } = destructorFileName(file.name);
 		const name = `${filename}_${writingId}.${extension}`;
 		const logo = await uploadFile(file, name, 'logos');
 		await db.update(writingTable).set({ logo }).where(eq(writingTable.id, writingId));
+	},
+	changeFonts: async ({ params, request }) => {
+		const writingId = params.writingId;
+		const fd = await request.formData();
+		const body = fd.get('body').toString();
+		const heading = fd.get('heading').toString();
+		await db
+			.update(writingTable)
+			.set({
+				fonts: { body, heading }
+			})
+			.where(eq(writingTable.id, writingId));
 	}
 };
