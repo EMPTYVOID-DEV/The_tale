@@ -1,6 +1,6 @@
 <script>
 	/**@type {string}*/
-	export let text = 'button';
+	export let text = '';
 	/**@type {import("$client/types.client").iconComponent|null} */
 	export let icon = null;
 	/**@type {"disabled"|"passive"|"primary"|"secondary"|"danger"} */
@@ -54,6 +54,9 @@
 		font-size: var(--body);
 		font-weight: bold;
 		text-wrap: nowrap;
+	}
+	button span:empty {
+		display: none;
 	}
 	button :global(svg) {
 		width: 1.25rem;

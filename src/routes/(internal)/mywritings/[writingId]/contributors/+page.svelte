@@ -123,14 +123,14 @@
 				<Avatar avatar={contributor.contributorAvatar} />
 				<div class="layer">
 					<span>{contributor.contributorUsername}</span>
-					<span>ID-{contributor.contributorId}</span>
+					<span>{contributor.contributorId}</span>
 				</div>
 				<div class="layer">
 					<span>Writing time</span>
 					<span>{Math.floor(contributor.writingTime / 60)} minutes</span>
 				</div>
 				<div class="layer">
-					<SyncButton type="danger" text="remove" icon={DeleteIcon} />
+					<SyncButton type="danger" icon={DeleteIcon} --padding-inline="0.5rem" />
 				</div>
 			</form>
 		{/each}
@@ -171,7 +171,7 @@
 		cursor: pointer;
 		outline: none;
 		border: none;
-		background-color: var(--foregroundColor);
+		background-color: var(--primaryColor);
 		border-radius: var(--border-radius);
 	}
 	.add span {
@@ -183,6 +183,7 @@
 	.add :global(svg) {
 		width: 20px;
 		height: 20px;
+		--icon: var(--backgroundColor);
 	}
 
 	.list {

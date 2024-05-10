@@ -37,4 +37,12 @@
 		padding-block: 0.5rem;
 		border-top: 1px solid var(--mutedColor);
 	}
+
+	@media screen and (width <768px) {
+		.submitter {
+			flex-direction: column;
+			align-items: flex-end;
+			gap: 1rem;
+		}
+	}
 </style>

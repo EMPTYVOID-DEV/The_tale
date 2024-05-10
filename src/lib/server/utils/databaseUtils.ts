@@ -1,10 +1,15 @@
 import { db } from '$server/database/database';
-import { keyTable, writingContributors, writingTable, userTable } from '$server/database/schema';
-import type { key, user } from '$server/types.server';
+import {
+	keyTable,
+	writingContributorsTable,
+	writingTable,
+	userTable
+} from '$server/database/schema';
+import type { Key, User } from '$server/types.server';
 import { and, eq } from 'drizzle-orm';
 import { generateId } from 'lucia';
 
-export async function insertUser(newUser: user, key: key) {
+export async function insertUser(newUser: User, key: Key) {
 	return db.transaction(async (tx) => {
 		await tx.insert(userTable).values(newUser);
 		await tx.insert(keyTable).values(key);
@@ -15,21 +20,21 @@ export async function getMyContributions(userId: string) {
 	return db
 		.select({
 			writingId: writingTable.id,
-			role: writingContributors.role,
-			writingTime: writingContributors.writingTime,
+			role: writingContributorsTable.role,
+			writingTime: writingContributorsTable.writingTime,
 			writingName: writingTable.name,
 			writingBackground: writingTable.background
 		})
-		.from(writingContributors)
-		.where(eq(writingContributors.userId, userId))
-		.innerJoin(writingTable, eq(writingContributors.writingId, writingTable.id));
+		.from(writingContributorsTable)
+		.where(eq(writingContributorsTable.userId, userId))
+		.innerJoin(writingTable, eq(writingContributorsTable.writingId, writingTable.id));
 }
 
 export async function addWriting(userId: string, writingName: string) {
 	return db.transaction(async (tx) => {
 		const id = generateId(8);
 		await tx.insert(writingTable).values({ id, name: writingName });
-		await tx.insert(writingContributors).values({ role: 'owner', userId, writingId: id });
+		await tx.insert(writingContributorsTable).values({ role: 'owner', userId, writingId: id });
 		return id;
 	});
 }
@@ -40,11 +45,14 @@ export async function getWritingContributors(writingId: string) {
 			contributorId: userTable.id,
 			contributorUsername: userTable.username,
 			contributorAvatar: userTable.avatar,
-			writingTime: writingContributors.writingTime
+			writingTime: writingContributorsTable.writingTime
 		})
-		.from(writingContributors)
+		.from(writingContributorsTable)
 		.where(
-			and(eq(writingContributors.writingId, writingId), eq(writingContributors.role, 'writer'))
+			and(
+				eq(writingContributorsTable.writingId, writingId),
+				eq(writingContributorsTable.role, 'writer')
+			)
 		)
-		.innerJoin(userTable, eq(userTable.id, writingContributors.userId));
+		.innerJoin(userTable, eq(userTable.id, writingContributorsTable.userId));
 }

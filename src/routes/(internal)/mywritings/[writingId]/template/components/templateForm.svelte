@@ -33,12 +33,11 @@
 			{elements}
 			clearable={false}
 			value={[{ value: tempalteName, label: tempalteName }]}
-			--width="80%"
 			on:change={handleChange}
 		/>
 	</section>
 	<svelte:fragment slot="submitter">
-		<span class="description">By default we going to use Sveltekit template.</span>
+		<span class="description">The tale by default is going to use Sveltekit template.</span>
 		<SyncButton text="save" type="passive" />
 	</svelte:fragment>
 </FormWrapper>
@@ -50,6 +49,7 @@
 		flex-direction: column;
 		padding: 1rem;
 		gap: 0.75rem;
+		--width: 70%;
 	}
 
 	.input h3,
@@ -58,5 +58,12 @@
 	}
 	.description {
 		color: var(--mutedColor);
+		font-size: var(--small);
+	}
+
+	@media screen and (width<768px) {
+		.input {
+			--width: 100%;
+		}
 	}
 </style>

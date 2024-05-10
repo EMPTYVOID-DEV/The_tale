@@ -124,7 +124,7 @@
 	}
 
 	.data {
-		width: 80%;
+		width: 70%;
 		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
@@ -157,6 +157,7 @@
 
 	.description {
 		color: var(--mutedColor);
+		font-size: var(--small);
 	}
 
 	@media screen and (max-width: 768px) {

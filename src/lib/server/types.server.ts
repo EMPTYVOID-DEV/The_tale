@@ -1,6 +1,7 @@
 import type { keyTable, userTable } from '$server/database/schema';
+import { pathCheckModes } from './consts.server';
 
-export type mailOptions = {
+export type MailOptions = {
 	from: string;
 	to: string;
 	subject: string;
@@ -8,7 +9,7 @@ export type mailOptions = {
 	html?: string;
 };
 
-export type cookieOptions = {
+export type CookieOptions = {
 	value?: string;
 	maxAge?: number;
 	domain?: string;
@@ -24,6 +25,8 @@ export type GithubUser = {
 	login: string;
 };
 
-export type user = typeof userTable.$inferInsert;
+export type User = typeof userTable.$inferInsert;
 
-export type key = typeof keyTable.$inferInsert;
+export type Key = typeof keyTable.$inferInsert;
+
+export type PathCheckModes = keyof typeof pathCheckModes;

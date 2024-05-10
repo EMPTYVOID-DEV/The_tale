@@ -52,8 +52,8 @@
 	</section>
 	<svelte:fragment slot="submitter">
 		<span class="description"
-			>Only images of 2.5MB or smaller in size are accepted. Furthermore, for optimal
-			responsiveness, you need to upload an SVG file
+			>Only images of 2.5MB or smaller in size are accepted. Furthermore, for optimal ux, you need
+			to upload an SVG file
 		</span>
 		<AsyncButton text="save" type="passive" {state} />
 	</svelte:fragment>
@@ -101,6 +101,7 @@
 
 	.description {
 		color: var(--mutedColor);
+		font-size: var(--small);
 	}
 
 	@media screen and (width<768px) {

@@ -25,7 +25,7 @@
 		<TextArea value={description} --height="160px" name="description" />
 	</section>
 	<svelte:fragment slot="submitter">
-		<span class="description">Writing description can't exceed 160 words.</span>
+		<span class="description">Your writing description can't exceed 160 words.</span>
 		<SyncButton text="save" type="passive" />
 	</svelte:fragment>
 </FormWrapper>
@@ -46,5 +46,6 @@
 
 	.description {
 		color: var(--mutedColor);
+		font-size: var(--small);
 	}
 </style>

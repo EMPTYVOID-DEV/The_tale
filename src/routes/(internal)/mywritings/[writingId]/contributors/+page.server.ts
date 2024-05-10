@@ -2,7 +2,7 @@ import { fail, type Actions, type ServerLoad } from '@sveltejs/kit';
 import { getWritingContributors } from '$server/utils/databaseUtils';
 import { db } from '$server/database/database';
 import { and, eq } from 'drizzle-orm';
-import { userTable, writingContributors } from '$server/database/schema';
+import { userTable, writingContributorsTable } from '$server/database/schema';
 
 export const load: ServerLoad = async ({ params }) => {
 	const writingId = params.writingId;
@@ -21,7 +21,7 @@ export const actions: Actions = {
 			});
 			if (!contributor) return fail(404, { message: 'This user does not exist' });
 			await db
-				.insert(writingContributors)
+				.insert(writingContributorsTable)
 				.values({ role: 'writer', userId: contributorId, writingId });
 		} catch (error) {
 			if (error.code == '23505')
@@ -33,11 +33,11 @@ export const actions: Actions = {
 		const fd = await request.formData();
 		const contributorId = fd.get('contributorId').toString();
 		await db
-			.delete(writingContributors)
+			.delete(writingContributorsTable)
 			.where(
 				and(
-					eq(writingContributors.writingId, writingId),
-					eq(writingContributors.userId, contributorId)
+					eq(writingContributorsTable.writingId, writingId),
+					eq(writingContributorsTable.userId, contributorId)
 				)
 			);
 	}

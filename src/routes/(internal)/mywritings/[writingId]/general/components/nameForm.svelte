@@ -4,11 +4,11 @@
 	import SyncButton from '$components/button/syncButton.svelte';
 	import ReactiveInput from '$components/input/reactiveInput.svelte';
 	import FormWrapper from '$components/other/formWrapper.svelte';
-	import { validateWritingName } from '$global/zod';
+	import { getValidator, writingNameSchema } from '$global/zod';
 	import type { SubmitFunction } from '@sveltejs/kit';
 
 	$: name = $page.data.settings.name;
-
+	const validateWritingName = getValidator(writingNameSchema);
 	const changeName: SubmitFunction = async () => {
 		return ({ result, update }) => {
 			if (result.type == 'failure') showToast('Failure', result.data.message, 'danger');
@@ -46,6 +46,7 @@
 	}
 
 	.description {
+		font-size: var(--small);
 		color: var(--mutedColor);
 	}
 

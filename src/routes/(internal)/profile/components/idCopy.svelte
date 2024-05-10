@@ -46,6 +46,7 @@
 		padding-block: 0.5rem;
 		border-top: 1px solid var(--mutedColor);
 		color: var(--mutedColor);
+		font-size: var(--small);
 	}
 
 	@media screen and (max-width: 768px) {

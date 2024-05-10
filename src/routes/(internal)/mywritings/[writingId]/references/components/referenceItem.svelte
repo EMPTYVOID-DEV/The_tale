@@ -1,0 +1,109 @@
+<script lang="ts">
+	import UpIcon from '$icons/upIcon.svelte';
+	import DownIcon from '$icons/downIcon.svelte';
+	import { slide } from 'svelte/transition';
+	import HrefIcon from '$icons/hrefIcon.svelte';
+	import SyncButton from '$components/button/syncButton.svelte';
+	import DeleteIcon from '$icons/deleteIcon.svelte';
+	import { page } from '$app/stores';
+	import type { Contribution, Reference } from '$global/types.global';
+	import { showToast } from '$client/utils.client';
+	import type { SubmitFunction } from '@sveltejs/kit';
+	import { enhance } from '$app/forms';
+
+	/**@type {string}*/
+	export let title;
+	/**@type {string}*/
+	export let href;
+	/**@type {string}*/
+	export let description;
+	/**@type {boolean}*/
+	export let show = false;
+
+	function checkAbility() {
+		const id = $page.data.id;
+		const references = $page.data.references as Reference[];
+		const writerId = references.find((el) => el.title == title).writerId;
+		const writingId = $page.params.writingId;
+		const contributions = $page.data.contributions as Contribution[];
+		return (
+			id == writerId || contributions.find((el) => el.role == 'owner' && el.writingId == writingId)
+		);
+	}
+
+	const removeReference: SubmitFunction = async () => {
+		return ({ result, update }) => {
+			if (result.type == 'success') showToast('Success', 'The fonts has been updated', 'success');
+			update();
+		};
+	};
+	let canRemove = checkAbility();
+</script>
+
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<div class="accordianItem" on:click={() => (show = !show)}>
+	<div class="title">
+		<a class="href" {href} target="_blank">
+			<span>{title}</span>
+			<HrefIcon />
+		</a>
+		{#if canRemove}
+			<form action="?/removeReference" class="removeForm" use:enhance={removeReference}>
+				<SyncButton type="danger" icon={DeleteIcon} on:click --padding-inline="0.5rem" />
+			</form>
+		{/if}
+		{#if show}
+			<UpIcon />
+		{:else}
+			<DownIcon />
+		{/if}
+	</div>
+	{#if show}
+		<span class="description" transition:slide>{description}</span>
+	{/if}
+</div>
+
+<style>
+	.accordianItem {
+		display: flex;
+		flex-direction: column;
+		padding-block: 0.5rem;
+		padding-inline: 1rem;
+		cursor: pointer;
+		border-radius: var(--border-radius);
+		border: 2px solid color-mix(in srgb, var(--primaryColor) 60%, transparent 40%);
+	}
+	.title {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.href {
+		display: flex;
+		align-items: flex-end;
+		gap: 2px;
+		margin-right: auto;
+	}
+
+	.href span {
+		font-weight: 600;
+		color: var(--primaryColor);
+		font-size: var(--body);
+		font-family: var(--bodyFont);
+	}
+
+	.removeForm {
+		display: contents;
+	}
+
+	.description {
+		margin-block: 0.5rem;
+		word-break: break-word;
+		white-space: pre-wrap;
+		color: var(--foregroundColor);
+		font-size: var(--body);
+		font-family: var(--bodyFont);
+	}
+</style>

@@ -60,6 +60,7 @@
 		{placeholder}
 		{disabled}
 		on:change={handleChange}
+		--width="100%"
 		--chevron-color="var(--primaryColor)"
 		--clear-icon-color="var(--primaryColor)"
 		--background="transparent"

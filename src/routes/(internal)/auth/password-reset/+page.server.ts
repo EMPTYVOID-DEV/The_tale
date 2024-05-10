@@ -1,5 +1,5 @@
 import { dev } from '$app/environment';
-import { validateEmail, validatePassword } from '$global/zod';
+import { getValidator, emailSchema, passwordSchema } from '$global/zod';
 import { sendVerificationEmail } from '$lib/server/auth/email';
 import { db } from '$server/database/database';
 import { keyTable } from '$server/database/schema';
@@ -13,6 +13,7 @@ export const actions: Actions = {
 	send: async ({ request, cookies }) => {
 		const fd = await request.formData();
 		const email = fd.get('email').toString();
+		const validateEmail = getValidator(emailSchema);
 		if (validateEmail(email).state == 'invalid')
 			return fail(403, { message: validateEmail(email).errorMsg });
 
@@ -50,6 +51,7 @@ export const actions: Actions = {
 		const fd = await request.formData();
 		const password = fd.get('password').toString();
 		const email = fd.get('email').toString();
+		const validatePassword = getValidator(passwordSchema);
 		if (validatePassword(password).state == 'invalid')
 			return fail(403, { message: validatePassword(password).errorMsg });
 		const hashedPassword = await new Argon2id().hash(password);

@@ -15,7 +15,8 @@ import {
 	timestamp,
 	date,
 	json,
-	integer
+	integer,
+	unique
 } from 'drizzle-orm/pg-core';
 import type { dataBlock } from '@altron/altron/types';
 import { defaultColors, defaultFonts } from '$global/const.global';
@@ -30,7 +31,7 @@ export const sessionTable = pgTable('session', {
 	id: text('id').notNull().primaryKey(),
 	userId: varchar('user_id', { length: 8 })
 		.notNull()
-		.references(() => userTable.id),
+		.references(() => userTable.id, { onDelete: 'cascade' }),
 	expiresAt: timestamp('expires_at', {
 		withTimezone: true,
 		mode: 'date'
@@ -72,26 +73,30 @@ export const writingTable = pgTable('writing', {
 		.default({ type: 'tier0', section: '' })
 });
 
-export const writingLinksTable = pgTable(
+export const writingReferencesTable = pgTable(
 	'writing_links',
 	{
-		header: text('header').notNull(),
+		title: text('title').notNull(),
 		writingId: varchar('writing_id', { length: 8 })
 			.notNull()
 			.references(() => writingTable.id, {
 				onDelete: 'cascade'
 			}),
 		description: text('descritpion').notNull(),
-		href: text('href').notNull()
+		href: text('href').notNull(),
+		writerId: varchar('writer_id', { length: 8 })
+			.notNull()
+			.references(() => userTable.id)
 	},
 	(table) => {
 		return {
-			pk: primaryKey({ columns: [table.header, table.writingId] })
+			pk: primaryKey({ columns: [table.title, table.writingId] }),
+			uniqueHref: unique('unique_href').on(table.writingId, table.href)
 		};
 	}
 );
 
-export const writingContributors = pgTable(
+export const writingContributorsTable = pgTable(
 	'writing_contributors',
 	{
 		userId: varchar('user_id', { length: 8 })
@@ -139,5 +144,8 @@ export const sectionsTable = pgTable('sections', {
 		.notNull()
 		.references(() => writingTable.id, {
 			onDelete: 'cascade'
-		})
+		}),
+	writerId: varchar('writer_id', { length: 8 })
+		.notNull()
+		.references(() => userTable.id)
 });

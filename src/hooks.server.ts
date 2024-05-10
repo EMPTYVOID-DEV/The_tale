@@ -1,9 +1,12 @@
 import { lucia } from '$server/auth/lucia';
 import { db } from '$server/database/database';
-import { writingContributors } from '$server/database/schema';
+import { writingContributorsTable } from '$server/database/schema';
+import { checkPath } from '$server/utils/authUtils';
 import { error, redirect, type Handle, type HandleServerError } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { and, eq } from 'drizzle-orm';
+
+//TODO: check search optimization
 
 export const handleError: HandleServerError = async ({ status }) => {
 	error(status);
@@ -41,30 +44,30 @@ const authHook: Handle = async ({ resolve, event }) => {
 	const pathname = event.url.pathname;
 	const writingId = event.params.writingId;
 	const userId = user?.id;
-
-	if (!user && (pathname === '/profile' || pathname.startsWith('/mywritings'))) {
+	if (!user && checkPath(pathname, 'start', ['/profile', '/mywritings'])) {
 		redirect(302, '/auth');
 	}
 
-	if (user && pathname === '/auth') {
+	if (user && checkPath(pathname, 'start', ['/auth'])) {
 		redirect(302, '/mywritings');
 	}
 
 	if (!writingId) return resolve(event);
 
-	const contributor = await db.query.writingContributors.findFirst({
-		where: and(eq(writingContributors.writingId, writingId), eq(writingContributors.userId, userId))
+	const contributor = await db.query.writingContributorsTable.findFirst({
+		where: and(
+			eq(writingContributorsTable.writingId, writingId),
+			eq(writingContributorsTable.userId, userId)
+		)
 	});
 
 	if (!contributor) {
 		redirect(302, '/mywritings');
 	}
 
-	const writingSection = pathname.split('/').at(-1);
-
 	if (
 		contributor.role === 'writer' &&
-		['template', 'general', 'contributors'].includes(writingSection)
+		checkPath(pathname, 'end', ['template', 'general', 'contributors'])
 	) {
 		redirect(302, '/mywritings');
 	}

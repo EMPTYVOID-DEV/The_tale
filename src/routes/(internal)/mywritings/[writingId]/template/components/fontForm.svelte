@@ -42,7 +42,6 @@
 		<h3>Font</h3>
 		<span>Select the body and heading fonts used for your writing.</span>
 		<Select
-			--width="80%"
 			clearable={false}
 			elements={bodyFonts}
 			value={[{ value: fonts.body, label: fonts.body }]}
@@ -50,7 +49,6 @@
 			on:change={handleBodyChange}
 		/>
 		<Select
-			--width="80%"
 			clearable={false}
 			elements={headingFonts}
 			value={[{ value: fonts.heading, label: fonts.heading }]}
@@ -73,6 +71,7 @@
 		flex-direction: column;
 		padding: 1rem;
 		gap: 0.75rem;
+		--width: 70%;
 	}
 
 	.input h3,
@@ -82,5 +81,12 @@
 
 	.description {
 		color: var(--mutedColor);
+		font-size: var(--small);
+	}
+
+	@media screen and (width<768px) {
+		.input {
+			--width: 100%;
+		}
 	}
 </style>

@@ -7,7 +7,7 @@
 	import type { Contribution } from '$global/types.global';
 	import PlusIcon from '$icons/plusIcon.svelte';
 	import ReactiveInput from '$components/input/reactiveInput.svelte';
-	import { validateWritingName } from '$global/zod';
+	import { getValidator, writingNameSchema } from '$global/zod';
 	import SyncButton from '$components/button/syncButton.svelte';
 	import { quadInOut } from 'svelte/easing';
 	import { scale } from 'svelte/transition';
@@ -15,6 +15,7 @@
 	import { showToast } from '$client/utils.client';
 	import { Toaster } from 'svelte-sonner';
 	let contributions = $page.data.contributions as Contribution[];
+	const validateWritingName = getValidator(writingNameSchema);
 	const rolesOrder = ['writer', 'owner'];
 	const elements: { value: 'name' | 'role' | 'writingTime'; label: string }[] = [
 		{
@@ -119,7 +120,7 @@
 				<WritingBackground background={contribution.writingBackground} />
 				<div class="layer">
 					<span>{contribution.writingName}</span>
-					<span>ID-{contribution.writingId}</span>
+					<span>{contribution.writingId}</span>
 				</div>
 				<div class="layer">
 					<span>Role</span>
@@ -167,7 +168,7 @@
 		cursor: pointer;
 		outline: none;
 		border: none;
-		background-color: var(--foregroundColor);
+		background-color: var(--primaryColor);
 		border-radius: var(--border-radius);
 	}
 	.add span {
@@ -179,6 +180,7 @@
 	.add :global(svg) {
 		width: 20px;
 		height: 20px;
+		--icon: var(--backgroundColor);
 	}
 
 	.list {

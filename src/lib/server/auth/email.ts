@@ -1,5 +1,5 @@
 import { MAIL_KEY, API_EMAIL } from '$env/static/private';
-import type { mailOptions } from '$server/types.server';
+import type { MailOptions } from '$server/types.server';
 import { createTransport } from 'nodemailer';
 import { render } from 'svelte-email';
 import type { ComponentType, SvelteComponent } from 'svelte';
@@ -31,7 +31,7 @@ export async function sendVerificationEmail(
 			pretty: true
 		}
 	});
-	const mailOptions: mailOptions = {
+	const mailOptions: MailOptions = {
 		from: API_EMAIL,
 		subject: 'Email verification',
 		to: email,

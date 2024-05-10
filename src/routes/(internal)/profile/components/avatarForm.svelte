@@ -56,6 +56,7 @@
 		align-items: center;
 		justify-content: space-between;
 		padding: 1rem;
+		gap: 1rem;
 	}
 
 	.info {
@@ -99,5 +100,6 @@
 	}
 	.description {
 		color: var(--mutedColor);
+		font-size: var(--small);
 	}
 </style>

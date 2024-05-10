@@ -4,13 +4,15 @@
 	import { goto } from '$app/navigation';
 	import { enhance } from '$app/forms';
 	import { showToast } from '$client/utils.client';
-	import { validateEmail, validatePassword, validateUsername } from '$global/zod';
+	import { getValidator, emailSchema, passwordSchema, usernameSchema } from '$global/zod';
 	import { Toaster } from 'svelte-sonner';
 	import GithubIcon from '$lib/client/ui/icons/githubIcon.svelte';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import Morph from './components/morph.svelte';
 	let stage: 'sign up' | 'sign in' = 'sign up';
-
+	const validateEmail = getValidator(emailSchema);
+	const validateUsername = getValidator(usernameSchema);
+	const validatePassword = getValidator(passwordSchema);
 	const handleAction: SubmitFunction = async () => {
 		return ({ result, update }) => {
 			if (result.type == 'failure') showToast('Error', result.data.message, 'danger');

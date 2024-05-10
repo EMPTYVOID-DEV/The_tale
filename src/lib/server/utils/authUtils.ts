@@ -1,4 +1,6 @@
 import { lucia } from '$server/auth/lucia';
+import { pathCheckModes } from '$server/consts.server';
+import type { PathCheckModes } from '$server/types.server';
 import type { Cookies } from '@sveltejs/kit';
 import type { GitHubTokens } from 'arctic';
 
@@ -18,4 +20,14 @@ export async function fetchGithubUser(tokens: GitHubTokens) {
 		}
 	});
 	return githubUserResponse.json();
+}
+
+export function checkPath(pathname: string, checkLevel: PathCheckModes, checkerArray: string[]) {
+	const mode = pathCheckModes[checkLevel];
+	for (const el of checkerArray) {
+		if (mode == 0 && pathname.startsWith(el)) return true;
+		if (mode == 1 && pathname.endsWith(el)) return true;
+		if (mode == 2 && pathname.includes(el)) return true;
+	}
+	return false;
 }

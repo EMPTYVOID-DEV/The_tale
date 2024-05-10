@@ -6,7 +6,7 @@ import { fetchGithubUser, createSession } from '$lib/server/utils/authUtils';
 import type { RequestEvent } from '@sveltejs/kit';
 import { and, eq } from 'drizzle-orm';
 import { github } from '$lib/server/auth/github';
-import type { GithubUser, key, user } from '$server/types.server';
+import type { GithubUser, Key, User } from '$server/types.server';
 import { insertUser } from '$lib/server/utils/databaseUtils';
 
 export async function GET(event: RequestEvent): Promise<Response> {
@@ -34,11 +34,11 @@ export async function GET(event: RequestEvent): Promise<Response> {
 			await createSession(event.cookies, userKey.userId);
 		} else {
 			const id = generateId(8);
-			const newUser: user = {
+			const newUser: User = {
 				id,
 				username: githubUser.login
 			};
-			const key: key = {
+			const key: Key = {
 				provider_name: 'github',
 				provider_id: githubUser.id.toString(),
 				userId: id

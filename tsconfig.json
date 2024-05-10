@@ -41,5 +41,5 @@
 		"src/**/*.ts",
 		"src/**/*.svelte",
 		".svelte-kit/ambient.d.ts"
-, "src/routes/(internal)/+layousrc/routes/(internal)/auth/+page.server.ts+page.server.ts", "src/routes/(internal)/(account)/+layout.sersrc/routes/(internal)/writing/+layout.server.ts.server.ts", "src/routes/(internal)/auth/+page.server.ts"	]
+	]
 }

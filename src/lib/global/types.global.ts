@@ -62,3 +62,10 @@ export type fontSource = {
 	weights: number[];
 	styles: string[];
 };
+
+export type Reference = {
+	description: string;
+	title: string;
+	href: string;
+	writerId: string;
+};

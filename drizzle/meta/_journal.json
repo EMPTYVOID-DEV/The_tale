@@ -57,6 +57,20 @@
       "when": 1715229611433,
       "tag": "0007_clever_lilandra",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1715327502941,
+      "tag": "0008_heavy_jack_flag",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1715330272924,
+      "tag": "0009_sparkling_champions",
+      "breakpoints": true
     }
   ]
 }

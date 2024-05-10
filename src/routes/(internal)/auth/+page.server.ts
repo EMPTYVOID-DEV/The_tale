@@ -2,8 +2,8 @@ import { db } from '$server/database/database';
 import { keyTable } from '$server/database/schema';
 import { createSession } from '$server/utils/authUtils';
 import { insertUser } from '$server/utils/databaseUtils';
-import type { key, user } from '$server/types.server';
-import { validateEmail, validatePassword, validateUsername } from '$global/zod';
+import type { Key, User } from '$server/types.server';
+import { getValidator, emailSchema, passwordSchema, usernameSchema } from '$global/zod';
 import { type Actions, redirect } from '@sveltejs/kit';
 import { and, eq } from 'drizzle-orm';
 import { generateId } from 'lucia';
@@ -16,6 +16,9 @@ export const actions: Actions = {
 		const username = fd.get('username').toString();
 		const email = fd.get('email').toString();
 		const password = fd.get('password').toString();
+		const validateEmail = getValidator(emailSchema);
+		const validateUsername = getValidator(usernameSchema);
+		const validatePassword = getValidator(passwordSchema);
 		if (validateUsername(username).state == 'invalid')
 			return fail(403, { message: validateUsername(username).errorMsg });
 		if (validateEmail(email).state == 'invalid')
@@ -24,11 +27,11 @@ export const actions: Actions = {
 			return fail(403, { message: validatePassword(password).errorMsg });
 		const id = generateId(8);
 		const hashedPassword = await new Argon2id().hash(password);
-		const newUser: user = {
+		const newUser: User = {
 			id,
 			username
 		};
-		const key: key = {
+		const key: Key = {
 			provider_name: 'email',
 			provider_id: email,
 			userId: id,
@@ -47,6 +50,8 @@ export const actions: Actions = {
 		const fd = await request.formData();
 		const email = fd.get('email').toString();
 		const password = fd.get('password').toString();
+		const validateEmail = getValidator(emailSchema);
+		const validatePassword = getValidator(passwordSchema);
 		if (validateEmail(email).state == 'invalid')
 			return fail(403, { message: validateEmail(email).errorMsg });
 		if (validatePassword(password).state == 'invalid')

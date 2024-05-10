@@ -10,10 +10,12 @@
 	import { enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import ReactiveInput from '$components/input/reactiveInput.svelte';
-	import { validateEmail, validatePassword } from '$global/zod';
+	import { getValidator, emailSchema, passwordSchema } from '$global/zod';
 	let otpString = '';
 	let state: 'send' | 'verify' | 'reset' = 'send';
 	let email = '';
+	const validateEmail = getValidator(emailSchema);
+	const validatePassword = getValidator(passwordSchema);
 	const sendEnhance: SubmitFunction = async ({ formData }) => {
 		formData.append('email', email);
 		return ({ result }) => {
