@@ -70,11 +70,14 @@ export const writingTable = pgTable('writing', {
 	tempalteName: text('template_name').$type<Templates>().default('Sveltekit'),
 	sectionsGraph: json('sections_graph')
 		.$type<SectionsGraph>()
-		.default({ type: 'tier0', section: '' })
+		.default({ type: 'tier0', section: '' }),
+	ownerId: varchar('owner_id', { length: 8 })
+		.notNull()
+		.references(() => userTable.id, { onDelete: 'cascade' })
 });
 
 export const writingReferencesTable = pgTable(
-	'writing_links',
+	'writing_references',
 	{
 		title: text('title').notNull(),
 		writingId: varchar('writing_id', { length: 8 })
@@ -86,7 +89,7 @@ export const writingReferencesTable = pgTable(
 		href: text('href').notNull(),
 		writerId: varchar('writer_id', { length: 8 })
 			.notNull()
-			.references(() => userTable.id)
+			.references(() => userTable.id, { onDelete: 'set null' })
 	},
 	(table) => {
 		return {
@@ -147,5 +150,5 @@ export const sectionsTable = pgTable('sections', {
 		}),
 	writerId: varchar('writer_id', { length: 8 })
 		.notNull()
-		.references(() => userTable.id)
+		.references(() => userTable.id, { onDelete: 'set null' })
 });

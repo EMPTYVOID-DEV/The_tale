@@ -10,4 +10,4 @@ localDB
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 static/*
-drizzle/*
+drizzle

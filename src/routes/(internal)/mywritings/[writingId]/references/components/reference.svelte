@@ -1,13 +1,22 @@
-<script>
+<script lang="ts">
+	import { isOwner, isReferenceCreator } from '$client/utils.client';
 	import AccordianItem from './referenceItem.svelte';
 
-	/**@type {{title:string,href:string,description:string}[]} This is the list of accordian items with title and description*/
-	export let accordianList = [];
+	export let accordianList: { title: string; href: string; description: string }[] = [];
+
+	function checkAbility(title: string) {
+		return isOwner() || isReferenceCreator(title);
+	}
 </script>
 
 <div class="accordian">
 	{#each accordianList as item}
-		<AccordianItem title={item.title} description={item.description} href={item.href} />
+		<AccordianItem
+			title={item.title}
+			description={item.description}
+			href={item.href}
+			canRemove={checkAbility(item.title)}
+		/>
 	{/each}
 </div>
 

@@ -1,1 +1,0 @@
-ALTER TABLE "writing" ALTER COLUMN "creation_date" SET DEFAULT 'Wed, 08 May 2024 12:15:29 GMT';

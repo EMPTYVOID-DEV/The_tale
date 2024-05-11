@@ -5,39 +5,22 @@
 	import HrefIcon from '$icons/hrefIcon.svelte';
 	import SyncButton from '$components/button/syncButton.svelte';
 	import DeleteIcon from '$icons/deleteIcon.svelte';
-	import { page } from '$app/stores';
-	import type { Contribution, Reference } from '$global/types.global';
 	import { showToast } from '$client/utils.client';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import { enhance } from '$app/forms';
 
-	/**@type {string}*/
-	export let title;
-	/**@type {string}*/
-	export let href;
-	/**@type {string}*/
-	export let description;
-	/**@type {boolean}*/
-	export let show = false;
-
-	function checkAbility() {
-		const id = $page.data.id;
-		const references = $page.data.references as Reference[];
-		const writerId = references.find((el) => el.title == title).writerId;
-		const writingId = $page.params.writingId;
-		const contributions = $page.data.contributions as Contribution[];
-		return (
-			id == writerId || contributions.find((el) => el.role == 'owner' && el.writingId == writingId)
-		);
-	}
-
-	const removeReference: SubmitFunction = async () => {
+	export let title: string;
+	export let href: string;
+	export let description: string;
+	export let canRemove: boolean;
+	let show: boolean = false;
+	const removeReference: SubmitFunction = async ({ formData }) => {
+		formData.append('title', title);
 		return ({ result, update }) => {
 			if (result.type == 'success') showToast('Success', 'The fonts has been updated', 'success');
 			update();
 		};
 	};
-	let canRemove = checkAbility();
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -49,7 +32,12 @@
 			<HrefIcon />
 		</a>
 		{#if canRemove}
-			<form action="?/removeReference" class="removeForm" use:enhance={removeReference}>
+			<form
+				method="post"
+				action="?/removeReference"
+				class="removeForm"
+				use:enhance={removeReference}
+			>
 				<SyncButton type="danger" icon={DeleteIcon} on:click --padding-inline="0.5rem" />
 			</form>
 		{/if}

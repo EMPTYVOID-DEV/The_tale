@@ -1,2 +1,0 @@
-ALTER TABLE "writing" ALTER COLUMN "background" SET DEFAULT '{"type":"color","value":"#dfdafa"}'::json;--> statement-breakpoint
-ALTER TABLE "writing" ALTER COLUMN "creation_date" SET DEFAULT 'Mon, 06 May 2024 09:27:39 GMT';

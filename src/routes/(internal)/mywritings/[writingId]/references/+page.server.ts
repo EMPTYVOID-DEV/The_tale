@@ -1,6 +1,7 @@
 import { getValidator, hrefSchema, referenceTitleSchema } from '$global/zod';
 import { db } from '$server/database/database';
 import { writingReferencesTable } from '$server/database/schema';
+import { removeReference } from '$server/utils/databaseUtils';
 import type { Actions, Load } from '@sveltejs/kit';
 import { fail } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
@@ -41,5 +42,11 @@ export const actions: Actions = {
 				return fail(409, { message: 'It seems the reference already exists.' });
 		}
 	},
-	removeReference: async () => {}
+	removeReference: async ({ params, request, locals }) => {
+		const userId = locals.user.id;
+		const writingId = params.writingId;
+		const fd = await request.formData();
+		const title = fd.get('title').toString();
+		await removeReference(title, userId, writingId);
+	}
 };

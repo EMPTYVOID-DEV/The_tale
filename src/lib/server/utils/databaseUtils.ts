@@ -3,11 +3,13 @@ import {
 	keyTable,
 	writingContributorsTable,
 	writingTable,
-	userTable
+	userTable,
+	writingReferencesTable
 } from '$server/database/schema';
 import type { Key, User } from '$server/types.server';
 import { and, eq } from 'drizzle-orm';
 import { generateId } from 'lucia';
+import { isOwner, isReferenceCreator } from './customMiddlewares';
 
 export async function insertUser(newUser: User, key: Key) {
 	return db.transaction(async (tx) => {
@@ -33,7 +35,7 @@ export async function getMyContributions(userId: string) {
 export async function addWriting(userId: string, writingName: string) {
 	return db.transaction(async (tx) => {
 		const id = generateId(8);
-		await tx.insert(writingTable).values({ id, name: writingName });
+		await tx.insert(writingTable).values({ id, name: writingName, ownerId: userId });
 		await tx.insert(writingContributorsTable).values({ role: 'owner', userId, writingId: id });
 		return id;
 	});
@@ -55,4 +57,24 @@ export async function getWritingContributors(writingId: string) {
 			)
 		)
 		.innerJoin(userTable, eq(userTable.id, writingContributorsTable.userId));
+}
+
+export async function removeReference(title: string, userId: string, writingId: string) {
+	const result = await Promise.allSettled([
+		isOwner(writingId, userId),
+		isReferenceCreator(title, writingId, userId)
+	]);
+	if (result[0].status == 'rejected' || result[1].status == 'rejected')
+		throw new Error('Service unavailable');
+	const writingOwner = result[0].value;
+	const referenceCreator = result[1].value;
+	if (writingOwner || referenceCreator)
+		await db
+			.delete(writingReferencesTable)
+			.where(
+				and(
+					eq(writingReferencesTable.title, title),
+					eq(writingReferencesTable.writingId, writingId)
+				)
+			);
 }

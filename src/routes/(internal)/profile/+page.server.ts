@@ -36,7 +36,6 @@ export const actions: Actions = {
 		if (confirmation != locals.user.username)
 			return fail(400, { message: 'The confirmation text is not valid' });
 		const id = locals.user.id;
-		await lucia.invalidateUserSessions(id);
 		await db.delete(userTable).where(eq(userTable.id, id));
 		redirect(303, '/');
 	},
