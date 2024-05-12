@@ -4,18 +4,18 @@
 	import SyncButton from '$components/button/syncButton.svelte';
 	import FormWrapper from '$components/other/formWrapper.svelte';
 	import Select from '$components/other/select.svelte';
-	import type { WritingFonts, fontSource } from '$global/types.global';
+	import type { WritingFonts, FontSource } from '$global/types.global';
 	import type { SubmitFunction } from '@sveltejs/kit';
 
 	let fonts: WritingFonts = { body: '', heading: '' };
 	$: fonts = $page.data.template.fonts as WritingFonts;
 
-	let bodyFonts = ($page.data.bodyFontsList as fontSource[]).map((el) => ({
+	let bodyFonts = ($page.data.bodyFonts as FontSource[]).map((el) => ({
 		value: el.id,
 		label: el.family
 	}));
 
-	let headingFonts = ($page.data.headingFontsList as fontSource[]).map((el) => ({
+	let headingFonts = ($page.data.headingFonts as FontSource[]).map((el) => ({
 		value: el.id,
 		label: el.family
 	}));

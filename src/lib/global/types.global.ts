@@ -55,7 +55,7 @@ export type ActionStatus = {
 
 export type Templates = keyof typeof templates;
 
-export type fontSource = {
+export type FontSource = {
 	id: string;
 	family: string;
 	subset: string[];

@@ -1,20 +1,19 @@
-import type { fontSource } from '$global/types.global';
+import { bodyFontsUrl, headerFontsUrl } from '$global/const.global';
+import type { FontSource } from '$global/types.global';
 import type { Load } from '@sveltejs/kit';
-
 export const load: Load = async ({ fetch, data }) => {
-	const bodyFontsList: fontSource[] = await fetch(
-		'https://api.fontsource.org/v1/fonts?subsets=latin&weights=400,600&styles=normal'
-	)
+	const bodyFonts: Promise<FontSource[]> = fetch(bodyFontsUrl)
 		.then((res) => res.json())
-		.then((fonts: fontSource[]) =>
-			fonts.filter((el) => el.weights.includes(400) && el.weights.includes(600))
+		.then((fonts) =>
+			fonts.filter((el: FontSource) => el.weights.includes(400) && el.weights.includes(600))
 		);
-	const headingFontsList: fontSource[] = await fetch(
-		'https://api.fontsource.org/v1/fonts?weights=700&styles=normal&subsets=latin'
-	).then((res) => res.json());
+	const headingFonts: Promise<FontSource[]> = fetch(headerFontsUrl).then((res) => res.json());
+	const fonts = await Promise.allSettled([bodyFonts, headingFonts]);
+	if (fonts[0].status == 'rejected' || fonts[1].status == 'rejected')
+		throw new Error('Service unavailable');
 	return {
-		bodyFontsList,
-		headingFontsList,
+		bodyFonts: fonts[0].value,
+		headingFonts: fonts[1].value,
 		template: data
 	};
 };

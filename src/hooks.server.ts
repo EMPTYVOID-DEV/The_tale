@@ -2,14 +2,15 @@ import { lucia } from '$server/auth/lucia';
 import { db } from '$server/database/database';
 import { writingContributorsTable } from '$server/database/schema';
 import { checkPath } from '$server/utils/authUtils';
-import { error, redirect, type Handle, type HandleServerError } from '@sveltejs/kit';
+import { redirect, type Handle, type HandleServerError } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { and, eq } from 'drizzle-orm';
 
-//TODO: check search optimization
-
-export const handleError: HandleServerError = async ({ status }) => {
-	error(status);
+export const handleError: HandleServerError = async ({ error }) => {
+	console.log(error);
+	return {
+		message: 'Service Unavailable'
+	};
 };
 
 const luciaHook: Handle = async ({ event, resolve }) => {

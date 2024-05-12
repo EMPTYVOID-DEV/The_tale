@@ -68,9 +68,7 @@ export const writingTable = pgTable('writing', {
 	fonts: json('fonts').$type<WritingFonts>().default(defaultFonts),
 	colors: json('colors').$type<WritingColors>().default(defaultColors),
 	tempalteName: text('template_name').$type<Templates>().default('Sveltekit'),
-	sectionsGraph: json('sections_graph')
-		.$type<SectionsGraph>()
-		.default({ type: 'tier0', section: '' }),
+	sectionsGraph: json('sections_graph').$type<SectionsGraph>().notNull(),
 	ownerId: varchar('owner_id', { length: 8 })
 		.notNull()
 		.references(() => userTable.id, { onDelete: 'cascade' })
@@ -85,7 +83,7 @@ export const writingReferencesTable = pgTable(
 			.references(() => writingTable.id, {
 				onDelete: 'cascade'
 			}),
-		description: text('descritpion').notNull(),
+		description: text('description').notNull(),
 		href: text('href').notNull(),
 		writerId: varchar('writer_id', { length: 8 })
 			.notNull()
@@ -93,7 +91,7 @@ export const writingReferencesTable = pgTable(
 	},
 	(table) => {
 		return {
-			pk: primaryKey({ columns: [table.title, table.writingId] }),
+			pk: primaryKey({ columns: [table.title, table.writingId], name: 'reference_primary' }),
 			uniqueHref: unique('unique_href').on(table.writingId, table.href)
 		};
 	}
@@ -118,7 +116,7 @@ export const writingContributorsTable = pgTable(
 	},
 	(table) => {
 		return {
-			pk: primaryKey({ columns: [table.userId, table.writingId] })
+			pk: primaryKey({ columns: [table.userId, table.writingId], name: 'contributor_primary' })
 		};
 	}
 );

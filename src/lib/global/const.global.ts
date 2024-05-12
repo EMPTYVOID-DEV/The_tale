@@ -19,3 +19,9 @@ export const defaultFonts: WritingFonts = {
 	heading: 'anek-tamil',
 	body: 'aileron'
 };
+
+export const bodyFontsUrl =
+	'https://api.fontsource.org/v1/fonts?subsets=latin&weights=400,600&styles=normal';
+
+export const headerFontsUrl =
+	'https://api.fontsource.org/v1/fonts?weights=700&styles=normal&subsets=latin';
