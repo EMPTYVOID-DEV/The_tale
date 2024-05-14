@@ -21,18 +21,6 @@ export type Background = {
 	value: string;
 };
 
-export type SectionsGraph =
-	| { type: 'tier0'; section: string }
-	| { type: 'tier1'; sections: string[] }
-	| { type: 'tier2'; categories: { category: string; sections: string[] }[] }
-	| {
-			type: 'tier3';
-			categories: {
-				category: string;
-				sections: ({ subcategories: string; sections: string[] } | string)[];
-			}[];
-	  };
-
 export type Contribution = {
 	writingId: string;
 	role: 'owner' | 'writer';
@@ -69,3 +57,15 @@ export type Reference = {
 	href: string;
 	writerId: string;
 };
+
+export class Section {
+	name: string;
+	sibling: Section;
+	rootChild: Section;
+
+	constructor(name: string) {
+		this.name = name;
+		this.rootChild = null;
+		this.sibling = null;
+	}
+}

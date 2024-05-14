@@ -2,7 +2,7 @@ import type {
 	Background,
 	WritingColors,
 	WritingFonts,
-	SectionsGraph,
+	Section,
 	Templates
 } from '$global/types.global';
 import {
@@ -68,7 +68,7 @@ export const writingTable = pgTable('writing', {
 	fonts: json('fonts').$type<WritingFonts>().default(defaultFonts),
 	colors: json('colors').$type<WritingColors>().default(defaultColors),
 	tempalteName: text('template_name').$type<Templates>().default('Sveltekit'),
-	sectionsGraph: json('sections_graph').$type<SectionsGraph>().notNull(),
+	rootSection: json('root_section').$type<Section>().notNull(),
 	ownerId: varchar('owner_id', { length: 8 })
 		.notNull()
 		.references(() => userTable.id, { onDelete: 'cascade' })
@@ -137,16 +137,23 @@ export const writingViewsTable = pgTable('writing_views', {
 		})
 });
 
-export const sectionsTable = pgTable('sections', {
-	id: varchar('id', { length: 8 }).notNull().primaryKey(),
-	name: text('name'),
-	content: json('content').array().$type<dataBlock[]>().notNull(),
-	writingId: varchar('writing_id', { length: 8 })
-		.notNull()
-		.references(() => writingTable.id, {
-			onDelete: 'cascade'
-		}),
-	writerId: varchar('writer_id', { length: 8 })
-		.notNull()
-		.references(() => userTable.id, { onDelete: 'set null' })
-});
+export const sectionsTable = pgTable(
+	'sections',
+	{
+		name: text('name'),
+		content: json('content').array().$type<dataBlock[]>().notNull(),
+		writingId: varchar('writing_id', { length: 8 })
+			.notNull()
+			.references(() => writingTable.id, {
+				onDelete: 'cascade'
+			}),
+		writerId: varchar('writer_id', { length: 8 })
+			.notNull()
+			.references(() => userTable.id, { onDelete: 'set null' })
+	},
+	(table) => {
+		return {
+			pk: primaryKey({ columns: [table.name, table.writingId] })
+		};
+	}
+);

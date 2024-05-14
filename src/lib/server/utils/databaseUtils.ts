@@ -11,6 +11,7 @@ import type { Key, User } from '$server/types.server';
 import { and, eq } from 'drizzle-orm';
 import { generateId } from 'lucia';
 import { isOwner, isReferenceCreator } from './customMiddlewares';
+import { Section } from '$global/types.global';
 
 export async function insertUser(newUser: User, key: Key) {
 	return db.transaction(async (tx) => {
@@ -36,19 +37,18 @@ export async function getMyContributions(userId: string) {
 export async function addWriting(userId: string, writingName: string) {
 	return db.transaction(async (tx) => {
 		const id = generateId(8);
-		const sectionId = generateId(8);
+		const sectionName = 'Root section';
 		await tx.insert(writingTable).values({
 			id,
 			name: writingName,
 			ownerId: userId,
-			sectionsGraph: { type: 'tier0', section: sectionId }
+			rootSection: new Section(sectionName)
 		});
 		await tx.insert(writingContributorsTable).values({ role: 'owner', userId, writingId: id });
 		await tx.insert(sectionsTable).values({
-			id: sectionId,
 			writerId: userId,
 			writingId: id,
-			name: 'Starting section',
+			name: sectionName,
 			content: []
 		});
 		return id;
@@ -91,19 +91,4 @@ export async function removeReference(title: string, userId: string, writingId: 
 					eq(writingReferencesTable.writingId, writingId)
 				)
 			);
-}
-
-export async function getWritingContent(writingId: string) {
-	const getGraph = db.query.writingTable.findFirst({
-		where: eq(writingTable.id, writingId),
-		columns: { sectionsGraph: true }
-	});
-	const getSections = db.query.sectionsTable.findMany({
-		where: eq(sectionsTable.writingId, writingId),
-		columns: { content: false, writingId: false }
-	});
-	const result = await Promise.allSettled([getGraph, getSections]);
-	if (result[0].status == 'rejected' || result[1].status == 'rejected')
-		throw new Error('Service unavailable');
-	return { graph: result[0].value, sections: result[1].value };
 }

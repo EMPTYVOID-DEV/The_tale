@@ -1,11 +1,15 @@
-import { getWritingContent } from '$server/utils/databaseUtils';
+import { db } from '$server/database/database';
+import { writingTable } from '$server/database/schema';
 import type { ServerLoad } from '@sveltejs/kit';
+import { eq } from 'drizzle-orm';
 
 export const load: ServerLoad = async ({ params }) => {
 	const writingId = params.writingId;
-	const content = await getWritingContent(writingId);
-	console.log(content);
+	const content = await db.query.writingTable.findFirst({
+		where: eq(writingTable.id, writingId),
+		columns: { rootSection: true }
+	});
 	return {
-		content
+		rootSection: content.rootSection
 	};
 };
