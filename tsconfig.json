@@ -16,6 +16,8 @@
 		"allowJs": true,
 		"checkJs": false,
 		"paths": {
+			"$altron/*": ["src/lib/client/ui/components/altron/*"],
+			"$altron": ["./src/lib/client/ui/components/altron"],
 			"$icons/*": ["src/lib/client/ui/icons/*"],
 			"$icons": ["./src/lib/client/ui/icons"],
 			"$components/*": ["src/lib/client/ui/components/*"],

@@ -10,7 +10,7 @@ import {
 import type { Key, User } from '$server/types.server';
 import { and, eq } from 'drizzle-orm';
 import { generateId } from 'lucia';
-import { isOwner, isReferenceCreator } from './customMiddlewares';
+import { isOwner, isReferenceCreator, isSectionCreator } from './customMiddlewares';
 import { Section } from '$global/types.global';
 
 export async function insertUser(newUser: User, key: Key) {
@@ -91,4 +91,19 @@ export async function removeReference(title: string, userId: string, writingId: 
 					eq(writingReferencesTable.writingId, writingId)
 				)
 			);
+}
+
+export async function removeSection(sectionName: string, userId: string, writingId: string) {
+	const result = await Promise.allSettled([
+		isOwner(writingId, userId),
+		isSectionCreator(sectionName, writingId, userId)
+	]);
+	if (result[0].status == 'rejected' || result[1].status == 'rejected')
+		throw new Error('Service unavailable');
+	const writingOwner = result[0].value;
+	const sectionCreator = result[1].value;
+	if (writingOwner || sectionCreator)
+		await db
+			.delete(sectionsTable)
+			.where(and(eq(sectionsTable.name, sectionName), eq(sectionsTable.writingId, writingId)));
 }

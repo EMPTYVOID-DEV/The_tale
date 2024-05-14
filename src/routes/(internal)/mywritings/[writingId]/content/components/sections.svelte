@@ -1,9 +1,4 @@
-<script>
-	import { quadInOut } from 'svelte/easing';
-	import { slide } from 'svelte/transition';
-</script>
-
-<div class="sectionsWrapper" in:slide={{ axis: 'y', duration: 800, easing: quadInOut }}>
+<div class="sectionsWrapper">
 	<slot />
 </div>
 

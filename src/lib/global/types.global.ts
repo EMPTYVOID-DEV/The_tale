@@ -1,3 +1,4 @@
+import type { dataBlock } from '@altron/altron/types';
 import { templates } from './const.global';
 
 export type ColorSet = {
@@ -69,3 +70,10 @@ export class Section {
 		this.sibling = null;
 	}
 }
+
+export type sectionData = {
+	name: string;
+	writingId: string;
+	writerId: string;
+	content: dataBlock[];
+};

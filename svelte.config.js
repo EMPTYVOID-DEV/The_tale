@@ -12,7 +12,8 @@ const config = {
 			$global: path.resolve('./src/lib/global'),
 			$client: path.resolve('./src/lib/client'),
 			$server: path.resolve('./src/lib/server'),
-			$assets: path.resolve('./src/lib/assets')
+			$assets: path.resolve('./src/lib/assets'),
+			$altron: path.resolve('./src/lib/client/ui/components/altron')
 		},
 		env: {
 			dir: './'

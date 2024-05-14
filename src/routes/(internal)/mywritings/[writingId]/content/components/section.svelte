@@ -11,7 +11,7 @@
 
 <div class="section">
 	<section class="head">
-		<a href="/mywritings/content/{$page.params.writingId}/{section.name}" class="name">
+		<a href="/mywritings/{$page.params.writingId}/content/{section.name}" class="name">
 			<SectionIcon />
 			<span>{section.name}</span>
 		</a>

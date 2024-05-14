@@ -45,8 +45,8 @@
 	}
 
 	const tabs = getWritingTabs();
-	$: pathname = $page.url.pathname.split('/').at(-1);
-	$: activeTab = tabs.findIndex((el) => el.title == pathname);
+	$: pathname = decodeURI($page.url.pathname.split('/').at(-1));
+	$: activeTab = tabs.findIndex((el) => $page.url.pathname.includes(el.title));
 </script>
 
 <div class="root">
@@ -55,7 +55,7 @@
 		{activeTab}
 		on:change={(e) => {
 			const activeTab = e.detail.activeTab;
-			goto(`${activeTab}`);
+			goto(`/mywritings/${$page.params.writingId}/${activeTab}`);
 		}}
 	/>
 	<h1 class="title">{pathname}</h1>

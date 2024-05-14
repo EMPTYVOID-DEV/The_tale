@@ -1,6 +1,4 @@
 <script>
-	import { fade } from 'svelte/transition';
-	import { elasticIn } from 'svelte/easing';
 	import { getContext } from 'svelte';
 
 	export let add;
@@ -49,8 +47,6 @@
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<!-- svelte-ignore a11y-no-static-element-interactions -->
 				<span
-					in:fade|global={{ delay: 80 * index, duration: 300, easing: elasticIn }}
-					out:fade|global={{ delay: 80 * (6 - index), duration: 300, easing: elasticIn }}
 					class="option"
 					on:click|stopPropagation={() => {
 						const blockName = option[0];

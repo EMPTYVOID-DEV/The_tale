@@ -35,3 +35,10 @@ export function isReferenceCreator(title: string) {
 	const writerId = references.find((el) => el.title == title).writerId;
 	return id == writerId;
 }
+
+export function isSectionCreator() {
+	const pageData = get(page);
+	const id = pageData.data.id;
+	const writerId = pageData.data.sectionData.writerId;
+	return writerId == id;
+}
