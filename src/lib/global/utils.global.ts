@@ -1,4 +1,5 @@
 import type { changeEvent } from '$client/types.client';
+import type { Section } from './types.global';
 
 export function checkType(attachmentTypes: string, type: string) {
 	const typeArray = type.split('/');
@@ -31,4 +32,45 @@ export function imgHandler(e: changeEvent<HTMLInputElement>, cb: (url: string) =
 		const url = URL.createObjectURL(file);
 		cb(url);
 	}
+}
+
+export function isTreeRooted(root: Section) {
+	return root.rootChild == null && root.sibling == null;
+}
+
+export function traverseToTarget(root: Section, targetName: string) {
+	const parentMap = new Map();
+	const queue = [root];
+
+	while (queue.length > 0) {
+		const currentTarget = queue.shift();
+
+		if (currentTarget.name === targetName) {
+			return constructPath(currentTarget, parentMap);
+		}
+
+		if (currentTarget.rootChild) {
+			parentMap.set(currentTarget.rootChild, currentTarget);
+			queue.push(currentTarget.rootChild);
+		}
+
+		if (currentTarget.sibling) {
+			parentMap.set(currentTarget.sibling, currentTarget);
+			queue.push(currentTarget.sibling);
+		}
+	}
+
+	return null;
+}
+
+function constructPath(target: Section, parentMap: Map<Section, Section>) {
+	const path: Section[] = [];
+	let currentNode = target;
+
+	while (currentNode) {
+		path.unshift(currentNode);
+		currentNode = parentMap.get(currentNode);
+	}
+
+	return path;
 }

@@ -1,6 +1,5 @@
 import { db } from '$server/database/database';
 import { sectionsTable } from '$server/database/schema';
-import { removeSection } from '$server/utils/databaseUtils';
 import { redirect, type Actions, type ServerLoad } from '@sveltejs/kit';
 import { and, eq } from 'drizzle-orm';
 
@@ -22,11 +21,4 @@ export const load: ServerLoad = async ({ params }) => {
 	};
 };
 
-export const actions: Actions = {
-	delete: async ({ params, locals }) => {
-		const userId = locals.user.id;
-		const { writingId, sectionName } = params;
-		await removeSection(sectionName, userId, writingId);
-		redirect(303, `/mywritings/${writingId}/content`);
-	}
-};
+export const actions: Actions = {};

@@ -5,11 +5,11 @@
 	import DeleteIcon from '$icons/deleteIcon.svelte';
 	import Altron from '@altron/altron/altron.svelte';
 	import { componentMap } from '$altron/index';
-	import type { sectionData } from '$global/types.global';
+	import type { SectionData } from '$global/types.global';
 	import SaveIcon from '$icons/saveIcon.svelte';
 	import PlusIcon from '$icons/plusIcon.svelte';
 	import DialogAlert from '$components/other/dialogAlert.svelte';
-	export let data: sectionData;
+	export let data: SectionData;
 	let authority = isOwner() || isSectionCreator();
 
 	async function handleDelete() {

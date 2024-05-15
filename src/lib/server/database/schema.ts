@@ -68,7 +68,7 @@ export const writingTable = pgTable('writing', {
 	fonts: json('fonts').$type<WritingFonts>().default(defaultFonts),
 	colors: json('colors').$type<WritingColors>().default(defaultColors),
 	tempalteName: text('template_name').$type<Templates>().default('Sveltekit'),
-	rootSection: json('root_section').$type<Section>().notNull(),
+	rootSection: json('root_section').$type<Section>(),
 	ownerId: varchar('owner_id', { length: 8 })
 		.notNull()
 		.references(() => userTable.id, { onDelete: 'cascade' })

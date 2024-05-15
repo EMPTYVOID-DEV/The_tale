@@ -71,7 +71,7 @@ export class Section {
 	}
 }
 
-export type sectionData = {
+export type SectionData = {
 	name: string;
 	writingId: string;
 	writerId: string;

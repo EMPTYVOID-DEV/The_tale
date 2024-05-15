@@ -10,7 +10,7 @@ import {
 import type { Key, User } from '$server/types.server';
 import { and, eq } from 'drizzle-orm';
 import { generateId } from 'lucia';
-import { isOwner, isReferenceCreator, isSectionCreator } from './customMiddlewares';
+import { isOwner, isReferenceCreator } from './customMiddlewares';
 import { Section } from '$global/types.global';
 
 export async function insertUser(newUser: User, key: Key) {
@@ -37,20 +37,12 @@ export async function getMyContributions(userId: string) {
 export async function addWriting(userId: string, writingName: string) {
 	return db.transaction(async (tx) => {
 		const id = generateId(8);
-		const sectionName = 'Root section';
 		await tx.insert(writingTable).values({
 			id,
 			name: writingName,
-			ownerId: userId,
-			rootSection: new Section(sectionName)
+			ownerId: userId
 		});
 		await tx.insert(writingContributorsTable).values({ role: 'owner', userId, writingId: id });
-		await tx.insert(sectionsTable).values({
-			writerId: userId,
-			writingId: id,
-			name: sectionName,
-			content: []
-		});
 		return id;
 	});
 }
@@ -83,7 +75,7 @@ export async function removeReference(title: string, userId: string, writingId: 
 	const writingOwner = result[0].value;
 	const referenceCreator = result[1].value;
 	if (writingOwner || referenceCreator)
-		await db
+		return db
 			.delete(writingReferencesTable)
 			.where(
 				and(
@@ -93,17 +85,15 @@ export async function removeReference(title: string, userId: string, writingId: 
 			);
 }
 
-export async function removeSection(sectionName: string, userId: string, writingId: string) {
-	const result = await Promise.allSettled([
-		isOwner(writingId, userId),
-		isSectionCreator(sectionName, writingId, userId)
-	]);
-	if (result[0].status == 'rejected' || result[1].status == 'rejected')
-		throw new Error('Service unavailable');
-	const writingOwner = result[0].value;
-	const sectionCreator = result[1].value;
-	if (writingOwner || sectionCreator)
-		await db
-			.delete(sectionsTable)
-			.where(and(eq(sectionsTable.name, sectionName), eq(sectionsTable.writingId, writingId)));
+export async function addRootSection(sectionName: string, writingId: string, userId: string) {
+	return db.transaction(async (tx) => {
+		const section = new Section(sectionName);
+		await tx
+			.insert(sectionsTable)
+			.values({ content: [], writerId: userId, writingId: writingId, name: sectionName });
+		await tx
+			.update(writingTable)
+			.set({ rootSection: section })
+			.where(eq(writingTable.id, writingId));
+	});
 }
