@@ -10,8 +10,9 @@ import {
 import type { Key, User } from '$server/types.server';
 import { and, eq } from 'drizzle-orm';
 import { generateId } from 'lucia';
-import { isOwner, isReferenceCreator } from './customMiddlewares';
+import { isOwner, isReferenceCreator, isSectionCreator } from './customMiddlewares';
 import { Section } from '$global/types.global';
+import type { dataBlock } from '@altron/altron/types';
 
 export async function insertUser(newUser: User, key: Key) {
 	return db.transaction(async (tx) => {
@@ -96,4 +97,22 @@ export async function addRootSection(sectionName: string, writingId: string, use
 			.set({ rootSection: section })
 			.where(eq(writingTable.id, writingId));
 	});
+}
+
+export async function updateSection(
+	content: dataBlock[],
+	sectionName: string,
+	userId: string,
+	writingId: string
+) {
+	const result = await Promise.allSettled([
+		isOwner(writingId, userId),
+		isSectionCreator(sectionName, writingId, userId)
+	]);
+	if (result[0].status == 'rejected' || result[1].status == 'rejected')
+		throw new Error('Service unavailable');
+	return db
+		.update(sectionsTable)
+		.set({ content })
+		.where(and(eq(sectionsTable.name, sectionName), eq(sectionsTable.writingId, writingId)));
 }

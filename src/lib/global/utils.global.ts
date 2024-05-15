@@ -74,3 +74,12 @@ function constructPath(target: Section, parentMap: Map<Section, Section>) {
 
 	return path;
 }
+
+export function promiseTimeout(timeout: number, cb: () => void) {
+	return new Promise<void>((res) => {
+		setTimeout(() => {
+			cb();
+			res();
+		}, timeout);
+	});
+}

@@ -68,7 +68,7 @@
 		grid-template-columns: repeat(2, auto);
 		align-items: center;
 		gap: 20px;
-		margin-top: 35px;
+		margin-top: 0.5rem;
 	}
 	.toolBar span {
 		display: flex;
