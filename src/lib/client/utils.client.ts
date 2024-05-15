@@ -1,8 +1,13 @@
 import { toast } from 'svelte-sonner';
 import SyncToast from '$components/toast/syncToast.svelte';
+import AsyncToast from '$components/toast/asyncToast.svelte';
 import type { Contribution, Reference } from '$global/types.global';
 import { get } from 'svelte/store';
 import { page } from '$app/stores';
+import type { toastState } from './types.client';
+import { destructorFileName } from '$global/utils.global';
+import uuid from 'short-uuid';
+import type { dataBlock } from '@altron/altron/types';
 
 export function showToast(
 	header: string,
@@ -19,6 +24,32 @@ export function showToast(
 				toastAction
 			}
 		});
+}
+
+export function showAsyncToast(header: string, description: string, promise: Promise<toastState>) {
+	toast.custom(AsyncToast, {
+		duration: 12000,
+		componentProps: {
+			promise,
+			loadingState: {
+				header: header,
+				description: description,
+				toastAction: null
+			}
+		}
+	});
+}
+
+export function addBlockFile(el: dataBlock, formData: FormData) {
+	if (el.name != 'attachment' && el.name != 'image') return;
+	if (!el.data.file) return;
+	const random = uuid().generate();
+	const { extension } = destructorFileName(el.data.file.name);
+	const name = `${random}.${extension}`;
+	const file = new File([el.data.file], name, { type: el.data.file.type });
+	el.data.file = null;
+	el.data.src = `/sections/${name}`;
+	formData.append('files', file);
 }
 
 export function isOwner() {

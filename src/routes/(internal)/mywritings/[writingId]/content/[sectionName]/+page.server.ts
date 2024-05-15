@@ -25,18 +25,15 @@ export const load: ServerLoad = async ({ params }) => {
 
 export const actions: Actions = {
 	save: async ({ request, locals, params }) => {
-		try {
-			const { id } = locals.user;
-			const { writingId, sectionName } = params;
-			const fd = await request.formData();
-			const files = fd.getAll('files') as File[];
-			const content = JSON.parse(fd.get('content').toString()) as dataBlock[];
-			const filesUploads = files.map((file) => uploadFile(file, file.name, 'sections'));
-			const results = await Promise.allSettled(filesUploads);
-			for (const result of results) if (result.status == 'rejected') return fail(500);
-			await updateSection(content, sectionName, id, writingId);
-		} catch (error) {
-			return fail(500);
-		}
+		const { id } = locals.user;
+		const { writingId, sectionName } = params;
+		const fd = await request.formData();
+		const files = fd.getAll('files') as File[];
+		const content = JSON.parse(fd.get('content').toString()) as dataBlock[];
+		const filesUploads = files.map((file) => uploadFile(file, file.name, 'sections'));
+		const results = await Promise.allSettled(filesUploads);
+		for (const result of results)
+			if (result.status == 'rejected') return fail(500, { message: 'Failed to save files' });
+		await updateSection(content, sectionName, id, writingId);
 	}
 };
