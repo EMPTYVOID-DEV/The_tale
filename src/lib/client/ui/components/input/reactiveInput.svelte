@@ -1,5 +1,6 @@
 <script>
 	import CloseIcon from '$icons/closeIcon.svelte';
+	import { createEventDispatcher } from 'svelte';
 	/**@type {string}*/
 	export let name = '';
 	/**@type {string}*/
@@ -13,6 +14,7 @@
 	/**@type {import("$client/types.client").checkFunction} This function will be used to validate the input on every change*/
 	export let checkFunction;
 	/**@type {import("$client/types.client").reactiveInputStatus}*/
+	const dispatcher = createEventDispatcher();
 	let status = {
 		state: 'idle',
 		errorMsg: ''
@@ -28,6 +30,7 @@
 		type={inputType}
 		on:input={(e) => {
 			status = checkFunction(e.currentTarget.value);
+			dispatcher('change', { value: e.currentTarget.value });
 		}}
 	/>
 	{#if status.state == 'invalid'}
@@ -64,6 +67,7 @@
 		font-size: var(--body);
 		font-weight: 600;
 		color: var(--foregroundColor);
+		text-transform: capitalize;
 	}
 	.input-container label:empty {
 		display: none;

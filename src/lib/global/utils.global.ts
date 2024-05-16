@@ -1,5 +1,17 @@
 import type { changeEvent } from '$client/types.client';
-import type { Section } from './types.global';
+import { Section } from './types.global';
+
+function constructPath(target: Section, parentMap: Map<Section, Section>) {
+	const path: Section[] = [];
+	let currentNode = target;
+
+	while (currentNode) {
+		path.unshift(currentNode);
+		currentNode = parentMap.get(currentNode);
+	}
+
+	return path;
+}
 
 export function checkType(attachmentTypes: string, type: string) {
 	const typeArray = type.split('/');
@@ -60,19 +72,7 @@ export function traverseToTarget(root: Section, targetName: string) {
 		}
 	}
 
-	return null;
-}
-
-function constructPath(target: Section, parentMap: Map<Section, Section>) {
-	const path: Section[] = [];
-	let currentNode = target;
-
-	while (currentNode) {
-		path.unshift(currentNode);
-		currentNode = parentMap.get(currentNode);
-	}
-
-	return path;
+	return [];
 }
 
 export function promiseTimeout(timeout: number, cb: () => void) {
@@ -82,4 +82,52 @@ export function promiseTimeout(timeout: number, cb: () => void) {
 			res();
 		}, timeout);
 	});
+}
+
+export function renameSection(
+	root: Section,
+	previousName: string,
+	newName: string
+): 'updated' | 'duplicate' | 'not found' {
+	const target = traverseToTarget(root, previousName).at(-1);
+	if (!target) return 'not found';
+	const other = traverseToTarget(root, newName).at(-1);
+	if (other && other != target) return 'duplicate';
+	target.name = newName;
+	return 'updated';
+}
+
+export function getPathDepth(path: Section[]) {
+	let depth = 0;
+	for (let i = 0; i < path.length; i++) {
+		const current = path.at(i);
+		const neigbor = path.at(i + 1);
+		if (current.rootChild == neigbor) depth++;
+	}
+	return depth;
+}
+
+export function addSection(
+	root: Section,
+	type: 'sibling' | 'child',
+	newSectionName: string,
+	parentName: string
+): 'updated' | 'duplicate' | 'not found' | 'max depth' {
+	const pathToParent = traverseToTarget(root, parentName);
+	if (getPathDepth(pathToParent) == 3) return 'max depth';
+	const parent = pathToParent.at(-1);
+	const target = traverseToTarget(root, newSectionName).at(-1);
+	if (target) return 'duplicate';
+	if (!parent) return 'not found';
+	const newSection = new Section(newSectionName);
+	if (type == 'child') {
+		const currentRootChild = parent.rootChild;
+		parent.rootChild = newSection;
+		newSection.sibling = currentRootChild;
+	} else {
+		const currentSibling = parent.sibling;
+		parent.sibling = newSection;
+		newSection.sibling = currentSibling;
+	}
+	return 'updated';
 }

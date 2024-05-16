@@ -1,7 +1,8 @@
+import { getValidator, sectionNameSchema } from '$global/zod';
 import { db } from '$server/database/database';
 import { writingTable } from '$server/database/schema';
 import { addRootSection } from '$server/utils/databaseUtils';
-import type { Actions, ServerLoad } from '@sveltejs/kit';
+import { fail, type Actions, type ServerLoad } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
 
 export const load: ServerLoad = async ({ params }) => {
@@ -20,7 +21,10 @@ export const actions: Actions = {
 		const userId = locals.user.id;
 		const writingId = params.writingId;
 		const fd = await request.formData();
+		const validateName = getValidator(sectionNameSchema);
 		const root = fd.get('root').toString();
+		if (validateName(root).state == 'invalid')
+			return fail(400, { message: validateName(root).errorMsg });
 		await addRootSection(root, writingId, userId);
 	}
 };

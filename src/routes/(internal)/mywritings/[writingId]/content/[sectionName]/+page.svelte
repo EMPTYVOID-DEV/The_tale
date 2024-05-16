@@ -19,21 +19,26 @@
 	import { Toaster, toast } from 'svelte-sonner';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import { enhance } from '$app/forms';
+	import { getValidator, sectionNameSchema } from '$global/zod';
+	import ReactiveInput from '$components/input/reactiveInput.svelte';
+	import AddNode from '../components/addNode.svelte';
 	export let data: { sectionData: SectionData };
 	let authority = isOwner() || isSectionCreator();
 	let savingState: 'idle' | 'loading' = 'idle';
 	let altronRef: Altron = null;
+	const validateName = getValidator(sectionNameSchema);
 
 	const saveAction: SubmitFunction = async ({ formData }) => {
-		const data = altronRef.getData() as dataBlock[];
-		data
+		const altronData = altronRef.getData() as dataBlock[];
+		altronData
 			.filter((el) => {
 				if (el.name == 'embed' && el.data.src == '') return false;
 				if (el.name == 'attachment' || el.name == 'image') return el.data.src != '';
 			})
 			.forEach((el) => addBlockFile(el, formData));
 		savingState = 'loading';
-		formData.append('content', JSON.stringify(data));
+		formData.append('content', JSON.stringify(altronData));
+		formData.append('name', data.sectionData.name);
 		return ({ result, update }) => {
 			if (result.type === 'failure') showToast('Failure', result.data.message, 'danger');
 			if (result.type === 'success') showToast('Success', 'Successfully saving changes', 'success');
@@ -45,7 +50,14 @@
 
 <div class="writingContent">
 	{#if authority}
-		<StaticInput value={data.sectionData.name} label="New Section name (need to be unique)" />
+		<ReactiveInput
+			checkFunction={validateName}
+			value={data.sectionData.name}
+			label="New Section name (need to be unique)"
+			on:change={(e) => {
+				data.sectionData.name = e.detail.value;
+			}}
+		/>
 	{/if}
 	{#if authority}
 		<section class="control">
@@ -71,11 +83,11 @@
 				/>
 			</form>
 		</section>
-		<section class="control">
-			<SyncButton text="Add a child" icon={PlusIcon} />
-			<SyncButton text="Add a sibling" icon={PlusIcon} />
-		</section>
 	{/if}
+	<section class="control">
+		<AddNode action="addChild" sectionType="child" />
+		<AddNode action="addSibling" sectionType="sibling" />
+	</section>
 	<section class="altron">
 		<Altron
 			{componentMap}
@@ -97,7 +109,7 @@
 		/>
 	</section>
 </div>
-<Toaster />
+<Toaster duration={3500} expand />
 
 <style>
 	.writingContent {

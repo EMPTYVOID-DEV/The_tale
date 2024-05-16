@@ -13,6 +13,7 @@ import { generateId } from 'lucia';
 import { isOwner, isReferenceCreator, isSectionCreator } from './customMiddlewares';
 import { Section } from '$global/types.global';
 import type { dataBlock } from '@altron/altron/types';
+import { addSection, renameSection } from '$global/utils.global';
 
 export async function insertUser(newUser: User, key: Key) {
 	return db.transaction(async (tx) => {
@@ -103,7 +104,8 @@ export async function updateSection(
 	content: dataBlock[],
 	sectionName: string,
 	userId: string,
-	writingId: string
+	writingId: string,
+	newName: string
 ) {
 	const result = await Promise.allSettled([
 		isOwner(writingId, userId),
@@ -111,8 +113,40 @@ export async function updateSection(
 	]);
 	if (result[0].status == 'rejected' || result[1].status == 'rejected')
 		throw new Error('Service unavailable');
-	return db
-		.update(sectionsTable)
-		.set({ content })
-		.where(and(eq(sectionsTable.name, sectionName), eq(sectionsTable.writingId, writingId)));
+	return db.transaction(async (tx) => {
+		const { rootSection } = await tx.query.writingTable.findFirst({
+			where: eq(writingTable.id, writingId),
+			columns: { rootSection: true }
+		});
+		const status = renameSection(rootSection, sectionName, newName);
+		if (status != 'updated') return status;
+		await tx.update(writingTable).set({ rootSection }).where(eq(writingTable.id, writingId));
+		await tx
+			.update(sectionsTable)
+			.set({ content, name: newName })
+			.where(and(eq(sectionsTable.name, sectionName), eq(sectionsTable.writingId, writingId)));
+		return status;
+	});
+}
+
+export async function addNode(
+	type: 'sibling' | 'child',
+	parentName: string,
+	newSectionName: string,
+	userId: string,
+	writingId: string
+) {
+	return db.transaction(async (tx) => {
+		const { rootSection } = await tx.query.writingTable.findFirst({
+			where: eq(writingTable.id, writingId),
+			columns: { rootSection: true }
+		});
+		const status = addSection(rootSection, type, newSectionName, parentName);
+		if (status != 'updated') return status;
+		await tx.update(writingTable).set({ rootSection }).where(eq(writingTable.id, writingId));
+		await tx
+			.insert(sectionsTable)
+			.values({ name: newSectionName, writerId: userId, writingId, content: [] });
+		return status;
+	});
 }

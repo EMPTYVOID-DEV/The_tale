@@ -41,6 +41,10 @@ export const hrefSchema = z.string().regex(/^(https?:\/\/)?[\w.-]+\.[a-zA-Z]{2,}
 	message: 'Reference link needs to be a url.'
 });
 
+export const sectionNameSchema = z
+	.string()
+	.min(4, { message: 'Section name must be at least 4 letters long' });
+
 export function getValidator(schema: ZodSchema): (text: string) => ActionStatus {
 	return (text: string) => {
 		const parseResult = schema.safeParse(text);

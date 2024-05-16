@@ -45,10 +45,10 @@ export function addBlockFile(el: dataBlock, formData: FormData) {
 	if (!el.data.file) return;
 	const random = uuid().generate();
 	const { extension } = destructorFileName(el.data.file.name);
-	const name = `${random}.${extension}`;
-	const file = new File([el.data.file], name, { type: el.data.file.type });
+	const filename = `${random}.${extension}`;
+	const file = new File([el.data.file], filename, { type: el.data.file.type });
 	el.data.file = null;
-	el.data.src = `/sections/${name}`;
+	el.data.src = `/sections/${filename}`;
 	formData.append('files', file);
 }
 

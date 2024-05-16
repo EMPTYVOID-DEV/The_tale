@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { Section } from '$global/types.global';
-	import AddRoot from './components/addRoot.svelte';
+	import AddNode from './components/addNode.svelte';
 	import SectionComponent from './components/section.svelte';
 	import Sections from './components/sections.svelte';
 	$: rootSection = $page.data.rootSection as Section;
@@ -15,7 +15,7 @@
 	{:else}
 		<section class="empty">
 			<h3>There is no root section</h3>
-			<AddRoot />
+			<AddNode action="addRoot" sectionType="root" />
 		</section>
 	{/if}
 </div>
