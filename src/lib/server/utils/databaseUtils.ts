@@ -13,7 +13,7 @@ import { generateId } from 'lucia';
 import { isOwner, isReferenceCreator, isSectionCreator } from './customMiddlewares';
 import { Section } from '$global/types.global';
 import type { dataBlock } from '@altron/altron/types';
-import { addSection, renameSection } from '$global/utils.global';
+import { addSectionGraph, deleteSectionGraph, renameSection } from '$global/utils.global';
 
 export async function insertUser(newUser: User, key: Key) {
 	return db.transaction(async (tx) => {
@@ -113,23 +113,26 @@ export async function updateSection(
 	]);
 	if (result[0].status == 'rejected' || result[1].status == 'rejected')
 		throw new Error('Service unavailable');
-	return db.transaction(async (tx) => {
-		const { rootSection } = await tx.query.writingTable.findFirst({
-			where: eq(writingTable.id, writingId),
-			columns: { rootSection: true }
+	const writingOwner = result[0].value;
+	const sectionCreator = result[1].value;
+	if (writingOwner || sectionCreator)
+		return db.transaction(async (tx) => {
+			const { rootSection } = await tx.query.writingTable.findFirst({
+				where: eq(writingTable.id, writingId),
+				columns: { rootSection: true }
+			});
+			const status = renameSection(rootSection, sectionName, newName);
+			if (status != 'updated') return status;
+			await tx.update(writingTable).set({ rootSection }).where(eq(writingTable.id, writingId));
+			await tx
+				.update(sectionsTable)
+				.set({ content, name: newName })
+				.where(and(eq(sectionsTable.name, sectionName), eq(sectionsTable.writingId, writingId)));
+			return status;
 		});
-		const status = renameSection(rootSection, sectionName, newName);
-		if (status != 'updated') return status;
-		await tx.update(writingTable).set({ rootSection }).where(eq(writingTable.id, writingId));
-		await tx
-			.update(sectionsTable)
-			.set({ content, name: newName })
-			.where(and(eq(sectionsTable.name, sectionName), eq(sectionsTable.writingId, writingId)));
-		return status;
-	});
 }
 
-export async function addNode(
+export async function addSection(
 	type: 'sibling' | 'child',
 	parentName: string,
 	newSectionName: string,
@@ -141,7 +144,7 @@ export async function addNode(
 			where: eq(writingTable.id, writingId),
 			columns: { rootSection: true }
 		});
-		const status = addSection(rootSection, type, newSectionName, parentName);
+		const status = addSectionGraph(rootSection, type, newSectionName, parentName);
 		if (status != 'updated') return status;
 		await tx.update(writingTable).set({ rootSection }).where(eq(writingTable.id, writingId));
 		await tx
@@ -149,4 +152,28 @@ export async function addNode(
 			.values({ name: newSectionName, writerId: userId, writingId, content: [] });
 		return status;
 	});
+}
+
+export async function deleteSection(sectionName: string, userId: string, writingId: string) {
+	const result = await Promise.allSettled([
+		isOwner(writingId, userId),
+		isSectionCreator(sectionName, writingId, userId)
+	]);
+	if (result[0].status == 'rejected' || result[1].status == 'rejected')
+		throw new Error('Service unavailable');
+	const writingOwner = result[0].value;
+	const sectionCreator = result[1].value;
+	if (writingOwner || sectionCreator)
+		return db.transaction(async (tx) => {
+			let { rootSection } = await tx.query.writingTable.findFirst({
+				where: eq(writingTable.id, writingId),
+				columns: { rootSection: true }
+			});
+			if (rootSection.name == sectionName) rootSection = rootSection.sibling;
+			else deleteSectionGraph(rootSection, sectionName);
+			await tx.update(writingTable).set({ rootSection }).where(eq(writingTable.id, writingId));
+			await tx
+				.delete(sectionsTable)
+				.where(and(eq(sectionsTable.name, sectionName), eq(sectionsTable.writingId, writingId)));
+		});
 }

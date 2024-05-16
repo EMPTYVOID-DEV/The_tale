@@ -26,7 +26,7 @@
 
 	.focused,
 	.edited {
-		padding-top: 30px;
+		padding-top: 34px;
 		padding-bottom: 10px;
 		padding-inline: 15px;
 		border-radius: 8px;

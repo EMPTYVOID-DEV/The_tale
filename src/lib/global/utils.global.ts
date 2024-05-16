@@ -107,14 +107,14 @@ export function getPathDepth(path: Section[]) {
 	return depth;
 }
 
-export function addSection(
+export function addSectionGraph(
 	root: Section,
 	type: 'sibling' | 'child',
 	newSectionName: string,
 	parentName: string
 ): 'updated' | 'duplicate' | 'not found' | 'max depth' {
 	const pathToParent = traverseToTarget(root, parentName);
-	if (getPathDepth(pathToParent) == 3) return 'max depth';
+	if (type == 'child' && getPathDepth(pathToParent) == 3) return 'max depth';
 	const parent = pathToParent.at(-1);
 	const target = traverseToTarget(root, newSectionName).at(-1);
 	if (target) return 'duplicate';
@@ -130,4 +130,13 @@ export function addSection(
 		newSection.sibling = currentSibling;
 	}
 	return 'updated';
+}
+
+export function deleteSectionGraph(root: Section, sectionName: string) {
+	const pathToTarget = traverseToTarget(root, sectionName);
+	const target = pathToTarget.at(-1);
+	const parent = pathToTarget.at(-2);
+	if (!target) return;
+	if (parent.rootChild == target) parent.rootChild = target.sibling;
+	if (parent.sibling == target) parent.sibling = target.sibling;
 }

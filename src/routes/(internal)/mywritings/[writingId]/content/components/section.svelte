@@ -28,7 +28,7 @@
 		{/if}
 	</section>
 	{#if section.rootChild && showChildren}
-		<Sections --padding="1.5rem" --border="2px">
+		<Sections --padding="1.5rem" --border="3px">
 			<svelte:self section={section.rootChild} />
 		</Sections>
 	{/if}
@@ -47,6 +47,7 @@
 	}
 
 	.name {
+		color: var(--primaryColor);
 		display: flex;
 		align-items: center;
 		gap: 0.25rem;

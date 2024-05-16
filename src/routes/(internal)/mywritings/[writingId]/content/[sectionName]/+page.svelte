@@ -1,19 +1,11 @@
 <script lang="ts">
-	import {
-		addBlockFile,
-		isOwner,
-		isSectionCreator,
-		showAsyncToast,
-		showToast
-	} from '$client/utils.client';
+	import { addBlockFile, isOwner, isSectionCreator, showToast } from '$client/utils.client';
 	import SyncButton from '$components/button/syncButton.svelte';
-	import StaticInput from '$components/input/staticInput.svelte';
 	import DeleteIcon from '$icons/deleteIcon.svelte';
 	import Altron from '@altron/altron/altron.svelte';
 	import { componentMap } from '$altron/index';
 	import type { SectionData } from '$global/types.global';
 	import SaveIcon from '$icons/saveIcon.svelte';
-	import PlusIcon from '$icons/plusIcon.svelte';
 	import DialogAlert from '$components/other/dialogAlert.svelte';
 	import type { dataBlock } from '@altron/altron/types';
 	import { Toaster, toast } from 'svelte-sonner';
@@ -22,20 +14,21 @@
 	import { getValidator, sectionNameSchema } from '$global/zod';
 	import ReactiveInput from '$components/input/reactiveInput.svelte';
 	import AddNode from '../components/addNode.svelte';
+	import { codeLanguages } from '$global/const.global';
+
 	export let data: { sectionData: SectionData };
 	let authority = isOwner() || isSectionCreator();
 	let savingState: 'idle' | 'loading' = 'idle';
 	let altronRef: Altron = null;
 	const validateName = getValidator(sectionNameSchema);
 
-	const saveAction: SubmitFunction = async ({ formData }) => {
-		const altronData = altronRef.getData() as dataBlock[];
-		altronData
-			.filter((el) => {
-				if (el.name == 'embed' && el.data.src == '') return false;
-				if (el.name == 'attachment' || el.name == 'image') return el.data.src != '';
-			})
-			.forEach((el) => addBlockFile(el, formData));
+	const saveAction: SubmitFunction = async ({ formData, cancel }) => {
+		let altronData = altronRef.getData() as dataBlock[];
+		altronData = altronData.filter((el) => {
+			if (el.name == 'attachment' || el.name == 'image') return el.data.src != '';
+			return true;
+		});
+		altronData.forEach((el) => addBlockFile(el, formData));
 		savingState = 'loading';
 		formData.append('content', JSON.stringify(altronData));
 		formData.append('name', data.sectionData.name);
@@ -61,20 +54,26 @@
 	{/if}
 	{#if authority}
 		<section class="control">
-			<DialogAlert
-				type="danger"
-				header="Do you really want to delete?"
-				description="This action will remove this section from the writing and erase all of it data. Continue with caution."
-			>
-				<svelte:fragment slot="alertTrigger" let:open>
-					<SyncButton
-						text="Delete section"
-						icon={DeleteIcon}
-						type="danger"
-						on:click={() => open()}
-					/>
-				</svelte:fragment>
-			</DialogAlert>
+			<form action="?/delete" method="post">
+				<DialogAlert
+					on:confirm
+					type="danger"
+					header="Do you really want to delete?"
+					description="This action will remove this section from the writing and erase all of it data. Continue with caution."
+				>
+					<svelte:fragment slot="alertTrigger" let:open>
+						<SyncButton
+							text="Delete section"
+							icon={DeleteIcon}
+							type="danger"
+							on:click={(e) => {
+								e.preventDefault();
+								open();
+							}}
+						/>
+					</svelte:fragment>
+				</DialogAlert>
+			</form>
 			<form action="?/save" method="post" enctype="multipart/form-data" use:enhance={saveAction}>
 				<SyncButton
 					text="Save changes"
@@ -106,9 +105,12 @@
 			initialData={data.sectionData.content}
 			viewMode={!authority}
 			sizeLimits={{ attachments: 2.2, imgs: 2.2 }}
+			codeBlockLanguages={codeLanguages}
+			excludedBlocks={['embed']}
 		/>
 	</section>
 </div>
+
 <Toaster duration={3500} expand />
 
 <style>

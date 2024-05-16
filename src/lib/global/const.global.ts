@@ -25,3 +25,31 @@ export const bodyFontsUrl =
 
 export const headerFontsUrl =
 	'https://api.fontsource.org/v1/fonts?weights=700&styles=normal&subsets=latin';
+
+export const codeLanguages = [
+	'JavaScript',
+	'Python',
+	'Java',
+	'C#',
+	'PHP',
+	'C++',
+	'C',
+	'Swift',
+	'Ruby',
+	'Objective-C',
+	'R',
+	'Go',
+	'Kotlin',
+	'Scala',
+	'Rust',
+	'Zig',
+	'Dart',
+	'TypeScript',
+	'Shell',
+	'PowerShell',
+	'Perl',
+	'Haskell',
+	'Svelte',
+	'Tsx',
+	'Vue'
+];
