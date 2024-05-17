@@ -8,7 +8,7 @@
 	import SaveIcon from '$icons/saveIcon.svelte';
 	import DialogAlert from '$components/other/dialogAlert.svelte';
 	import type { dataBlock } from '@altron/altron/types';
-	import { Toaster, toast } from 'svelte-sonner';
+	import { Toaster } from 'svelte-sonner';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import { enhance } from '$app/forms';
 	import { getValidator, sectionNameSchema } from '$global/zod';
@@ -18,24 +18,26 @@
 
 	export let data: { sectionData: SectionData };
 	let authority = isOwner() || isSectionCreator();
-	let savingState: 'idle' | 'loading' = 'idle';
+	let savingState: 'idle' | 'saving' = 'idle';
 	let altronRef: Altron = null;
 	const validateName = getValidator(sectionNameSchema);
 
-	const saveAction: SubmitFunction = async ({ formData, cancel }) => {
+	const saveAction: SubmitFunction = async ({ formData }) => {
+		savingState = 'saving';
 		let altronData = altronRef.getData() as dataBlock[];
 		altronData = altronData.filter((el) => {
 			if (el.name == 'attachment' || el.name == 'image') return el.data.src != '';
 			return true;
 		});
 		altronData.forEach((el) => addBlockFile(el, formData));
-		savingState = 'loading';
 		formData.append('content', JSON.stringify(altronData));
 		formData.append('name', data.sectionData.name);
 		return ({ result, update }) => {
+			setTimeout(() => {
+				savingState = 'idle';
+			}, 3800);
 			if (result.type === 'failure') showToast('Failure', result.data.message, 'danger');
 			if (result.type === 'success') showToast('Success', 'Successfully saving changes', 'success');
-			savingState = 'idle';
 			update();
 		};
 	};
@@ -80,6 +82,9 @@
 					icon={SaveIcon}
 					type={savingState == 'idle' ? 'primary' : 'disabled'}
 				/>
+				{#if savingState == 'saving'}
+					<Toaster duration={3500} expand />
+				{/if}
 			</form>
 		</section>
 	{/if}
@@ -110,8 +115,6 @@
 		/>
 	</section>
 </div>
-
-<Toaster duration={3500} expand />
 
 <style>
 	.writingContent {

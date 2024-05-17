@@ -1,10 +1,8 @@
 import { toast } from 'svelte-sonner';
 import SyncToast from '$components/toast/syncToast.svelte';
-import AsyncToast from '$components/toast/asyncToast.svelte';
 import type { Contribution, Reference } from '$global/types.global';
 import { get } from 'svelte/store';
 import { page } from '$app/stores';
-import type { toastState } from './types.client';
 import { destructorFileName } from '$global/utils.global';
 import uuid from 'short-uuid';
 import type { dataBlock } from '@altron/altron/types';
@@ -24,20 +22,6 @@ export function showToast(
 				toastAction
 			}
 		});
-}
-
-export function showAsyncToast(header: string, description: string, promise: Promise<toastState>) {
-	toast.custom(AsyncToast, {
-		duration: 12000,
-		componentProps: {
-			promise,
-			loadingState: {
-				header: header,
-				description: description,
-				toastAction: null
-			}
-		}
-	});
 }
 
 export function addBlockFile(el: dataBlock, formData: FormData) {

@@ -1,7 +1,7 @@
 <script>
-	import InfoIcon from '../../icons/infoIcon.svelte';
-	import DangerIcon from '../../icons/dangerIcon.svelte';
-	import SuccessIcon from '../../icons/successIcon.svelte';
+	import InfoIcon from '$icons/infoIcon.svelte';
+	import DangerIcon from '$icons/dangerIcon.svelte';
+	import SuccessIcon from '$icons/successIcon.svelte';
 	import CustomToast from './customToast.svelte';
 	/**@type {string}*/
 	export let header;

@@ -73,9 +73,8 @@ export type toastAction = {
 	action: (ev: MouseEvent) => void;
 };
 
-// Type for the async toast variant
-export type toastState = {
+export type AsyncToastState = {
+	status: 'loading' | 'success' | 'error';
 	header: string;
 	description: string;
-	toastAction: toastAction | null;
 };

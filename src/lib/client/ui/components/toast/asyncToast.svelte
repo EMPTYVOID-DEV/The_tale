@@ -1,46 +1,43 @@
-<script>
+<script lang="ts">
+	import type { AsyncToastState } from '$client/types.client';
 	import DangerIcon from '$icons/dangerIcon.svelte';
 	import LoadingIcon from '$icons/loadingIcon.svelte';
 	import SuccessIcon from '$icons/successIcon.svelte';
 	import CustomToast from './customToast.svelte';
-	/**@type {import("$client/types.client").toastState}*/
-	export let loadingState;
-	/**@typedef {import("$client/types.client").toastState} state*/
-	/**@type {Promise<state>}*/
-	export let promise;
+	export let status: AsyncToastState;
 </script>
 
-{#await promise}
+{#if status.status == 'loading'}
 	<div class="loadingToast">
 		<CustomToast
 			on:closeToast
 			icon={LoadingIcon}
-			description={loadingState.description}
-			header={loadingState.header}
-			toastAction={loadingState.toastAction}
+			description={status.description}
+			header={status.header}
+			toastAction={null}
 		/>
 	</div>
-{:then successState}
+{:else if status.status == 'success'}
 	<div class="successToast">
 		<CustomToast
 			on:closeToast
 			icon={SuccessIcon}
-			description={successState.description}
-			header={successState.header}
-			toastAction={successState.toastAction}
+			description={status.description}
+			header={status.header}
+			toastAction={null}
 		/>
 	</div>
-{:catch dangerToast}
+{:else}
 	<div class="dangerToast">
 		<CustomToast
 			on:closeToast
 			icon={DangerIcon}
-			description={dangerToast.description}
-			header={dangerToast.header}
-			toastAction={dangerToast.toastAction}
+			description={status.description}
+			header={status.header}
+			toastAction={null}
 		/>
 	</div>
-{/await}
+{/if}
 
 <style>
 	.dangerToast,
