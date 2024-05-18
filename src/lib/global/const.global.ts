@@ -27,6 +27,7 @@ export const headerFontsUrl =
 	'https://api.fontsource.org/v1/fonts?weights=700&styles=normal&subsets=latin';
 
 export const codeLanguages = [
+	'Bash',
 	'JavaScript',
 	'Python',
 	'Java',

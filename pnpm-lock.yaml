@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@altron/altron':
-    specifier: ^2.2.0
-    version: 2.2.0(svelte@4.2.12)
+    specifier: ^2.2.1
+    version: 2.2.1(svelte@4.2.12)
   '@lucia-auth/adapter-drizzle':
     specifier: ^1.0.4
     version: 1.0.7(lucia@3.1.1)
@@ -132,8 +132,8 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /@altron/altron@2.2.0(svelte@4.2.12):
-    resolution: {integrity: sha512-qdNoKNT/ML6ijPll2hESvtnPMWnKeE59kG1KhvKosmsbuDOgHpJAz5cwdrv820D+CBlaS2R1M874mO1PvlZGdg==}
+  /@altron/altron@2.2.1(svelte@4.2.12):
+    resolution: {integrity: sha512-XzswQaC9LlO9lcQn3DQ2ano7w/ZVLnki6ZWKwu5emqKL8WrZ3qpDflfciz50Q3kEwZu63JdtUrIL+wuEyjSYkQ==}
     engines: {node: '>=16.14'}
     peerDependencies:
       svelte: ^4.0.0
