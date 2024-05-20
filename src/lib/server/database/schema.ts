@@ -147,9 +147,9 @@ export const sectionsTable = pgTable(
 			.references(() => writingTable.id, {
 				onDelete: 'cascade'
 			}),
-		writerId: varchar('writer_id', { length: 8 })
-			.notNull()
-			.references(() => userTable.id, { onDelete: 'set null' })
+		writerId: varchar('writer_id', { length: 8 }).references(() => userTable.id, {
+			onDelete: 'set null'
+		})
 	},
 	(table) => {
 		return {

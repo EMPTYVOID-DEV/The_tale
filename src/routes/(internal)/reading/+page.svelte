@@ -1,25 +1,58 @@
-<script>
+<script lang="ts">
 	import SearchInput from '$components/other/searchInput.svelte';
 	import ShadowButton from '$components/button/shadowButton.svelte';
-	import { goto } from '$app/navigation';
-	export let query = '';
+	import Loading from './components/loading.svelte';
+	import SyncButton from '$components/button/syncButton.svelte';
+	import type { QueryResult } from '$global/types.global';
+	import { promiseTimeout } from '$global/utils.global';
+	let queryResults: QueryResult[] = [];
+	let query = '';
+	let page = 1;
+	let fetchState: 'idle' | 'loading' = 'idle';
+	let isMore = false;
+
+	async function handleQuery() {
+		fetchState = 'loading';
+		await promiseTimeout(3000, () => {});
+		const results: QueryResult[] = await fetch(`/reading/?query=${query}&page=${page}`).then(
+			(res) => res.json()
+		);
+		queryResults = [...queryResults, ...results];
+		fetchState = 'idle';
+		isMore = results.length != 0;
+	}
+
+	function intialFetch() {
+		page = 1;
+		queryResults = [];
+		handleQuery();
+	}
+	function fetchMore() {
+		page++;
+		handleQuery();
+	}
 </script>
 
 <div class="reading">
 	<h1>Explore Our Literary</h1>
-	<div class="search">
+	<section class="search">
 		<SearchInput bind:value={query} />
 		<ShadowButton
 			--padding-inline="1.5rem"
 			--padding-block="0.75rem"
 			type="primary"
 			text="search"
-			on:click={() => {
-				if (query.length != 0) goto(`/reading/${query}`);
-			}}
+			on:click={intialFetch}
 		/>
-	</div>
-	<span>You can search for writing through it id , name , owner id or one of contributors id.</span>
+	</section>
+	<span>You can search for a writing through it id , name or owner id.</span>
+	<section class="queryResults"></section>
+	{#if fetchState == 'loading'}
+		<Loading />
+	{/if}
+	{#if isMore}
+		<SyncButton text="Show more" on:click={fetchMore} />
+	{/if}
 </div>
 
 <style>
@@ -32,8 +65,8 @@
 		align-items: center;
 		padding-inline: 2.5%;
 		gap: 1rem;
-		--intermediate-color: color-mix(in srgb, var(--backgroundColor) 80%, var(--primaryColor) 20%);
 		background: linear-gradient(to bottom, var(--backgroundColor), var(--intermediate-color));
+		--intermediate-color: color-mix(in srgb, var(--backgroundColor) 80%, var(--primaryColor) 20%);
 	}
 	.reading h1 {
 		color: var(--foregroundColor);

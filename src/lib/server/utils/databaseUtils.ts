@@ -8,7 +8,7 @@ import {
 	sectionsTable
 } from '$server/database/schema';
 import type { Key, User } from '$server/types.server';
-import { and, eq } from 'drizzle-orm';
+import { and, eq, or, ilike } from 'drizzle-orm';
 import { generateId } from 'lucia';
 import { isOwner, isReferenceCreator, isSectionCreator } from './customMiddlewares';
 import { Section } from '$global/types.global';
@@ -176,4 +176,25 @@ export async function deleteSection(sectionName: string, userId: string, writing
 				.delete(sectionsTable)
 				.where(and(eq(sectionsTable.name, sectionName), eq(sectionsTable.writingId, writingId)));
 		});
+}
+
+export async function queryWritings(query: string, page: number = 1, limit: number = 8) {
+	const offset = (page - 1) * limit;
+	return db.query.writingTable.findMany({
+		where: or(
+			ilike(writingTable.name, `%${query}%`),
+			ilike(writingTable.id, `%${query}%`),
+			ilike(writingTable.ownerId, `%${query}%`)
+		),
+		columns: {
+			background: true,
+			creationDate: true,
+			ownerId: true,
+			name: true,
+			description: true,
+			id: true
+		},
+		limit,
+		offset
+	});
 }

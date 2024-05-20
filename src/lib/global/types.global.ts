@@ -77,3 +77,12 @@ export type SectionData = {
 	writerId: string;
 	content: dataBlock[];
 };
+
+export type QueryResult = {
+	id: string;
+	name: string;
+	description: string;
+	background: Background;
+	creationDate: string;
+	ownerId: string;
+};
