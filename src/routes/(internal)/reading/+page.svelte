@@ -4,7 +4,7 @@
 	import Loading from './components/loading.svelte';
 	import SyncButton from '$components/button/syncButton.svelte';
 	import type { QueryResult } from '$global/types.global';
-	import { promiseTimeout } from '$global/utils.global';
+	import { queryLimit } from '$global/const.global';
 	let queryResults: QueryResult[] = [];
 	let query = '';
 	let page = 1;
@@ -13,13 +13,16 @@
 
 	async function handleQuery() {
 		fetchState = 'loading';
-		await promiseTimeout(3000, () => {});
-		const results: QueryResult[] = await fetch(`/reading/?query=${query}&page=${page}`).then(
-			(res) => res.json()
-		);
-		queryResults = [...queryResults, ...results];
+		const url = `/reading/?query=${query}&page=${page}`;
+		const results: QueryResult[] = await fetch(url).then((res) => res.json());
+		if (results.length > queryLimit - 1) {
+			isMore = true;
+			results.pop();
+		} else {
+			isMore = false;
+		}
 		fetchState = 'idle';
-		isMore = results.length != 0;
+		queryResults = [...queryResults, ...results];
 	}
 
 	function intialFetch() {

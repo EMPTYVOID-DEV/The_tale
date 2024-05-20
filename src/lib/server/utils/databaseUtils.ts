@@ -8,12 +8,13 @@ import {
 	sectionsTable
 } from '$server/database/schema';
 import type { Key, User } from '$server/types.server';
-import { and, eq, or, ilike } from 'drizzle-orm';
+import { and, eq, or, ilike, asc } from 'drizzle-orm';
 import { generateId } from 'lucia';
 import { isOwner, isReferenceCreator, isSectionCreator } from './customMiddlewares';
 import { Section } from '$global/types.global';
 import type { dataBlock } from '@altron/altron/types';
 import { addSectionGraph, deleteSectionGraph, renameSection } from '$global/utils.global';
+import { queryLimit } from '$global/const.global';
 
 export async function insertUser(newUser: User, key: Key) {
 	return db.transaction(async (tx) => {
@@ -178,8 +179,10 @@ export async function deleteSection(sectionName: string, userId: string, writing
 		});
 }
 
-export async function queryWritings(query: string, page: number = 1, limit: number = 8) {
-	const offset = (page - 1) * limit;
+export async function queryWritings(query: string, page: number = 1) {
+	let offset = 0;
+	if (page == 1) offset = 0;
+	else offset = (page - 1) * queryLimit - 1;
 	return db.query.writingTable.findMany({
 		where: or(
 			ilike(writingTable.name, `%${query}%`),
@@ -194,7 +197,8 @@ export async function queryWritings(query: string, page: number = 1, limit: numb
 			description: true,
 			id: true
 		},
-		limit,
+		orderBy: [asc(writingTable.id)],
+		limit: queryLimit,
 		offset
 	});
 }

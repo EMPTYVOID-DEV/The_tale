@@ -54,3 +54,5 @@ export const codeLanguages = [
 	'Tsx',
 	'Vue'
 ];
+
+export const queryLimit = 9;
