@@ -56,7 +56,10 @@ export const actions: Actions = {
 			const name = `${filename}_${writingId}.${extension}`;
 			value = await uploadFile(file, name, 'backgrounds');
 		}
-		await db.update(writingTable).set({ background: { value, type } });
+		await db
+			.update(writingTable)
+			.set({ background: { value, type } })
+			.where(eq(writingTable.id, writingId));
 	},
 	deleteWriting: async ({ params, request }) => {
 		const fd = await request.formData();

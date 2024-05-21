@@ -183,22 +183,45 @@ export async function queryWritings(query: string, page: number = 1) {
 	let offset = 0;
 	if (page == 1) offset = 0;
 	else offset = (page - 1) * queryLimit - 1;
-	return db.query.writingTable.findMany({
-		where: or(
-			ilike(writingTable.name, `%${query}%`),
-			ilike(writingTable.id, `%${query}%`),
-			ilike(writingTable.ownerId, `%${query}%`)
-		),
-		columns: {
-			background: true,
-			creationDate: true,
-			ownerId: true,
-			name: true,
-			description: true,
-			id: true
-		},
-		orderBy: [asc(writingTable.id)],
-		limit: queryLimit,
-		offset
-	});
+	return db
+		.select({
+			background: writingTable.background,
+			creationDate: writingTable.creationDate,
+			ownerId: writingTable.ownerId,
+			ownerUsername: userTable.username,
+			ownerAvatar: userTable.avatar,
+			name: writingTable.name,
+			description: writingTable.description,
+			id: writingTable.id
+		})
+		.from(writingTable)
+		.where(
+			or(
+				ilike(writingTable.name, `%${query}%`),
+				ilike(writingTable.id, `%${query}%`),
+				ilike(writingTable.ownerId, `%${query}%`)
+			)
+		)
+		.offset(offset)
+		.limit(queryLimit)
+		.orderBy(asc(writingTable.id))
+		.innerJoin(userTable, eq(userTable.id, writingTable.ownerId));
+	// db.query.writingTable.findMany({
+	// 	where: or(
+	// 		ilike(writingTable.name, `%${query}%`),
+	// 		ilike(writingTable.id, `%${query}%`),
+	// 		ilike(writingTable.ownerId, `%${query}%`)
+	// 	),
+	// 	columns: {
+	// 		background: true,
+	// 		creationDate: true,
+	// 		ownerId: true,
+	// 		name: true,
+	// 		description: true,
+	// 		id: true
+	// 	},
+	// 	orderBy: [asc(writingTable.id)],
+	// 	limit: queryLimit,
+	// 	offset
+	// })
 }

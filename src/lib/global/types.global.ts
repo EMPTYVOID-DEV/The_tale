@@ -79,10 +79,12 @@ export type SectionData = {
 };
 
 export type QueryResult = {
-	id: string;
-	name: string;
-	description: string;
 	background: Background;
 	creationDate: string;
 	ownerId: string;
+	ownerUsername: string;
+	ownerAvatar: string;
+	name: string;
+	description: string;
+	id: string;
 };

@@ -2,7 +2,6 @@
 	import { page } from '$app/stores';
 	import Dialog from '$components/other/dialog.svelte';
 	import StaticInput from '$components/input/staticInput.svelte';
-	import WritingBackground from '$components/other/background.svelte';
 	import Select from '$components/other/select.svelte';
 	import type { Contribution } from '$global/types.global';
 	import PlusIcon from '$icons/plusIcon.svelte';
@@ -14,6 +13,7 @@
 	import { enhance } from '$app/forms';
 	import { showToast } from '$client/utils.client';
 	import { Toaster } from 'svelte-sonner';
+	import Writing from './components/writing.svelte';
 	let contributions = $page.data.contributions as Contribution[];
 	const validateWritingName = getValidator(writingNameSchema);
 	const rolesOrder = ['writer', 'owner'];
@@ -116,21 +116,7 @@
 	</section>
 	<section class="list">
 		{#each contributions as contribution}
-			<a href="/mywritings/{contribution.writingId}/dashboard" class="writingLink">
-				<WritingBackground background={contribution.writingBackground} />
-				<div class="layer">
-					<span>{contribution.writingName}</span>
-					<span>{contribution.writingId}</span>
-				</div>
-				<div class="layer">
-					<span>Role</span>
-					<span>{contribution.role}</span>
-				</div>
-				<div class="layer">
-					<span>Writing time</span>
-					<span>{Math.floor(contribution.writingTime / 60)} minutes</span>
-				</div>
-			</a>
+			<Writing {contribution} />
 		{/each}
 	</section>
 </div>
@@ -188,37 +174,6 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1.5rem;
-	}
-	.writingLink {
-		--mixed-light: color-mix(in srgb, var(--foregroundColor) 8%, transparent 92%);
-		background-color: var(--mixed-light);
-		border: 1px solid var(--mutedColor);
-		border-radius: var(--border-radius);
-		padding: 0.5rem;
-		width: 100%;
-		display: grid;
-		grid-template-columns: max-content repeat(3, 1fr);
-		align-items: center;
-		gap: 0.5rem;
-		cursor: pointer;
-	}
-
-	.writingLink .layer {
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-	}
-
-	.layer span {
-		font-size: var(--small);
-	}
-
-	.layer span:first-child {
-		color: color-mix(in srgb, var(--primaryColor) 70%, var(--foregroundColor) 30%);
-		font-weight: 600;
-	}
-	.layer span:last-child {
-		color: var(--foregroundColor);
 	}
 
 	.addwriting {

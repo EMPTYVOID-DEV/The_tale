@@ -75,15 +75,6 @@ export function traverseToTarget(root: Section, targetName: string) {
 	return [];
 }
 
-export function promiseTimeout(timeout: number, cb: () => void) {
-	return new Promise<void>((res) => {
-		setTimeout(() => {
-			cb();
-			res();
-		}, timeout);
-	});
-}
-
 export function renameSection(
 	root: Section,
 	previousName: string,
