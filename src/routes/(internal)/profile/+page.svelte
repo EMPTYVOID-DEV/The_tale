@@ -5,11 +5,13 @@
 	import DeleteForm from './components/deleteForm.svelte';
 	import { Toaster } from 'svelte-sonner';
 	import LogoutForm from './components/logoutForm.svelte';
+	import AboutForm from './components/aboutForm.svelte';
 </script>
 
 <div class="profile">
 	<AvatarForm />
 	<UsernameForm />
+	<AboutForm />
 	<IdCopy />
 	<LogoutForm />
 	<DeleteForm />

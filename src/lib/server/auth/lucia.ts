@@ -11,7 +11,8 @@ export const lucia = new Lucia(adapter, {
 	getUserAttributes: (attributes: DatabaseUserAttributes) => {
 		return {
 			username: attributes.username,
-			avatar: attributes.avatar
+			avatar: attributes.avatar,
+			about: attributes.about
 		};
 	},
 	sessionCookie: {
@@ -34,4 +35,5 @@ interface DatabaseSessionAttributes {}
 interface DatabaseUserAttributes {
 	username: string;
 	avatar: string;
+	about: string;
 }

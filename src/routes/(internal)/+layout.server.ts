@@ -8,7 +8,8 @@ export const load: ServerLoad = async ({ locals, url }) => {
 			isAuthenticated,
 			avatar: locals.user.avatar,
 			username: locals.user.username,
-			id: locals.user.id
+			id: locals.user.id,
+			about: locals.user.about
 		};
 	}
 };

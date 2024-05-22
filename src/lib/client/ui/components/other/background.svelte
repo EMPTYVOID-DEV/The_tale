@@ -12,12 +12,14 @@
 <style>
 	.colorBackground {
 		display: inline-block;
-		width: var(--width, 2rem);
+		min-width: var(--width, 2rem);
+		max-width: var(--width, 2rem);
 		aspect-ratio: 1/1;
 		border-radius: var(--radius, 50%);
 	}
 	.imgBackground {
-		width: var(--width, 2rem);
+		min-width: var(--width, 2rem);
+		max-width: var(--width, 2rem);
 		aspect-ratio: 1/1;
 		object-fit: cover;
 		object-position: center;

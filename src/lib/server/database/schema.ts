@@ -24,6 +24,7 @@ import { defaultColors, defaultFonts } from '$global/const.global';
 export const userTable = pgTable('user', {
 	id: varchar('id', { length: 8 }).notNull().primaryKey(),
 	username: varchar('username', { length: 28 }).notNull(),
+	about: text('about').default(''),
 	avatar: text('avatar')
 });
 

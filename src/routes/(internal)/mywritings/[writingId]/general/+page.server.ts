@@ -2,7 +2,7 @@ import { fail, redirect, type Actions, type Load } from '@sveltejs/kit';
 import { db } from '$server/database/database';
 import { eq } from 'drizzle-orm';
 import { writingTable } from '$server/database/schema';
-import { getValidator, writingDescriptionSchema, writingNameSchema } from '$global/zod';
+import { getValidator, descriptionSchema, writingNameSchema } from '$global/zod';
 import { uploadFile } from '$server/utils/uploadFile';
 import { checkSize, checkType, destructorFileName } from '$global/utils.global';
 import { defaultBgUrl } from '$global/const.global';
@@ -34,7 +34,7 @@ export const actions: Actions = {
 		const writingId = params.writingId;
 		const fd = await request.formData();
 		const description = fd.get('description').toString();
-		const validateWritingDescription = getValidator(writingDescriptionSchema);
+		const validateWritingDescription = getValidator(descriptionSchema);
 		if (validateWritingDescription(description).state == 'invalid')
 			return fail(400, { message: validateWritingDescription(description).errorMsg });
 		await db.update(writingTable).set({ description }).where(eq(writingTable.id, writingId));

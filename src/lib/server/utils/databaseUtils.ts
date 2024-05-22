@@ -198,30 +198,28 @@ export async function queryWritings(query: string, page: number = 1) {
 		.where(
 			or(
 				ilike(writingTable.name, `%${query}%`),
-				ilike(writingTable.id, `%${query}%`),
-				ilike(writingTable.ownerId, `%${query}%`)
+				ilike(writingTable.id, query),
+				ilike(writingTable.ownerId, query)
 			)
 		)
 		.offset(offset)
 		.limit(queryLimit)
 		.orderBy(asc(writingTable.id))
 		.innerJoin(userTable, eq(userTable.id, writingTable.ownerId));
-	// db.query.writingTable.findMany({
-	// 	where: or(
-	// 		ilike(writingTable.name, `%${query}%`),
-	// 		ilike(writingTable.id, `%${query}%`),
-	// 		ilike(writingTable.ownerId, `%${query}%`)
-	// 	),
-	// 	columns: {
-	// 		background: true,
-	// 		creationDate: true,
-	// 		ownerId: true,
-	// 		name: true,
-	// 		description: true,
-	// 		id: true
-	// 	},
-	// 	orderBy: [asc(writingTable.id)],
-	// 	limit: queryLimit,
-	// 	offset
-	// })
+}
+
+export async function getAuthorInfo(authorId: string) {
+	const contributionsPromise = getMyContributions(authorId);
+	const infoPromise = db.query.userTable.findFirst({
+		where: eq(userTable.id, authorId)
+	});
+
+	const result = await Promise.allSettled([infoPromise, contributionsPromise]);
+	if (result[0].status == 'rejected' || result[1].status == 'rejected')
+		throw new Error('Service unavailable');
+
+	return {
+		info: result[0].value,
+		contributions: result[1].value
+	};
 }

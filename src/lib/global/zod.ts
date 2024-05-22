@@ -27,7 +27,7 @@ export const writingNameSchema = z
 	.min(4, { message: 'Writing name must be at least four characters' })
 	.max(48, { message: 'Writing name must no bigger than 48 characters' });
 
-export const writingDescriptionSchema = z.string().refine(
+export const descriptionSchema = z.string().refine(
 	(val) => {
 		const wordCount = val.trim().split(/\s+/).length;
 		return wordCount <= 200;

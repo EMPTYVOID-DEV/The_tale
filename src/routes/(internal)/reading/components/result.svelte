@@ -3,24 +3,24 @@
 	import WritingBackground from '$components/other/background.svelte';
 	import Avatar from '$components/other/avatar.svelte';
 	export let result: QueryResult;
-
-	function cutDescription(description: string) {
-		if (description.length == 0) return 'No description provided';
-		if (description.length < 300) return description;
-		return description.substring(0, 300) + '...';
-	}
 </script>
 
 <a class="result" href="/reading/{result.id}">
 	<div class="context">
-		<a class="queryOwner" href="/reading/users/{result.ownerId}">
+		<a class="queryOwner" href="/reading/authors/{result.ownerId}">
 			<Avatar avatar={result.ownerAvatar} />
 			<span class="owner">{result.ownerUsername}</span>
 		</a>
 		<h4>{result.name}</h4>
-		<p>{result.description}</p>
+		{#if result.description.length == 0}
+			<p>No description is provided by the author.</p>
+		{:else}
+			<p>{result.description}</p>
+		{/if}
 	</div>
-	<WritingBackground background={result.background} />
+	<div class="bg">
+		<WritingBackground background={result.background} />
+	</div>
 </a>
 
 <style>
@@ -36,6 +36,10 @@
 		border: 2px solid var(--foregroundColor);
 		transition: all 400ms ease-in-out;
 		cursor: pointer;
+	}
+
+	.bg {
+		display: contents;
 		--radius: var(--border-radius);
 		--width: 5rem;
 	}
@@ -78,6 +82,8 @@
 
 	.queryOwner span {
 		font-size: var(--small);
+		color: var(--primaryColor);
+		font-weight: 600;
 	}
 
 	@media screen and (max-width: 764px) {

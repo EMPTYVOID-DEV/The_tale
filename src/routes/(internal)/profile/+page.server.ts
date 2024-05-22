@@ -4,7 +4,7 @@ import { checkSize, checkType, destructorFileName } from '$global/utils.global';
 import { db } from '$server/database/database';
 import { userTable } from '$server/database/schema';
 import { eq } from 'drizzle-orm';
-import { getValidator, usernameSchema } from '$global/zod';
+import { descriptionSchema, getValidator, usernameSchema } from '$global/zod';
 import { lucia } from '$server/auth/lucia';
 
 export const actions: Actions = {
@@ -29,6 +29,15 @@ export const actions: Actions = {
 		if (validateUsername(username).state == 'invalid')
 			return fail(400, { message: validateUsername(username).errorMsg });
 		await db.update(userTable).set({ username }).where(eq(userTable.id, locals.user.id));
+	},
+	changeAbout: async ({ request, locals }) => {
+		const { id } = locals.user;
+		const fd = await request.formData();
+		const about = fd.get('about').toString();
+		const validateAbout = getValidator(descriptionSchema);
+		if (validateAbout(about).state == 'invalid')
+			return fail(400, { message: validateAbout(about).errorMsg });
+		await db.update(userTable).set({ about }).where(eq(userTable.id, id));
 	},
 	deleteAccount: async ({ locals, request }) => {
 		const fd = await request.formData();

@@ -15,15 +15,14 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		width: 42px;
-		height: 42px;
-		padding: 2px;
+		width: var(--width, 42px);
+		aspect-ratio: 1/1;
 		border-radius: 50%;
 		border: 3px solid var(--color, transparent);
 	}
 
 	.avatar img {
-		width: 38px;
+		width: 100%;
 		aspect-ratio: 1/1;
 		border-radius: 50%;
 		object-fit: cover;
@@ -31,7 +30,7 @@
 	}
 
 	.avatar .default {
-		width: 38px;
+		width: 100%;
 		aspect-ratio: 1/1;
 		border-radius: 50%;
 		background: radial-gradient(circle at center, var(--primaryColor), var(--foregroundColor));
