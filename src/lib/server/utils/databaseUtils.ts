@@ -28,9 +28,9 @@ export async function getMyContributions(userId: string) {
 		.select({
 			writingId: writingTable.id,
 			role: writingContributorsTable.role,
-			writingTime: writingContributorsTable.writingTime,
 			writingName: writingTable.name,
-			writingBackground: writingTable.background
+			writingBackground: writingTable.background,
+			creationDate:writingTable.creationDate			
 		})
 		.from(writingContributorsTable)
 		.where(eq(writingContributorsTable.userId, userId))
@@ -55,8 +55,7 @@ export async function getWritingContributors(writingId: string) {
 		.select({
 			contributorId: userTable.id,
 			contributorUsername: userTable.username,
-			contributorAvatar: userTable.avatar,
-			writingTime: writingContributorsTable.writingTime
+			contributorAvatar: userTable.avatar
 		})
 		.from(writingContributorsTable)
 		.where(

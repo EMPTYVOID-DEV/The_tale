@@ -15,6 +15,8 @@
 	import ReactiveInput from '$components/input/reactiveInput.svelte';
 	import AddNode from '../components/addNode.svelte';
 	import { codeLanguages } from '$global/const.global';
+	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
 
 	export let data: { sectionData: SectionData };
 	let authority = isOwner() || isSectionCreator();
@@ -41,6 +43,8 @@
 			update();
 		};
 	};
+
+	
 </script>
 
 <div class="writingContent">

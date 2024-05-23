@@ -11,10 +11,12 @@ export const load: ServerLoad = async ({ params }) => {
 };
 
 export const actions: Actions = {
-	addContributor: async ({ request, params }) => {
+	addContributor: async ({ request, params, locals }) => {
+		const userId = locals.user.id;
 		const writingId = params.writingId;
 		const fd = await request.formData();
 		const contributorId = fd.get('contributorId').toString();
+		if (userId == contributorId) return fail(403, { message: "You can't add yourself." });
 		try {
 			const contributor = await db.query.userTable.findFirst({
 				where: eq(userTable.id, contributorId)

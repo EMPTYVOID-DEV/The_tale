@@ -7,12 +7,6 @@ import type { dataBlock } from '@altron/altron/types';
 import { fail, redirect, type Actions, type ServerLoad } from '@sveltejs/kit';
 import { and, eq } from 'drizzle-orm';
 
-/**
- * TODO: update delete action where it does not delete when there is one section
- * TODO: update delete action where we adjust the root column in the writing
- * TODO: add the add-sibling/child action
- */
-
 export const load: ServerLoad = async ({ params }) => {
 	const { writingId, sectionName } = params;
 	const sectionData = await db.query.sectionsTable.findFirst({

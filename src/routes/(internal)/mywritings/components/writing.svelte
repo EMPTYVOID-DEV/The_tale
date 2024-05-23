@@ -15,8 +15,8 @@
 		<span>{contribution.role}</span>
 	</div>
 	<div class="layer">
-		<span>Writing time</span>
-		<span>{Math.floor(contribution.writingTime / 60)} minutes</span>
+		<span>Date</span>
+		<span>{contribution.creationDate}</span>
 	</div>
 </a>
 

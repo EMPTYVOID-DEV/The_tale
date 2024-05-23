@@ -32,13 +32,7 @@
 			active={activeRoute == '/about'}
 			on:click={() => (mobileAppear = false)}
 		/>
-		<Link
-			href="/docs"
-			text="docs"
-			isBlank={false}
-			active={activeRoute == '/docs'}
-			on:click={() => (mobileAppear = false)}
-		/>
+
 		<Link
 			href="/reading"
 			text="reading"

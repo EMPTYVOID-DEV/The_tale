@@ -17,7 +17,7 @@
 	let contributions = $page.data.contributions as Contribution[];
 	const validateWritingName = getValidator(writingNameSchema);
 	const rolesOrder = ['writer', 'owner'];
-	const elements: { value: 'name' | 'role' | 'writingTime'; label: string }[] = [
+	const elements: { value: 'name' | 'role' | 'date'; label: string }[] = [
 		{
 			value: 'name',
 			label: 'Order by name'
@@ -27,12 +27,12 @@
 			label: 'Order by role level'
 		},
 		{
-			value: 'writingTime',
-			label: 'Order by writing time'
+			value: 'date',
+			label: 'Order by creation date'
 		}
 	];
 
-	function sortNames(a: string, b: string) {
+	function compareNames(a: string, b: string) {
 		const lengthA = a.length;
 		const lengthB = b.length;
 
@@ -50,17 +50,23 @@
 		return lengthA - lengthB;
 	}
 
+	function compareDates(a: string, b: string) {
+		const dateA = new Date(a);
+		const dateB = new Date(b);
+		return dateA.getTime() - dateB.getTime();
+	}
+
 	function filter(query: string) {
 		const fullContributions = $page.data.contributions as Contribution[];
 		if (query == '') contributions = fullContributions;
 		else contributions = fullContributions.filter((el) => el.writingName.includes(query));
 	}
 
-	function order(orderCriteria: 'name' | 'role' | 'writingTime') {
+	function order(orderCriteria: 'name' | 'role' | 'date') {
 		if (orderCriteria == 'name')
-			contributions = contributions.sort((a, b) => sortNames(a.writingName, b.writingName));
-		else if (orderCriteria == 'writingTime')
-			contributions = contributions.sort((a, b) => b.writingTime - a.writingTime);
+			contributions = contributions.sort((a, b) => compareNames(a.writingName, b.writingName));
+		else if (orderCriteria == 'date')
+			contributions = contributions.sort((a, b) => compareDates(a.creationDate, b.creationDate));
 		else
 			contributions = contributions.sort(
 				(a, b) => rolesOrder.indexOf(b.role) - rolesOrder.indexOf(a.role)

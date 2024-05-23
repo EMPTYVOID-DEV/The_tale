@@ -25,16 +25,15 @@ export type Background = {
 export type Contribution = {
 	writingId: string;
 	role: 'owner' | 'writer';
-	writingTime: number;
 	writingName: string;
 	writingBackground: Background;
+	creationDate: string;
 };
 
 export type WritingContributors = {
 	contributorId: string;
 	contributorUsername: string;
 	contributorAvatar: string;
-	writingTime: number;
 };
 
 export type ActionStatus = {

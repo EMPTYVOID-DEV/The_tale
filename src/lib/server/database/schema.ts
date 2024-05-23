@@ -15,7 +15,6 @@ import {
 	timestamp,
 	date,
 	json,
-	integer,
 	unique
 } from 'drizzle-orm/pg-core';
 import type { dataBlock } from '@altron/altron/types';
@@ -111,9 +110,7 @@ export const writingContributorsTable = pgTable(
 			.references(() => writingTable.id, {
 				onDelete: 'cascade'
 			}),
-		role: text('role').$type<'owner' | 'writer'>().notNull(),
-		// check writing time in seconds when they enter writing page until they save.
-		writingTime: integer('writing_time').default(0)
+		role: text('role').$type<'owner' | 'writer'>().notNull()
 	},
 	(table) => {
 		return {

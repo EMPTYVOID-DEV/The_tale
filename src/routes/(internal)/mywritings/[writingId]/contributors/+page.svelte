@@ -2,7 +2,6 @@
 	import { page } from '$app/stores';
 	import Dialog from '$components/other/dialog.svelte';
 	import StaticInput from '$components/input/staticInput.svelte';
-	import Select from '$components/other/select.svelte';
 	import type { WritingContributors } from '$global/types.global';
 	import PlusIcon from '$icons/plusIcon.svelte';
 	import SyncButton from '$components/button/syncButton.svelte';
@@ -15,93 +14,47 @@
 	import DeleteIcon from '$icons/deleteIcon.svelte';
 	let contributors = [];
 	$: contributors = $page.data.contributors as WritingContributors[];
-	const elements: { value: 'name' | 'role' | 'writingTime'; label: string }[] = [
-		{
-			value: 'name',
-			label: 'Order by name'
-		},
-		{
-			value: 'writingTime',
-			label: 'Order by writing time'
-		}
-	];
-
-	function sortNames(a: string, b: string) {
-		const lengthA = a.length;
-		const lengthB = b.length;
-
-		for (let i = 0; i < Math.min(lengthA, lengthB); i++) {
-			const charCodeA = a.charCodeAt(i);
-			const charCodeB = b.charCodeAt(i);
-
-			if (charCodeA < charCodeB) {
-				return -1;
-			} else if (charCodeA > charCodeB) {
-				return 1;
-			}
-		}
-
-		return lengthA - lengthB;
-	}
 
 	function filter(query: string) {
 		const fullContributions = $page.data.contributors as WritingContributors[];
 		if (query == '') contributors = fullContributions;
 		else contributors = fullContributions.filter((el) => el.contributorUsername.includes(query));
 	}
-
-	function order(orderCriteria: 'name' | 'writingTime') {
-		if (orderCriteria == 'name')
-			contributors = contributors.sort((a, b) =>
-				sortNames(a.contributorUsername, b.contributorUsername)
-			);
-		else orderCriteria == 'writingTime';
-		contributors = contributors.sort((a, b) => b.writingTime - a.writingTime);
-	}
-	order('name');
 </script>
 
 <div class="contributors">
 	<section class="control">
 		<StaticInput placeholder="Search for a contributor" on:change={(e) => filter(e.detail.value)} />
-		<div class="actions">
-			<Select
-				{elements}
-				value={[elements[0]]}
-				clearable={false}
-				on:change={(e) => order(e.detail.selected[0].value)}
-			/>
-			<Dialog let:close>
-				<svelte:fragment let:open slot="trigger">
-					<button class="add" on:click={() => open()}>
-						<PlusIcon />
-						<span>new contributor</span>
-					</button>
-				</svelte:fragment>
+		<Dialog let:close>
+			<svelte:fragment let:open slot="trigger">
+				<button class="add" on:click={() => open()}>
+					<PlusIcon />
+					<span>new contributor</span>
+				</button>
+			</svelte:fragment>
 
-				<form
-					use:enhance={async () => {
-						return ({ result, update }) => {
-							//@ts-ignore
-							if (result.type == 'failure') showToast('Error', result.data.message, 'danger');
-							else {
-								close();
-								update();
-							}
-						};
-					}}
-					action="?/addContributor"
-					method="post"
-					class="addContributor"
-					transition:scale={{ duration: 520, easing: quadInOut, start: 0, opacity: 0.2 }}
-				>
-					<h3>Add a new contributor</h3>
-					<StaticInput label="Contributor ID" name="contributorId" />
-					<SyncButton text="Add Contributor" --width="100%" />
-				</form>
-				<Toaster expand duration={3500} />
-			</Dialog>
-		</div>
+			<form
+				use:enhance={async () => {
+					return ({ result, update }) => {
+						//@ts-ignore
+						if (result.type == 'failure') showToast('Error', result.data.message, 'danger');
+						else {
+							close();
+							update();
+						}
+					};
+				}}
+				action="?/addContributor"
+				method="post"
+				class="addContributor"
+				transition:scale={{ duration: 520, easing: quadInOut, start: 0, opacity: 0.2 }}
+			>
+				<h3>Add a new contributor</h3>
+				<StaticInput label="Contributor ID" name="contributorId" />
+				<SyncButton text="Add Contributor" --width="100%" />
+			</form>
+			<Toaster expand duration={3500} />
+		</Dialog>
 	</section>
 	<section class="list">
 		{#each contributors as contributor}
@@ -126,10 +79,6 @@
 					<span>{contributor.contributorId}</span>
 				</div>
 				<div class="layer">
-					<span>Writing time</span>
-					<span>{Math.floor(contributor.writingTime / 60)} minutes</span>
-				</div>
-				<div class="layer">
 					<SyncButton type="danger" icon={DeleteIcon} --padding-inline="0.5rem" />
 				</div>
 			</form>
@@ -149,12 +98,6 @@
 		gap: 1.5rem;
 	}
 	.control {
-		width: 100%;
-		display: flex;
-		gap: 0.75rem;
-	}
-
-	.actions {
 		width: 100%;
 		display: flex;
 		gap: 0.75rem;
@@ -188,8 +131,8 @@
 
 	.list {
 		width: 100%;
-		display: flex;
-		flex-direction: column;
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
 		gap: 1.5rem;
 	}
 	.contributor {
@@ -197,12 +140,11 @@
 		background-color: var(--mixed-light);
 		border: 1px solid var(--mutedColor);
 		border-radius: var(--border-radius);
-		padding: 0.5rem;
 		width: 100%;
-		display: grid;
-		grid-template-columns: max-content repeat(3, 1fr);
+		display: flex;
 		align-items: center;
 		gap: 0.5rem;
+		padding: 0.5rem;
 		cursor: pointer;
 	}
 
@@ -213,7 +155,7 @@
 	}
 
 	.layer:last-child {
-		justify-self: flex-end;
+		margin-left: auto;
 	}
 
 	.layer span {
@@ -241,9 +183,6 @@
 	}
 
 	@media screen and (width < 764px) {
-		.control {
-			flex-wrap: wrap;
-		}
 		.add {
 			width: 2.5rem;
 			aspect-ratio: 1/1;
@@ -253,6 +192,9 @@
 		}
 		.addContributor {
 			width: 90vw;
+		}
+		.list {
+			grid-template-columns: 100%;
 		}
 	}
 </style>
