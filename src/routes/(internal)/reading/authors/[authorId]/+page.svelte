@@ -1,9 +1,7 @@
 <script lang="ts">
 	import Avatar from '$components/other/avatar.svelte';
 	import WritingBackground from '$components/other/background.svelte';
-	import type { Contribution } from '$global/types.global';
-	import type { User } from 'lucia';
-	export let data: { info: User; contributions: Contribution[] };
+	export let data;
 	const myworks = data.contributions.filter((el) => el.role == 'owner');
 	const contributions = data.contributions.filter((el) => el.role == 'writer');
 </script>

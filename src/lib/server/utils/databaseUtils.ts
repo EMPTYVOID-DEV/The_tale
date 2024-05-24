@@ -30,7 +30,7 @@ export async function getMyContributions(userId: string) {
 			role: writingContributorsTable.role,
 			writingName: writingTable.name,
 			writingBackground: writingTable.background,
-			creationDate:writingTable.creationDate			
+			creationDate: writingTable.creationDate
 		})
 		.from(writingContributorsTable)
 		.where(eq(writingContributorsTable.userId, userId))
@@ -220,5 +220,49 @@ export async function getAuthorInfo(authorId: string) {
 	return {
 		info: result[0].value,
 		contributions: result[1].value
+	};
+}
+
+export async function getWritingInfo(writingId: string) {
+	const infoPromise = db.query.writingTable.findFirst({
+		where: eq(writingTable.id, writingId),
+		columns: {
+			logo: false,
+			colors: false,
+			fonts: false,
+			tempalteName: false
+		}
+	});
+	const referencesPromise = db.query.writingReferencesTable.findMany({
+		where: eq(writingReferencesTable.writingId, writingId),
+		columns: {
+			writerId: false,
+			writingId: false
+		}
+	});
+
+	const contributorsPromise = db
+		.select({
+			username: userTable.username,
+			avatar: userTable.avatar,
+			id: userTable.id
+		})
+		.from(writingContributorsTable)
+		.where(eq(writingContributorsTable.writingId, writingId))
+		.innerJoin(userTable, eq(userTable.id, writingContributorsTable.userId));
+
+	const results = await Promise.allSettled([infoPromise, referencesPromise, contributorsPromise]);
+
+	if (
+		results[0].status == 'rejected' ||
+		results[1].status == 'rejected' ||
+		results[2].status == 'rejected'
+	)
+		throw new Error('Service unavailable');
+
+	return {
+		info: results[0].value,
+		references: results[1].value,
+		contributors: results[2].value
 	};
 }

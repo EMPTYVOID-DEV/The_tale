@@ -14,13 +14,13 @@
 		display: inline-block;
 		min-width: var(--width, 2rem);
 		max-width: var(--width, 2rem);
-		aspect-ratio: 1/1;
+		aspect-ratio: var(--ration, 1/1);
 		border-radius: var(--radius, 50%);
 	}
 	.imgBackground {
 		min-width: var(--width, 2rem);
 		max-width: var(--width, 2rem);
-		aspect-ratio: 1/1;
+		aspect-ratio: var(--ration, 1/1);
 		object-fit: cover;
 		object-position: center;
 		border-radius: var(--radius, 50%);

@@ -55,24 +55,24 @@ const authHook: Handle = async ({ resolve, event }) => {
 		redirect(302, '/mywritings');
 	}
 
-	if (!writingId) return resolve(event);
+	if (checkPath(pathname, 'start', ['/mywritings']) && writingId) {
+		const contributor = await db.query.writingContributorsTable.findFirst({
+			where: and(
+				eq(writingContributorsTable.writingId, writingId),
+				eq(writingContributorsTable.userId, userId)
+			)
+		});
 
-	const contributor = await db.query.writingContributorsTable.findFirst({
-		where: and(
-			eq(writingContributorsTable.writingId, writingId),
-			eq(writingContributorsTable.userId, userId)
-		)
-	});
+		if (!contributor) {
+			redirect(302, '/mywritings');
+		}
 
-	if (!contributor) {
-		redirect(302, '/mywritings');
-	}
-
-	if (
-		contributor.role === 'writer' &&
-		checkPath(pathname, 'end', ['template', 'general', 'contributors'])
-	) {
-		redirect(302, '/mywritings');
+		if (
+			contributor.role === 'writer' &&
+			checkPath(pathname, 'end', ['template', 'general', 'contributors'])
+		) {
+			redirect(302, '/mywritings');
+		}
 	}
 
 	return resolve(event);

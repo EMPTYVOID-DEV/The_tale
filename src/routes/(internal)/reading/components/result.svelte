@@ -42,6 +42,7 @@
 		display: contents;
 		--radius: var(--border-radius);
 		--width: 5rem;
+		--height: 5rem;
 	}
 
 	.result:hover {
@@ -89,6 +90,7 @@
 	@media screen and (max-width: 764px) {
 		.result {
 			--width: 3rem;
+			--height: 3rem;
 		}
 		.context p {
 			-webkit-line-clamp: 2;

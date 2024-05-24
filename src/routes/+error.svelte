@@ -40,7 +40,7 @@
 	<div>
 		{#if errorMap.has($page.status)}
 			<h3>{$page.status} - {errorMap.get($page.status).name}</h3>
-			<p>{errorMap.get($page.status).message}</p>
+			<p>{$page.error.message || errorMap.get($page.status).message}</p>
 		{:else}
 			<h3>{$page.status} - unknown</h3>
 			<p>Unknown error has occured</p>
