@@ -2,7 +2,6 @@
 	import Background from '$components/other/background.svelte';
 	import Reference from '$components/reference/reference.svelte';
 	import Avatar from '$components/other/avatar.svelte';
-	import LinkIcon from '$icons/linkIcon.svelte';
 	import SyncButton from '$components/button/syncButton.svelte';
 	import { goto } from '$app/navigation';
 	import BookIcon from '$icons/bookIcon.svelte';
@@ -17,7 +16,7 @@
 		<Background
 			background={data.info.background}
 			--width="100%"
-			--ration="3/1"
+			--ratio="3/1"
 			--radius="var(--border-radius)"
 		/>
 		<h1>{data.info.name}</h1>

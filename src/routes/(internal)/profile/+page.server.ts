@@ -14,7 +14,7 @@ export const actions: Actions = {
 		if (avatar.size == 0) return fail(400, { message: "You hav'nt upload an image" });
 		if (!checkType('image/*', avatar.type))
 			return fail(400, { message: 'You should upload an image file format.' });
-		if (!checkSize(1200, avatar.size))
+		if (!checkSize(2500, avatar.size))
 			return fail(400, { message: 'Your avatar size should be less than 2.5mb.' });
 		const { id } = locals.user;
 		const { extension, filename } = destructorFileName(avatar.name);

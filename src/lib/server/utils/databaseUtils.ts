@@ -227,10 +227,8 @@ export async function getWritingInfo(writingId: string) {
 	const infoPromise = db.query.writingTable.findFirst({
 		where: eq(writingTable.id, writingId),
 		columns: {
-			logo: false,
 			colors: false,
-			fonts: false,
-			tempalteName: false
+			fonts: false
 		}
 	});
 	const referencesPromise = db.query.writingReferencesTable.findMany({

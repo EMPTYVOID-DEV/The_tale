@@ -7,9 +7,9 @@
 	import FormWrapper from '$components/other/formWrapper.svelte';
 	import Tabs from '$components/other/tabs.svelte';
 	import { defaultColors } from '$global/const.global';
-	import type { WritingColors } from '$global/types.global';
 	import DarkIcon from '$icons/darkIcon.svelte';
 	import LightIcon from '$icons/lightIcon.svelte';
+	import type { WritingColors } from '$global/types.global';
 	import type { SubmitFunction } from '@sveltejs/kit';
 
 	const tabs: { icon?: iconComponent; title: string }[] = [

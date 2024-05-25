@@ -1,10 +1,4 @@
-import type {
-	Background,
-	WritingColors,
-	WritingFonts,
-	Section,
-	Templates
-} from '$global/types.global';
+import type { WritingColors, WritingFonts, Section } from '$global/types.global';
 import {
 	pgTable,
 	text,
@@ -18,7 +12,7 @@ import {
 	unique
 } from 'drizzle-orm/pg-core';
 import type { dataBlock } from '@altron/altron/types';
-import { defaultColors, defaultFonts } from '$global/const.global';
+import { defaultBgUrl, defaultColors, defaultFonts } from '$global/const.global';
 
 export const userTable = pgTable('user', {
 	id: varchar('id', { length: 8 }).notNull().primaryKey(),
@@ -62,12 +56,10 @@ export const writingTable = pgTable('writing', {
 	id: varchar('id', { length: 8 }).primaryKey().notNull(),
 	name: text('name').notNull(),
 	description: text('description').notNull().default(''),
-	background: json('background').$type<Background>().default({ type: 'color', value: '#dfdafa' }),
+	background: text('background').default(defaultBgUrl),
 	creationDate: date('creation_date').default(new Date().toUTCString()),
-	logo: text('logo'),
 	fonts: json('fonts').$type<WritingFonts>().default(defaultFonts),
 	colors: json('colors').$type<WritingColors>().default(defaultColors),
-	tempalteName: text('template_name').$type<Templates>().default('Sveltekit'),
 	rootSection: json('root_section').$type<Section>(),
 	ownerId: varchar('owner_id', { length: 8 })
 		.notNull()

@@ -38,11 +38,15 @@ export function destructorFileName(name: string) {
 	return { filename, extension };
 }
 
-export function imgHandler(e: changeEvent<HTMLInputElement>, cb: (url: string) => void) {
+export function imgHandler(
+	e: changeEvent<HTMLInputElement>,
+	cb: (url: string, file?: File) => void,
+	type: string = 'image/*'
+) {
 	const file = e.currentTarget.files?.[0];
-	if (file && checkType('image/*', file.type) && checkSize(2500, file.size)) {
+	if (file && checkType(type, file.type) && checkSize(2500, file.size)) {
 		const url = URL.createObjectURL(file);
-		cb(url);
+		cb(url, file);
 	}
 }
 

@@ -1,5 +1,4 @@
 import type { dataBlock } from '@altron/altron/types';
-import { templates } from './const.global';
 
 export type ColorSet = {
 	bg: string;
@@ -17,16 +16,11 @@ export type WritingFonts = {
 	body: string;
 };
 
-export type Background = {
-	type: 'url' | 'color';
-	value: string;
-};
-
 export type Contribution = {
 	writingId: string;
 	role: 'owner' | 'writer';
 	writingName: string;
-	writingBackground: Background;
+	writingBackground: string;
 	creationDate: string;
 };
 
@@ -40,8 +34,6 @@ export type ActionStatus = {
 	state: 'valid' | 'invalid';
 	errorMsg: string;
 };
-
-export type Templates = keyof typeof templates;
 
 export type FontSource = {
 	id: string;
@@ -78,7 +70,7 @@ export type SectionData = {
 };
 
 export type QueryResult = {
-	background: Background;
+	background: string;
 	creationDate: string;
 	ownerId: string;
 	ownerUsername: string;

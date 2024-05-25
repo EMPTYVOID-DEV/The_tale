@@ -5,7 +5,6 @@ import { writingTable } from '$server/database/schema';
 import { getValidator, descriptionSchema, writingNameSchema } from '$global/zod';
 import { uploadFile } from '$server/utils/uploadFile';
 import { checkSize, checkType, destructorFileName } from '$global/utils.global';
-import { defaultBgUrl } from '$global/const.global';
 
 export const load: Load = async ({ params }) => {
 	const writingId = params.writingId;
@@ -42,24 +41,16 @@ export const actions: Actions = {
 	changeBackground: async ({ params, request }) => {
 		const writingId = params.writingId;
 		const fd = await request.formData();
-		const type = fd.get('type').toString() as 'url' | 'color';
-		const color = fd.get('color').toString();
 		const file = fd.get('file') as File;
-		let value = defaultBgUrl;
-		if (type == 'color') value = color;
-		else if (file) {
-			if (!checkType('image/*', file.type))
-				return fail(400, { message: 'You should upload an image file format.' });
-			if (!checkSize(2500, file.size))
-				return fail(400, { message: 'Your background image size should be less than 2.5mb.' });
-			const { extension, filename } = destructorFileName(file.name);
-			const name = `${filename}_${writingId}.${extension}`;
-			value = await uploadFile(file, name, 'backgrounds');
-		}
-		await db
-			.update(writingTable)
-			.set({ background: { value, type } })
-			.where(eq(writingTable.id, writingId));
+		if (file.size == 0) return fail(400, { message: 'You should upload an image.' });
+		if (!checkType('image/*', file.type))
+			return fail(400, { message: 'You should upload an image file format.' });
+		if (!checkSize(2500, file.size))
+			return fail(400, { message: 'Your background image size should be less than 2.5mb.' });
+		const { extension, filename } = destructorFileName(file.name);
+		const name = `${filename}_${writingId}.${extension}`;
+		const value = await uploadFile(file, name, 'backgrounds');
+		await db.update(writingTable).set({ background: value }).where(eq(writingTable.id, writingId));
 	},
 	deleteWriting: async ({ params, request }) => {
 		const fd = await request.formData();

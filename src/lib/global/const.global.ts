@@ -2,8 +2,6 @@ import type { WritingColors, WritingFonts } from './types.global';
 
 export const defaultBgUrl = '/backgrounds/default.jpg';
 
-export const defaultBgColor = '#dfdafa';
-
 export const templates = {
 	Sveltekit: 0,
 	NextJs: 1,
