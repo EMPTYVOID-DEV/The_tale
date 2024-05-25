@@ -3,6 +3,9 @@
 	import Reference from '$components/reference/reference.svelte';
 	import Avatar from '$components/other/avatar.svelte';
 	import LinkIcon from '$icons/linkIcon.svelte';
+	import SyncButton from '$components/button/syncButton.svelte';
+	import { goto } from '$app/navigation';
+	import BookIcon from '$icons/bookIcon.svelte';
 
 	export let data;
 	let owner = data.contributors.find((el) => el.id == data.info.ownerId);
@@ -17,10 +20,7 @@
 			--ration="3/1"
 			--radius="var(--border-radius)"
 		/>
-		<a href="/external/{data.info.id}/{data.info.rootSection.name}" class="name">
-			<h1>{data.info.name}</h1>
-			<LinkIcon />
-		</a>
+		<h1>{data.info.name}</h1>
 		<section class="extra-info">
 			<div>
 				<h4>Owner</h4>
@@ -43,10 +43,6 @@
 			{/if}
 		</section>
 		<section class="layer">
-			<h3>References</h3>
-			<Reference referenceList={data.references} />
-		</section>
-		<section class="layer">
 			<h3>Writers</h3>
 			<div class="contributors">
 				{#each writers as writer}
@@ -57,6 +53,15 @@
 				{/each}
 			</div>
 		</section>
+		<section class="layer">
+			<h3>References</h3>
+			<Reference referenceList={data.references} />
+		</section>
+		<SyncButton
+			icon={BookIcon}
+			text="Start reading"
+			on:click={() => goto(`/external/${data.info.id}/${data.info.rootSection?.name}`)}
+		/>
 	</div>
 </div>
 
@@ -76,11 +81,9 @@
 		gap: 1rem;
 	}
 
-	.name {
-		display: flex;
-		align-items: center;
-		gap: 0.25rem;
-		color: var(--primaryColor);
+	.wrapper h1 {
+		color: var(--foregroundColor);
+		word-break: break-all;
 	}
 
 	.extra-info {

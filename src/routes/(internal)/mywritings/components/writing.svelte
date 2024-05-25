@@ -58,5 +58,6 @@
 		-webkit-line-clamp: 1;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
+		word-break: break-all;
 	}
 </style>

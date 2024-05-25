@@ -85,9 +85,9 @@ export const writingReferencesTable = pgTable(
 			}),
 		description: text('description').notNull(),
 		href: text('href').notNull(),
-		writerId: varchar('writer_id', { length: 8 })
-			.notNull()
-			.references(() => userTable.id, { onDelete: 'set null' })
+		writerId: varchar('writer_id', { length: 8 }).references(() => userTable.id, {
+			onDelete: 'set null'
+		})
 	},
 	(table) => {
 		return {

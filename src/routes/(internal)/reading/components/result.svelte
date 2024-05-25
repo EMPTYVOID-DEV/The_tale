@@ -68,6 +68,7 @@
 
 	.context h4 {
 		-webkit-line-clamp: 1;
+		word-break: break-all;
 	}
 
 	.context p {
@@ -88,7 +89,7 @@
 	}
 
 	@media screen and (max-width: 764px) {
-		.result {
+		.bg {
 			--width: 3rem;
 			--height: 3rem;
 		}

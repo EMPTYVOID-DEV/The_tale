@@ -50,7 +50,7 @@ export const actions: Actions = {
 		else if (file) {
 			if (!checkType('image/*', file.type))
 				return fail(400, { message: 'You should upload an image file format.' });
-			if (!checkSize(1200, file.size))
+			if (!checkSize(2500, file.size))
 				return fail(400, { message: 'Your background image size should be less than 2.5mb.' });
 			const { extension, filename } = destructorFileName(file.name);
 			const name = `${filename}_${writingId}.${extension}`;
