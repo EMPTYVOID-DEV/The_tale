@@ -57,7 +57,7 @@ export const writingTable = pgTable('writing', {
 	name: text('name').notNull(),
 	description: text('description').notNull().default(''),
 	background: text('background').default(defaultBgUrl),
-	creationDate: date('creation_date').default(new Date().toUTCString()),
+	creationDate: date('creation_date').defaultNow(),
 	fonts: json('fonts').$type<WritingFonts>().default(defaultFonts),
 	colors: json('colors').$type<WritingColors>().default(defaultColors),
 	rootSection: json('root_section').$type<Section>(),
@@ -119,7 +119,7 @@ export const writingContributorsTable = pgTable(
  * */
 export const writingViewsTable = pgTable('writing_views', {
 	id: serial('id').notNull().primaryKey(),
-	timestamp: timestamp('timestamp', { mode: 'date', withTimezone: true }),
+	timestamp: timestamp('timestamp', { mode: 'date', withTimezone: true }).defaultNow(),
 	writingId: varchar('writing_id', { length: 8 })
 		.notNull()
 		.references(() => writingTable.id, {

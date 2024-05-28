@@ -29,7 +29,7 @@
 
 	.input-container .header {
 		font-size: var(--small);
-		font-weight: 600;
+		font-weight: 700;
 		color: var(--textColor);
 	}
 

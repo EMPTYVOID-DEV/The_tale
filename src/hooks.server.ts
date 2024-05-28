@@ -15,6 +15,8 @@ export const handleError: HandleServerError = async ({ error }) => {
 	};
 };
 
+
+
 const luciaHook: Handle = async ({ event, resolve }) => {
 	const sessionId = event.cookies.get(lucia.sessionCookieName);
 	if (!sessionId) {

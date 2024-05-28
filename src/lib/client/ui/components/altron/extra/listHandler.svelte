@@ -1,8 +1,8 @@
 <script>
+	import DeleteIcon from '$icons/deleteIcon.svelte';
+	import PlusIcon from '$icons/plusIcon.svelte';
 	import { getContext } from 'svelte';
 	const componentMap = getContext('componentMap');
-	const CloseIcon = componentMap.get('closeIcon');
-	const PlusIcon = componentMap.get('plusIcon');
 	const Textarea = componentMap.get('textArea');
 
 	export let items;
@@ -30,7 +30,7 @@
 				class="control"
 				on:click|stopPropagation={() => {
 					removeEntry(index);
-				}}><svelte:component this={CloseIcon} /></span
+				}}><DeleteIcon --icon="#ff6ec7" /></span
 			>
 		</div>
 	{/each}
@@ -41,7 +41,7 @@
 		on:click|stopPropagation={() => {
 			// default value
 			addEntry('hello friend');
-		}}><svelte:component this={PlusIcon} /></span
+		}}><PlusIcon --icon="#ff6ec7" /></span
 	>
 </div>
 
@@ -49,7 +49,7 @@
 	.itemsEdit {
 		display: flex;
 		flex-direction: column;
-		gap: 10px;
+		gap: 12px;
 	}
 	.itemsEdit .itemEdit {
 		display: flex;
@@ -65,12 +65,13 @@
 		justify-content: center;
 		border-radius: 50%;
 		border: 2px solid var(--secondaryColor);
-		box-shadow: 0 0 5px var(--secondaryColor), 0 0 5px var(--secondaryColor),
+		box-shadow:
+			0 0 5px var(--secondaryColor),
+			0 0 5px var(--secondaryColor),
 			0 0 5px var(--secondaryColor);
 	}
 	.itemsEdit .header {
-		margin-left: 10px;
-		font-weight: bold;
+		font-weight: 700;
 		color: var(--textColor);
 		font-size: var(--small);
 	}

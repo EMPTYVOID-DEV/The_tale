@@ -15,8 +15,6 @@
 	import ReactiveInput from '$components/input/reactiveInput.svelte';
 	import AddNode from '../components/addNode.svelte';
 	import { codeLanguages } from '$global/const.global';
-	import { onMount } from 'svelte';
-	import { page } from '$app/stores';
 
 	export let data: { sectionData: SectionData };
 	let authority = isOwner() || isSectionCreator();
@@ -26,11 +24,7 @@
 
 	const saveAction: SubmitFunction = async ({ formData }) => {
 		savingState = 'saving';
-		let altronData = altronRef.getData() as dataBlock[];
-		altronData = altronData.filter((el) => {
-			if (el.name == 'attachment' || el.name == 'image') return el.data.src != '';
-			return true;
-		});
+		let altronData = altronRef.getAllBlocks();
 		altronData.forEach((el) => addBlockFile(el, formData));
 		formData.append('content', JSON.stringify(altronData));
 		formData.append('name', data.sectionData.name);
@@ -43,8 +37,6 @@
 			update();
 		};
 	};
-
-	
 </script>
 
 <div class="writingContent">
@@ -98,19 +90,16 @@
 	</section>
 	<section class="altron">
 		<Altron
+			--margin-top="30px"
+			--margin-bottom="30px"
+			--secondary-color="#ff6ec7"
+			--bg-color="var(--backgroundColor)"
+			--text-color="var(--foregroundColor)"
+			--primary-color="var(--primaryColor)"
+			--body-font="var(--bodyFont)"
+			--heading-font="var(--headerFont)"
 			{componentMap}
 			bind:this={altronRef}
-			marginTop="30px"
-			marginBottom="30px"
-			marginLeft="0"
-			marginRight="0"
-			secondaryColor="#ff6ec7"
-			errorColor="#d62e2e"
-			bgColor="#040110"
-			textColor="#dfdafa"
-			primaryColor="#6f3dd4"
-			bodyFont="'Aileron', serif"
-			headerFont="'Anek', sans-serif"
 			initialData={data.sectionData.content}
 			viewMode={!authority}
 			sizeLimits={{ attachments: 2.2, imgs: 2.2 }}

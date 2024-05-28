@@ -31,7 +31,7 @@
 		gap: 6px;
 	}
 	.textArea > .header {
-		font-weight: bold;
+		font-weight: 700;
 		color: var(--textColor);
 		font-size: var(--small);
 	}

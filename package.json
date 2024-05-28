@@ -17,7 +17,7 @@
 		"mail": "npx maildev"
 	},
 	"dependencies": {
-		"@altron/altron": "^2.2.1",
+		"@altron/altron": "^3.0.0",
 		"@lucia-auth/adapter-drizzle": "^1.0.4",
 		"@sveltejs/adapter-auto": "^3.2.0",
 		"@vercel/blob": "^0.22.3",

@@ -29,7 +29,7 @@
 				</a>
 			</div>
 			<div>
-				<h4>Created at</h4>
+				<h4>Date</h4>
 				<span>{data.info.creationDate}</span>
 			</div>
 		</section>

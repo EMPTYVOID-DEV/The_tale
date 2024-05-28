@@ -7,24 +7,20 @@
 	let state = 'loading';
 </script>
 
-{#if src == ''}
-	<span class="errorEmbed">The embed content source is not valid</span>
-{:else}
-	<div class="embedView">
-		<iframe
-			class:show={state == 'working'}
-			title="embed"
-			{src}
-			{...iframeSettings}
-			on:load={() => (state = 'working')}
-			on:error={() => (state = 'error')}
-		/>
-		<svelte:component this={Loading} visible={state == 'loading'} />
-		{#if state == 'error'}
-			<span class="errorEmbed">Sorry the content has failed to load</span>
-		{/if}
-	</div>
-{/if}
+<div class="embedView">
+	<iframe
+		class:show={state == 'working'}
+		title="embed"
+		{src}
+		{...iframeSettings}
+		on:load={() => (state = 'working')}
+		on:error={() => (state = 'error')}
+	/>
+	<svelte:component this={Loading} visible={state == 'loading'} />
+	{#if state == 'error'}
+		<span class="errorEmbed">Sorry the content has failed to load</span>
+	{/if}
+</div>
 
 <style>
 	.errorEmbed {
@@ -41,7 +37,6 @@
 		align-items: center;
 	}
 	.embedView iframe {
-		/* width should be below 95% to allow clicks that changes the state of the embed block */
 		width: 85%;
 		aspect-ratio: 3/2;
 		overflow: hidden;

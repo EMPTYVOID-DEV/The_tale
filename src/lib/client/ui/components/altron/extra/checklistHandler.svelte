@@ -1,13 +1,15 @@
 <script>
 	import { getContext } from 'svelte';
+	import DeleteIcon from '$icons/deleteIcon.svelte';
+	import PlusIcon from '$icons/plusIcon.svelte';
 	export let updateEntry;
 	export let removeEntry;
 	export let addEntry;
 	export let checkEntry;
 	export let items;
 	const componentMap = getContext('componentMap');
-	const CloseIcon = componentMap.get('closeIcon');
-	const PlusIcon = componentMap.get('plusIcon');
+	const Checked = componentMap.get('checkedIcon');
+	const UnChecked = componentMap.get('unCheckedIcon');
 	const Textarea = componentMap.get('textArea');
 </script>
 
@@ -15,13 +17,15 @@
 	<span class="header">Check list items </span>
 	{#each items as item, index}
 		<div class="itemEdit">
-			<input
-				type="checkbox"
-				bind:checked={item.checked}
-				on:change={(e) => {
-					checkEntry(index, e.currentTarget.checked);
-				}}
-			/>
+			{#if item.checked}
+				<button class="toggle" on:click|stopPropagation={() => checkEntry(index, false)}>
+					<svelte:component this={Checked} />
+				</button>
+			{:else}
+				<button class="toggle" on:click|stopPropagation={() => checkEntry(index, true)}>
+					<svelte:component this={UnChecked} /></button
+				>
+			{/if}
 			<svelte:component
 				this={Textarea}
 				width={90}
@@ -37,7 +41,7 @@
 				class="control"
 				on:click|stopPropagation={() => {
 					removeEntry(index);
-				}}><svelte:component this={CloseIcon} /></span
+				}}><DeleteIcon --icon="#ff6ec7" /></span
 			>
 		</div>
 	{/each}
@@ -46,8 +50,9 @@
 	<span
 		class="control"
 		on:click|stopPropagation={() => {
-			addEntry({ value: 'hello friend', checked: true });
-		}}><svelte:component this={PlusIcon} /></span
+			// default value
+			addEntry({ value: 'hello friend', checked: false });
+		}}><PlusIcon --icon="#ff6ec7" /></span
 	>
 </div>
 
@@ -55,25 +60,24 @@
 	.checkListExtra {
 		display: flex;
 		flex-direction: column;
-		gap: 15px;
+		gap: 12px;
 	}
 	.checkListExtra > .header {
-		margin-left: 10px;
-		font-weight: bold;
+		font-weight: 700;
 		color: var(--textColor);
 		font-size: var(--small);
 	}
 	.itemEdit {
 		display: flex;
 		align-items: center;
-		gap: 10px;
+		gap: 8px;
 	}
-	.itemEdit input {
-		width: 1.2rem;
-		aspect-ratio: 1/1;
-		margin-right: 10px;
-		cursor: pointer;
+
+	.toggle {
+		all: unset;
+		--primaryColor: #ff6ec7;
 	}
+
 	.control {
 		cursor: pointer;
 		width: 2.2rem;
@@ -83,7 +87,9 @@
 		justify-content: center;
 		border-radius: 50%;
 		border: 2px solid var(--secondaryColor);
-		box-shadow: 0 0 5px var(--secondaryColor), 0 0 5px var(--secondaryColor),
+		box-shadow:
+			0 0 5px var(--secondaryColor),
+			0 0 5px var(--secondaryColor),
 			0 0 5px var(--secondaryColor);
 	}
 	.checkListExtra span:last-child {

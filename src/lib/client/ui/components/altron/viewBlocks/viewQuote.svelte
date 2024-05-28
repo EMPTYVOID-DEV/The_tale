@@ -1,4 +1,5 @@
 <script>
+	import QuoteIcon from '$icons/quoteIcon.svelte';
 	import { getContext } from 'svelte';
 	const componentMap = getContext('componentMap');
 	const CloseQuoteIcon = componentMap.get('closeQuoteIcon');
@@ -8,9 +9,9 @@
 </script>
 
 <div class="quote">
-	<svelte:component this={OpenQuoteIcon} />
-	<span class="quoteContent">{text}</span>
-	<svelte:component this={CloseQuoteIcon} />
+	<QuoteIcon />
+	<h4 class="quoteContent">{text}</h4>
+	<QuoteIcon />
 	<span class="quoteOwner">{owner}</span>
 </div>
 
@@ -18,17 +19,14 @@
 	.quote {
 		width: 100%;
 		display: flex;
-		flex-direction: column;
 		color: var(--textColor);
 	}
-	.quote .quoteOwner {
-		align-self: flex-end;
+	.quoteOwner {
 		color: var(--primaryColor);
 		text-transform: capitalize;
-		font-weight: bold;
+		font-weight: 600;
 	}
-	.quote .quoteContent {
-		padding-left: 10px;
-		font-size: var(--small);
+	.quoteContent {
+		font-style: italic;
 	}
 </style>

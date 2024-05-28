@@ -38,7 +38,7 @@
 
 	.input-container .header {
 		color: var(--textColor);
-		font-weight: 600;
+		font-weight: 700;
 		font-size: var(--small);
 	}
 
@@ -62,9 +62,10 @@
 		align-items: center;
 		gap: 5px;
 		border: 2px solid var(--secondaryColor);
-		padding-inline: 8px;
+		padding-inline: 1rem;
 		padding-block: 8px;
-		border-radius: 0.5rem;
+		border-radius: 0.3rem;
+		box-shadow: 2px 2px 2px var(--secondaryColor);
 	}
 	.uploadBtn > span {
 		color: var(--textColor);
