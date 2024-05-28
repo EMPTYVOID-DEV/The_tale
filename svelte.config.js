@@ -19,6 +19,11 @@ const config = {
 			dir: './'
 		},
 
+		csp: {
+			directives: {
+				'script-src': ['self', 'wasm-unsafe-eval']
+			}
+		},
 		csrf: { checkOrigin: true },
 		adapter: adapter()
 	}

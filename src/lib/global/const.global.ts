@@ -1,3 +1,4 @@
+import type { ThemeInput } from 'shiki/types.mjs';
 import type { WritingColors, WritingFonts } from './types.global';
 
 export const defaultBgUrl = '/backgrounds/default.jpg';
@@ -25,8 +26,10 @@ export const headerFontsUrl =
 	'https://api.fontsource.org/v1/fonts?weights=700&styles=normal&subsets=latin';
 
 export const codeLanguages = [
-	'Bash',
 	'JavaScript',
+	'Html',
+	'Css',
+	'Bash',
 	'Python',
 	'Java',
 	'C#',
@@ -54,3 +57,65 @@ export const codeLanguages = [
 ];
 
 export const queryLimit = 9;
+
+export const altronTheme: ThemeInput = {
+	name: 'altronTheme',
+	bg: 'transparent',
+	fg: 'var(--foregroundColor)',
+	settings: [
+		{
+			scope: ['comment'],
+			settings: {
+				foreground: 'color-mix(in srgb, var(--primaryColor) 90%, black)'
+			}
+		},
+		{
+			scope: ['string'],
+			settings: {
+				foreground: 'color-mix(in srgb, var(--primaryColor) 80%, black)'
+			}
+		},
+		{
+			scope: ['keyword'],
+			settings: {
+				foreground: 'color-mix(in srgb, var(--primaryColor) 95%, black)'
+			}
+		},
+		{
+			scope: ['constant'],
+			settings: {
+				foreground: 'color-mix(in srgb, var(--primaryColor) 80%, black)'
+			}
+		},
+		{
+			scope: ['parameter'],
+			settings: {
+				foreground: 'color-mix(in srgb, var(--primaryColor) 100%, black)'
+			}
+		},
+		{
+			scope: ['function'],
+			settings: {
+				foreground: 'color-mix(in srgb, var(--primaryColor) 95%, white 5%)'
+			}
+		},
+		{
+			scope: ['string-expression'],
+			settings: {
+				foreground: 'color-mix(in srgb, var(--primaryColor) 90%, white 10%)'
+			}
+		},
+		{
+			scope: ['punctuation'],
+			settings: {
+				foreground: 'color-mix(in srgb, var(--primaryColor) 85%, white 15%)'
+			}
+		},
+		{
+			scope: ['link'],
+			settings: {
+				foreground: 'color-mix(in srgb, var(--primaryColor) 80%, white 20%)'
+			}
+		}
+	]
+};
