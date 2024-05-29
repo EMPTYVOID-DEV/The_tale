@@ -3,7 +3,7 @@
 	import type { Section } from '$global/types.global';
 	import DownIcon from '$icons/downIcon.svelte';
 	import SectionIcon from '$icons/sectionIcon.svelte';
-	import UpIcon from '$icons/upIcon.svelte';
+	import RightIcon from '$icons/rightIcon.svelte';
 	import Sections from './sections.svelte';
 	export let section: Section;
 	let showChildren = false;
@@ -18,7 +18,7 @@
 		{#if section.rootChild}
 			{#if showChildren}
 				<button class="control" on:click={() => (showChildren = false)}>
-					<UpIcon />
+					<RightIcon />
 				</button>
 			{:else}
 				<button class="control" on:click={() => (showChildren = true)}>

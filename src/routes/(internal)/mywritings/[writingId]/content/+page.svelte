@@ -1,16 +1,17 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { Section } from '$global/types.global';
+	import { Section as SectionType } from '$global/types.global';
 	import AddNode from './components/addNode.svelte';
-	import SectionComponent from './components/section.svelte';
+	import Section from './components/section.svelte';
 	import Sections from './components/sections.svelte';
-	$: rootSection = $page.data.rootSection as Section;
+	import { goto } from '$app/navigation';
+	$: rootSection = $page.data.rootSection as SectionType;
 </script>
 
 <div class="content">
 	{#if rootSection}
 		<Sections --padding="0" --border="0">
-			<SectionComponent section={rootSection} />
+			<Section section={rootSection} />
 		</Sections>
 	{:else}
 		<section class="empty">

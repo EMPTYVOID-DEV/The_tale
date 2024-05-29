@@ -7,6 +7,6 @@
 
 <style>
 	svg path {
-		stroke: var(--icon, var(--primaryColor));
+		fill: var(--icon, var(--primaryColor));
 	}
 </style>
