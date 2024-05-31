@@ -4,7 +4,6 @@ import {
 	text,
 	varchar,
 	primaryKey,
-	serial,
 	boolean,
 	timestamp,
 	date,
@@ -110,22 +109,6 @@ export const writingContributorsTable = pgTable(
 		};
 	}
 );
-
-/**
- * we track writing views per day
- * any user whether authenticated or not enters and view the writing for specific amount of time we consider it a value
- * for the rest of the day any view from same user is rejected
- * we can use either localStorage or cookies to track the old view
- * */
-export const writingViewsTable = pgTable('writing_views', {
-	id: serial('id').notNull().primaryKey(),
-	timestamp: timestamp('timestamp', { mode: 'date', withTimezone: true }).defaultNow(),
-	writingId: varchar('writing_id', { length: 8 })
-		.notNull()
-		.references(() => writingTable.id, {
-			onDelete: 'cascade'
-		})
-});
 
 export const sectionsTable = pgTable(
 	'sections',

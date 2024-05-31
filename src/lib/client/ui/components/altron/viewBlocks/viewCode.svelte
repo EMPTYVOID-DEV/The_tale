@@ -41,7 +41,7 @@
 				><svelte:component this={CopyIcon} /></button
 			>
 		{:else}
-			<span><svelte:component this={DoneIcon} /></span>
+			<svelte:component this={DoneIcon} />
 		{/if}
 	</div>
 	<div class="content">
@@ -72,16 +72,17 @@
 
 	.lang span {
 		font-weight: 600;
+
 		text-transform: capitalize;
-		color: var(--mutedColor);
+		color: var(--textColor);
 	}
 	.control {
-		cursor: pointer;
 		all: unset;
+		cursor: pointer;
 	}
 	.content {
 		width: 100%;
-		background-color: color-mix(in srgb, var(--foregroundColor) 8%, transparent 92%);
+		background-color: color-mix(in srgb, var(--textColor) 8%, transparent 92%);
 		padding-inline: 0.75rem;
 		padding-block: 0.25rem;
 		color: var(--foregroundColor);

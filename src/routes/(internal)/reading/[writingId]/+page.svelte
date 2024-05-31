@@ -56,11 +56,15 @@
 			<h3>References</h3>
 			<Reference referenceList={data.references} />
 		</section>
-		<SyncButton
-			icon={BookIcon}
-			text="Start reading"
-			on:click={() => goto(`/external/${data.info.id}/${data.info.rootSection?.name}`)}
-		/>
+		{#if data.info.rootSection}
+			<SyncButton
+				icon={BookIcon}
+				text="Start reading"
+				on:click={() => goto(`/external/${data.info.id}/${data.info.rootSection?.name}`)}
+			/>
+		{:else}
+			<h4 class="empty">No content available for this writing yet.</h4>
+		{/if}
 	</div>
 </div>
 
@@ -124,6 +128,11 @@
 
 	:is(.extra-info, .layer) :is(p, h3, span) {
 		color: var(--foregroundColor);
+	}
+
+	.empty {
+		color: var(--mutedColor);
+		align-self: center;
 	}
 
 	@media screen and (max-width: 764px) {

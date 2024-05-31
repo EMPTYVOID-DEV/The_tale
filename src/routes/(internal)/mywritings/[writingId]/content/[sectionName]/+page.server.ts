@@ -25,7 +25,7 @@ export const actions: Actions = {
 		const fd = await request.formData();
 		const files = fd.getAll('files') as File[];
 		const content = JSON.parse(fd.get('content').toString()) as dataBlock[];
-		const name = fd.get('name').toString();
+		const name = fd.get('name').toString().toLowerCase();
 		const filesUploads = files.map((file) => uploadFile(file, file.name, 'sections'));
 		const results = await Promise.allSettled(filesUploads);
 		const validateName = getValidator(sectionNameSchema);
@@ -45,7 +45,7 @@ export const actions: Actions = {
 		const { id } = locals.user;
 		const { writingId, sectionName } = params;
 		const fd = await request.formData();
-		const sibling = fd.get('sibling').toString();
+		const sibling = fd.get('sibling').toString().toLowerCase();
 		const validateName = getValidator(sectionNameSchema);
 		if (validateName(sibling).state == 'invalid')
 			return fail(400, { message: validateName(sibling).errorMsg });
@@ -66,7 +66,7 @@ export const actions: Actions = {
 		const { id } = locals.user;
 		const { writingId, sectionName } = params;
 		const fd = await request.formData();
-		const child = fd.get('child').toString();
+		const child = fd.get('child').toString().toLowerCase();
 		const validateName = getValidator(sectionNameSchema);
 		if (validateName(child).state == 'invalid')
 			return fail(400, { message: validateName(child).errorMsg });

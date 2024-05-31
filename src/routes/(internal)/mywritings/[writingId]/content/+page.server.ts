@@ -22,7 +22,7 @@ export const actions: Actions = {
 		const writingId = params.writingId;
 		const fd = await request.formData();
 		const validateName = getValidator(sectionNameSchema);
-		const root = fd.get('root').toString();
+		const root = fd.get('root').toString().toLowerCase();
 		if (validateName(root).state == 'invalid')
 			return fail(400, { message: validateName(root).errorMsg });
 		await addRootSection(root, writingId, userId);

@@ -5,30 +5,35 @@
 	import RightIcon from '$icons/rightIcon.svelte';
 	import { getContext } from 'svelte';
 	import Sections from './sections.svelte';
+	import { goto } from '$app/navigation';
 	export let section: Section;
 	const { writingId } = $page.params;
 	const location = getContext('location') as SectionsLocation;
-	const href =
-		location == 'editing'
-			? `/mywritings/${writingId}/content/${section.name}`
-			: `/external/${writingId}/${section.name}`;
 	let showChildren = false;
+	function navigate() {
+		if (location == 'editing') goto(`/mywritings/${writingId}/content/${section.name}`);
+		else goto(`/external/${writingId}/${section.name}`);
+	}
+
+	function toggle() {
+		showChildren = !showChildren;
+	}
 </script>
 
 <div class="section">
-	<section class="head">
-		<a {href} class="name">
+	<section class="head" on:click={toggle}>
+		<span
+			class="name"
+			class:active={location == 'viewing' && $page.params.name == section.name}
+			on:click={navigate}
+		>
 			{section.name}
-		</a>
+		</span>
 		{#if section.rootChild}
 			{#if showChildren}
-				<button class="control" on:click={() => (showChildren = false)}>
-					<DownIcon />
-				</button>
+				<DownIcon />
 			{:else}
-				<button class="control" on:click={() => (showChildren = true)}>
-					<RightIcon />
-				</button>
+				<RightIcon />
 			{/if}
 		{/if}
 	</section>
@@ -65,10 +70,10 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		cursor: pointer;
 	}
 
-	.control {
-		all: unset;
-		cursor: pointer;
+	.active {
+		color: var(--primaryColor);
 	}
 </style>

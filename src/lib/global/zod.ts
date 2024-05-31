@@ -24,8 +24,8 @@ export const usernameSchema = z
 
 export const writingNameSchema = z
 	.string()
-	.min(4, { message: 'Writing name must be at least four characters' })
-	.max(48, { message: 'Writing name must no bigger than 48 characters' });
+	.min(4, { message: 'Writing name must be at least four letters' })
+	.max(48, { message: 'Writing name must no bigger than 48 letters' });
 
 export const descriptionSchema = z.string().refine(
 	(val) => {
@@ -43,7 +43,8 @@ export const hrefSchema = z.string().regex(/^(https?:\/\/)?[\w.-]+\.[a-zA-Z]{2,}
 
 export const sectionNameSchema = z
 	.string()
-	.min(4, { message: 'Section name must be at least 4 letters long' });
+	.min(4, { message: 'Section name must be at least 4 letters long' })
+	.max(24, { message: "Section name lenght can't exceed 24 letters" });
 
 export function getValidator(schema: ZodSchema): (text: string) => ActionStatus {
 	return (text: string) => {

@@ -8,7 +8,10 @@
 	import Location from '../components/location.svelte';
 	import MobileToc from '../components/mobileToc.svelte';
 	import Toc from '../components/toc.svelte';
+	import { fly } from 'svelte/transition';
+	import { quadInOut } from 'svelte/easing';
 	export let data;
+	$: isOneSection = data.rootSection.rootChild == null && data.rootSection.sibling == null;
 	$: name = $page.params.name;
 	$: {
 		if (name) mobileAppear.set(false);
@@ -18,17 +21,22 @@
 
 <div class="section" style:--navHeight="{navHeight}px">
 	{#if $mobileAppear}
-		<section class="mobileSecondNav">
+		<section
+			class="mobileSecondNav"
+			transition:fly={{ duration: 600, easing: quadInOut, opacity: 0.2, x: '-50vw' }}
+		>
 			<Section section={data.rootSection} />
 		</section>
 	{:else}
-		{#if !$isMobileExternal}
+		{#if !$isMobileExternal && !isOneSection}
 			<section class="secondNav">
 				<Section section={data.rootSection} />
 			</section>
 		{/if}
-		<section class="content">
-			<Location {name} rootSection={data.rootSection} />
+		<section class="content" class:isOneSection>
+			{#if !isOneSection}
+				<Location {name} rootSection={data.rootSection} />
+			{/if}
 			{#if $isMobileExternal}
 				<MobileToc content={data.content} />
 			{/if}
@@ -68,8 +76,11 @@
 		gap: 0.75rem;
 	}
 
+	.secondNav {
+		padding-bottom: 0.5rem;
+	}
+
 	.content {
-		width: 100%;
 		min-height: calc(100vh - var(--navHeight));
 		grid-column: span 8 / span 8;
 		display: flex;
@@ -77,7 +88,14 @@
 		gap: 1rem;
 	}
 
+	.content.isOneSection {
+		grid-column: span 10 / span 10;
+	}
+
 	.mobileSecondNav {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
 		grid-column: span 12 / span 12;
 		height: calc(100vh - var(--navHeight));
 	}

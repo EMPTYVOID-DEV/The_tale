@@ -24,7 +24,7 @@
 	});
 </script>
 
-<h4>On this page</h4>
+<span class="descriptor">On this page</span>
 <div class="headers">
 	{#each content as header}
 		{#if header.name == 'header'}
@@ -38,7 +38,11 @@
 </div>
 
 <style>
-	h4,
+	.descriptor {
+		font-weight: 600;
+		color: var(--foregroundColor);
+	}
+
 	.header {
 		text-transform: capitalize;
 		cursor: pointer;

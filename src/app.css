@@ -91,7 +91,7 @@ h4 {
 }
 
 *::-webkit-scrollbar {
-	width: 0.8rem;
+	width: 0.7rem;
 }
 *::-webkit-scrollbar-track {
 	border-radius: 0;
