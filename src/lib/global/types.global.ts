@@ -79,3 +79,5 @@ export type QueryResult = {
 	description: string;
 	id: string;
 };
+
+export type SectionsLocation = 'viewing' | 'editing';

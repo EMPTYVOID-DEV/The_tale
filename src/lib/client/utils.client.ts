@@ -6,6 +6,7 @@ import { page } from '$app/stores';
 import { destructorFileName } from '$global/utils.global';
 import uuid from 'short-uuid';
 import type { dataBlock } from '@altron/altron/types';
+import { navHeight } from '$global/const.global';
 
 export function showToast(
 	header: string,
@@ -56,4 +57,12 @@ export function isSectionCreator() {
 	const id = pageData.data.id;
 	const writerId = pageData.data.sectionData.writerId;
 	return writerId == id;
+}
+
+export function scrollToHeader(id: string) {
+	const headerTop = document.getElementById(id)!.getBoundingClientRect().top;
+	window.scrollTo({
+		top: headerTop - navHeight,
+		behavior: 'smooth'
+	});
 }

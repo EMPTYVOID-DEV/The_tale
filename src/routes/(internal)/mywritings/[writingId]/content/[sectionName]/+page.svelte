@@ -3,18 +3,16 @@
 	import SyncButton from '$components/button/syncButton.svelte';
 	import DeleteIcon from '$icons/deleteIcon.svelte';
 	import Altron from '@altron/altron/altron.svelte';
-	import { componentMap } from '$altron/index';
 	import type { SectionData } from '$global/types.global';
 	import SaveIcon from '$icons/saveIcon.svelte';
 	import DialogAlert from '$components/other/dialogAlert.svelte';
-	import type { dataBlock } from '@altron/altron/types';
 	import { Toaster } from 'svelte-sonner';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import { enhance } from '$app/forms';
 	import { getValidator, sectionNameSchema } from '$global/zod';
 	import ReactiveInput from '$components/input/reactiveInput.svelte';
 	import AddNode from '../components/addNode.svelte';
-	import { codeLanguages } from '$global/const.global';
+	import AltronInstance from '$components/other/altronInstance.svelte';
 
 	export let data: { sectionData: SectionData };
 	let authority = isOwner() || isSectionCreator();
@@ -89,22 +87,12 @@
 		<AddNode action="addSibling" sectionType="sibling" />
 	</section>
 	<section class="altron">
-		<Altron
-			--margin-top="30px"
-			--margin-bottom="30px"
-			--secondary-color="#ff6ec7"
-			--bg-color="var(--backgroundColor)"
-			--text-color="var(--foregroundColor)"
-			--primary-color="var(--primaryColor)"
-			--body-font="var(--bodyFont)"
-			--heading-font="var(--headerFont)"
-			{componentMap}
-			bind:this={altronRef}
-			initialData={data.sectionData.content}
+		<AltronInstance
+			bind:altronRef
+			content={data.sectionData.content}
 			viewMode={!authority}
-			sizeLimits={{ attachments: 2.2, imgs: 2.2 }}
-			codeBlockLanguages={codeLanguages}
-			excludedBlocks={['embed']}
+			--margin-top="20px"
+			--margin-bottom="20px"
 		/>
 	</section>
 </div>

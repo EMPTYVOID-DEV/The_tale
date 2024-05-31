@@ -1,9 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Navbar from './components/navbar.svelte';
+	import { isMobileExternal, mobileAppear } from '$client/stores';
 
 	export let data;
 	let externalRef: HTMLDivElement;
+	$: isOneSection = data.rootSection.rootChild == null && data.rootSection.sibling == null;
 
 	function toggleTheme(theme: 'dark' | 'light') {
 		const colors = data.colors[theme];
@@ -17,13 +19,26 @@
 		document.fonts.add(font);
 	}
 
+	function handleMobileMedia() {
+		const changeStatus = (matches: boolean) => {
+			if (matches) isMobileExternal.set(true);
+			else {
+				isMobileExternal.set(false);
+				mobileAppear.set(false);
+			}
+		};
+		const mobileMedia = window.matchMedia('(width<1012px)');
+		mobileMedia.addEventListener('change', (e) => changeStatus(e.matches));
+		changeStatus(mobileMedia.matches);
+	}
+
 	onMount(async () => {
 		toggleTheme('dark');
+		handleMobileMedia();
 		const { body, heading } = data.fonts;
 		const headingUrl = `url(https://cdn.jsdelivr.net/fontsource/fonts/${heading}@latest/latin-700-normal.woff2)`;
 		const body400url = `url(https://cdn.jsdelivr.net/fontsource/fonts/${body}@latest/latin-400-normal.woff2)`;
 		const body600url = `url(https://cdn.jsdelivr.net/fontsource/fonts/${body}@latest/latin-600-normal.woff2)`;
-
 		await Promise.allSettled([
 			loadFont(body, body400url, '400'),
 			loadFont(body, body600url, '600'),
@@ -37,14 +52,12 @@
 </script>
 
 <div class="external" bind:this={externalRef}>
-	<Navbar on:change={(e) => toggleTheme(e.detail.theme)} />
+	<Navbar {isOneSection} on:change={(e) => toggleTheme(e.detail.theme)} />
 	<slot />
 </div>
 
 <style>
 	.external {
 		width: 100vw;
-		height: 100vh;
-		background-color: var(--backgroundColor);
 	}
 </style>

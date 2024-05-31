@@ -9,6 +9,6 @@
 		flex-direction: column;
 		padding-left: var(--padding);
 		border-left: var(--border) solid var(--primaryColor);
-		gap: 1rem;
+		gap: 0.75rem;
 	}
 </style>

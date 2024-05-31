@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { Section as SectionType } from '$global/types.global';
+	import { setContext } from 'svelte';
 	import AddNode from './components/addNode.svelte';
-	import Section from './components/section.svelte';
-	import Sections from './components/sections.svelte';
-	import { goto } from '$app/navigation';
+	import Section from '$components/sections/section.svelte';
+	import Sections from '$components/sections/sections.svelte';
 	$: rootSection = $page.data.rootSection as SectionType;
+	setContext('location', 'editing');
 </script>
 
 <div class="content">

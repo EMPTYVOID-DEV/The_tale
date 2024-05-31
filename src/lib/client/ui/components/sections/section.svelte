@@ -1,34 +1,39 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import type { Section } from '$global/types.global';
+	import type { Section, SectionsLocation } from '$global/types.global';
 	import DownIcon from '$icons/downIcon.svelte';
-	import SectionIcon from '$icons/sectionIcon.svelte';
 	import RightIcon from '$icons/rightIcon.svelte';
+	import { getContext } from 'svelte';
 	import Sections from './sections.svelte';
 	export let section: Section;
+	const { writingId } = $page.params;
+	const location = getContext('location') as SectionsLocation;
+	const href =
+		location == 'editing'
+			? `/mywritings/${writingId}/content/${section.name}`
+			: `/external/${writingId}/${section.name}`;
 	let showChildren = false;
 </script>
 
 <div class="section">
 	<section class="head">
-		<a href="/mywritings/{$page.params.writingId}/content/{section.name}" class="name">
-			<SectionIcon />
-			<span>{section.name}</span>
+		<a {href} class="name">
+			{section.name}
 		</a>
 		{#if section.rootChild}
 			{#if showChildren}
 				<button class="control" on:click={() => (showChildren = false)}>
-					<RightIcon />
+					<DownIcon />
 				</button>
 			{:else}
 				<button class="control" on:click={() => (showChildren = true)}>
-					<DownIcon />
+					<RightIcon />
 				</button>
 			{/if}
 		{/if}
 	</section>
 	{#if section.rootChild && showChildren}
-		<Sections --padding="1.5rem" --border="3px">
+		<Sections --padding="1.5rem" --border="2px">
 			<svelte:self section={section.rootChild} />
 		</Sections>
 	{/if}
@@ -47,15 +52,12 @@
 	}
 
 	.name {
-		color: var(--primaryColor);
 		display: flex;
 		align-items: center;
 		gap: 0.25rem;
-	}
-
-	.name span {
 		color: var(--foregroundColor);
 		font-weight: bold;
+		text-transform: capitalize;
 	}
 
 	.head {
@@ -67,15 +69,6 @@
 
 	.control {
 		all: unset;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: fit-content;
-		height: fit-content;
-		background-color: transparent;
-		border: 1px solid var(--primaryColor);
-		border-radius: 50%;
 		cursor: pointer;
-		padding: 1px;
 	}
 </style>

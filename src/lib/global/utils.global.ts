@@ -92,14 +92,17 @@ export function renameSection(
 	return 'updated';
 }
 
-export function getPathDepth(path: Section[]) {
-	let depth = 0;
+export function getDepthPath(path: Section[]) {
+	const newPath: string[] = [];
 	for (let i = 0; i < path.length; i++) {
 		const current = path.at(i);
 		const neigbor = path.at(i + 1);
-		if (current.rootChild == neigbor) depth++;
+		if (!current || !neigbor) {
+			newPath.push(path.at(-1).name);
+			return newPath;
+		}
+		if (current.rootChild == neigbor) newPath.push(current.name);
 	}
-	return depth;
 }
 
 export function addSectionGraph(
@@ -109,7 +112,8 @@ export function addSectionGraph(
 	parentName: string
 ): 'updated' | 'duplicate' | 'not found' | 'max depth' {
 	const pathToParent = traverseToTarget(root, parentName);
-	if (type == 'child' && getPathDepth(pathToParent) == 3) return 'max depth';
+	const depthPath = getDepthPath(pathToParent);
+	if (type == 'child' && depthPath.length == 3) return 'max depth';
 	const parent = pathToParent.at(-1);
 	const target = traverseToTarget(root, newSectionName).at(-1);
 	if (target) return 'duplicate';

@@ -86,7 +86,7 @@
 		height: 68px;
 		display: flex;
 		align-items: center;
-		padding-inline: 2.5%;
+		padding-inline: 2%;
 		gap: 20px;
 	}
 
@@ -139,6 +139,7 @@
 			background-color: var(--backgroundColor);
 			width: 0;
 			height: 100%;
+			display: flex;
 			flex-direction: column;
 			position: fixed;
 			top: 68px;

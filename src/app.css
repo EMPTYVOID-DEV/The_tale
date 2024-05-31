@@ -83,7 +83,7 @@ h4 {
 	line-height: var(--lh4);
 }
 
-:where(label, code, span, li, p, i) {
+:where(label, code, span, li, p, i, a) {
 	font-family: var(--bodyFont);
 	font-size: var(--body);
 	font-weight: 400;
