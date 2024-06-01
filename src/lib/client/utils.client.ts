@@ -66,3 +66,17 @@ export function scrollToHeader(id: string) {
 		behavior: 'smooth'
 	});
 }
+
+export function headerOnView(content: dataBlock[], cb: (id: string) => void) {
+	let oldThreshold = -1;
+	content.forEach((block) => {
+		if (block.name != 'header') return;
+		const element = document.getElementById(block.id);
+		const { top } = element.getBoundingClientRect();
+		const newThreshold = Math.abs(navHeight - top);
+		if (newThreshold < oldThreshold || oldThreshold == -1) {
+			oldThreshold = newThreshold;
+			cb(block.id);
+		}
+	});
+}

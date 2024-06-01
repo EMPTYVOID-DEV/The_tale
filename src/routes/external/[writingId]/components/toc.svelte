@@ -1,30 +1,19 @@
 <script lang="ts">
-	import { scrollToHeader } from '$client/utils.client';
-	import { navHeight } from '$global/const.global';
+	import { headerOnView, scrollToHeader } from '$client/utils.client';
 	import type { dataBlock } from '@altron/altron/types';
 	import { onMount } from 'svelte';
 	export let content: dataBlock[];
 	let activeHeader = '';
 	onMount(() => {
-		const headerOnView = () => {
-			let oldThreshold = -1;
-			content.forEach((block) => {
-				if (block.name != 'header') return;
-				const element = document.getElementById(block.id);
-				const { top } = element.getBoundingClientRect();
-				const newThreshold = Math.abs(navHeight - top);
-				if (newThreshold < oldThreshold || oldThreshold == -1) {
-					oldThreshold = newThreshold;
-					activeHeader = block.id;
-				}
-			});
+		const updateActive = () => {
+			headerOnView(content, (id) => (activeHeader = id));
 		};
-		window.addEventListener('scroll', headerOnView);
-		return () => window.removeEventListener('scroll', headerOnView);
+		window.addEventListener('scroll', updateActive);
+		return () => window.removeEventListener('scroll', updateActive);
 	});
 </script>
 
-<span class="descriptor">On this page</span>
+<span class="descriptor">Table of content</span>
 <div class="headers">
 	{#each content as header}
 		{#if header.name == 'header'}
@@ -39,14 +28,16 @@
 
 <style>
 	.descriptor {
-		font-weight: 600;
+		font-weight: 700;
 		color: var(--foregroundColor);
+		font-family: var(--headerFont);
 	}
 
 	.header {
-		text-transform: capitalize;
 		cursor: pointer;
 		color: var(--foregroundColor);
+		font-size: var(--small);
+		font-weight: 600;
 	}
 
 	.header:hover {

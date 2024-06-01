@@ -34,11 +34,11 @@
 			</section>
 		{/if}
 		<section class="content" class:isOneSection>
-			{#if !isOneSection}
-				<Location {name} rootSection={data.rootSection} />
-			{/if}
 			{#if $isMobileExternal}
 				<MobileToc content={data.content} />
+			{/if}
+			{#if !isOneSection}
+				<Location {name} rootSection={data.rootSection} />
 			{/if}
 			{#key data}
 				<AltronInstance content={data.content} viewMode />

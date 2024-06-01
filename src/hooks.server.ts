@@ -6,7 +6,7 @@ import { redirect, type Handle, type HandleServerError } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { and, eq } from 'drizzle-orm';
 
-// TODO: add code theme selection form in template page
+// TODO: remove clg in production and use sentry
 
 export const handleError: HandleServerError = async ({ error }) => {
 	console.log(error);
@@ -14,8 +14,6 @@ export const handleError: HandleServerError = async ({ error }) => {
 		message: 'Service Unavailable'
 	};
 };
-
-
 
 const luciaHook: Handle = async ({ event, resolve }) => {
 	const sessionId = event.cookies.get(lucia.sessionCookieName);

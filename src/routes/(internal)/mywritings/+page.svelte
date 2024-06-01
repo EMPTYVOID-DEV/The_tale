@@ -96,7 +96,7 @@
 				<form
 					use:enhance={async () => {
 						return ({ result, update }) => {
-							//@ts-ignore
+							// @ts-ignore
 							if (result.type == 'failure') showToast('Error', result.data.message, 'danger');
 							else {
 								close();

@@ -35,7 +35,10 @@ export const descriptionSchema = z.string().refine(
 	{ message: 'The word count exceeded 160' }
 );
 
-export const referenceTitleSchema = z.string().min(4).max(18);
+export const referenceTitleSchema = z
+	.string()
+	.min(4, { message: 'Title need to be at least four letters.' })
+	.max(18, { message: 'Title length must be no bigger than 18 letters.' });
 
 export const hrefSchema = z.string().regex(/^(https?:\/\/)?[\w.-]+\.[a-zA-Z]{2,}(\/[\w.-]*)*\/?$/, {
 	message: 'Reference link needs to be a url.'

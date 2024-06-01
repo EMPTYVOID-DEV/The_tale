@@ -31,6 +31,7 @@
 	input {
 		display: none;
 	}
+
 	.trigger {
 		display: flex;
 		justify-content: space-between;
