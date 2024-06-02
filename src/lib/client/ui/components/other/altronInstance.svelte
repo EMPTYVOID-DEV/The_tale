@@ -16,6 +16,7 @@
 	--primary-color="var(--primaryColor)"
 	--body-font="var(--bodyFont)"
 	--heading-font="var(--headerFont)"
+	--block-gap="0.75rem"
 	{componentMap}
 	{viewMode}
 	bind:this={altronRef}

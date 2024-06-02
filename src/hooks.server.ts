@@ -6,8 +6,6 @@ import { redirect, type Handle, type HandleServerError } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { and, eq } from 'drizzle-orm';
 
-// TODO: remove clg in production and use sentry
-
 export const handleError: HandleServerError = async ({ error }) => {
 	console.log(error);
 	return {

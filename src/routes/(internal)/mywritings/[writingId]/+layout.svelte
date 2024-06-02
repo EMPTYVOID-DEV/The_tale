@@ -4,7 +4,6 @@
 	import Tabs from '$components/other/tabs.svelte';
 	import type { iconComponent } from '$client/types.client';
 	import type { Contribution } from '$global/types.global';
-	import DashboardIcon from '$icons/dashboardIcon.svelte';
 	import LinkIcon from '$icons/linkIcon.svelte';
 	import PeopleIcon from '$icons/peopleIcon.svelte';
 	import SettingsIcon from '$icons/settingsIcon.svelte';
@@ -13,7 +12,6 @@
 
 	function getWritingTabs() {
 		const writerTabs: { icon?: iconComponent; title: string }[] = [
-			{ title: 'dashboard', icon: DashboardIcon },
 			{
 				title: 'content',
 				icon: WritingIcon

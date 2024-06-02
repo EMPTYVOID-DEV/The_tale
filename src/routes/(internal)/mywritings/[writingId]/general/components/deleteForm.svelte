@@ -38,7 +38,7 @@
 				class="deleteForm"
 				transition:scale={{ duration: 520, easing: quadInOut, start: 0, opacity: 0.2 }}
 			>
-				<h2>Delete account</h2>
+				<h2>Delete writing</h2>
 				<span
 					>This action will erase all content related to this writing.We recommend backing its
 					content</span

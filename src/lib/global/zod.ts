@@ -46,7 +46,7 @@ export const hrefSchema = z.string().regex(/^(https?:\/\/)?[\w.-]+\.[a-zA-Z]{2,}
 
 export const sectionNameSchema = z
 	.string()
-	.min(4, { message: 'Section name must be at least 4 letters long' })
+	.min(3, { message: 'Section name must be at least 3 letters long' })
 	.max(24, { message: "Section name lenght can't exceed 24 letters" });
 
 export function getValidator(schema: ZodSchema): (text: string) => ActionStatus {

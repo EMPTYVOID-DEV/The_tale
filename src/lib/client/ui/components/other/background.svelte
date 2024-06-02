@@ -2,10 +2,10 @@
 	export let background: string;
 </script>
 
-<img src={background} alt="banner" class="imgBackground" />
+<img src={background} alt="writingBackground" />
 
 <style>
-	.imgBackground {
+	img {
 		min-width: var(--width, 2rem);
 		max-width: var(--width, 2rem);
 		aspect-ratio: var(--ratio, 1/1);

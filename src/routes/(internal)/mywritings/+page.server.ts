@@ -11,6 +11,6 @@ export const actions: Actions = {
 		if (validateWritingName(writingName).state == 'invalid')
 			return fail(403, { message: validateWritingName(writingName).errorMsg });
 		const writingId = await addWriting(userId, writingName);
-		redirect(302, `/mywritings/${writingId}/dashboard`);
+		redirect(302, `/mywritings/${writingId}/content`);
 	}
 };

@@ -10,6 +10,7 @@
 	import Toc from '../components/toc.svelte';
 	import { fly } from 'svelte/transition';
 	import { quadInOut } from 'svelte/easing';
+	import QuickNav from '../components/quickNav.svelte';
 	export let data;
 	$: isOneSection = data.rootSection.rootChild == null && data.rootSection.sibling == null;
 	$: name = $page.params.name;
@@ -43,6 +44,9 @@
 			{#key data}
 				<AltronInstance content={data.content} viewMode />
 			{/key}
+			{#if !isOneSection}
+				<QuickNav rootSection={data.rootSection} {name} />
+			{/if}
 		</section>
 		{#if !$isMobileExternal}
 			<section class="toc">
@@ -62,6 +66,7 @@
 		gap: 1rem;
 		padding-inline: 2.5%;
 		background-color: var(--backgroundColor);
+		padding-bottom: 1rem;
 	}
 
 	.toc,
@@ -74,10 +79,6 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.75rem;
-	}
-
-	.secondNav {
-		padding-bottom: 0.5rem;
 	}
 
 	.content {

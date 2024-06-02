@@ -79,6 +79,19 @@ export function traverseToTarget(root: Section, targetName: string) {
 	return [];
 }
 
+export function getDepthPath(path: Section[]) {
+	const newPath: Section[] = [];
+	for (let i = 0; i < path.length; i++) {
+		const current = path.at(i);
+		const neigbor = path.at(i + 1);
+		if (!current || !neigbor) {
+			newPath.push(path.at(-1));
+			return newPath;
+		}
+		if (current.rootChild == neigbor) newPath.push(current);
+	}
+}
+
 export function renameSection(
 	root: Section,
 	previousName: string,
@@ -92,40 +105,27 @@ export function renameSection(
 	return 'updated';
 }
 
-export function getDepthPath(path: Section[]) {
-	const newPath: string[] = [];
-	for (let i = 0; i < path.length; i++) {
-		const current = path.at(i);
-		const neigbor = path.at(i + 1);
-		if (!current || !neigbor) {
-			newPath.push(path.at(-1).name);
-			return newPath;
-		}
-		if (current.rootChild == neigbor) newPath.push(current.name);
-	}
-}
-
 export function addSectionGraph(
 	root: Section,
 	type: 'sibling' | 'child',
 	newSectionName: string,
-	parentName: string
+	adjacentName: string
 ): 'updated' | 'duplicate' | 'not found' | 'max depth' {
-	const pathToParent = traverseToTarget(root, parentName);
-	const depthPath = getDepthPath(pathToParent);
+	const pathToAdjacent = traverseToTarget(root, adjacentName);
+	const depthPath = getDepthPath(pathToAdjacent);
 	if (type == 'child' && depthPath.length == 3) return 'max depth';
-	const parent = pathToParent.at(-1);
+	const adjacent = pathToAdjacent.at(-1);
 	const target = traverseToTarget(root, newSectionName).at(-1);
 	if (target) return 'duplicate';
-	if (!parent) return 'not found';
+	if (!adjacent) return 'not found';
 	const newSection = new Section(newSectionName);
 	if (type == 'child') {
-		const currentRootChild = parent.rootChild;
-		parent.rootChild = newSection;
+		const currentRootChild = adjacent.rootChild;
+		adjacent.rootChild = newSection;
 		newSection.sibling = currentRootChild;
 	} else {
-		const currentSibling = parent.sibling;
-		parent.sibling = newSection;
+		const currentSibling = adjacent.sibling;
+		adjacent.sibling = newSection;
 		newSection.sibling = currentSibling;
 	}
 	return 'updated';
@@ -138,4 +138,24 @@ export function deleteSectionGraph(root: Section, sectionName: string) {
 	if (!target) return;
 	if (parent.rootChild == target) parent.rootChild = target.sibling;
 	if (parent.sibling == target) parent.sibling = target.sibling;
+}
+
+export function getNeighbors(root: Section, name: string): { prev: Section; next: Section } {
+	const neigbors = { prev: null, next: null };
+	const path = traverseToTarget(root, name);
+	const parent = getDepthPath(path)[0];
+	const [target, prev] = path.reverse();
+	if (prev) neigbors.prev = prev;
+	if (target.rootChild) neigbors.next = target.rootChild;
+	else if (target.sibling) neigbors.next = target.sibling;
+	else if (parent?.sibling) neigbors.next = parent.sibling;
+	return neigbors;
+}
+
+export function getParent(root: Section, target: string) {
+	const path = traverseToTarget(root, target);
+	const depthPath = getDepthPath(path);
+	const parent = depthPath.at(-2);
+	if (parent) return parent.name;
+	return null;
 }

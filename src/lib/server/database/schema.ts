@@ -8,7 +8,8 @@ import {
 	timestamp,
 	date,
 	json,
-	unique
+	unique,
+	foreignKey
 } from 'drizzle-orm/pg-core';
 import type { dataBlock } from '@altron/altron/types';
 import { defaultBgUrl, defaultColors, defaultFonts } from '$global/const.global';
@@ -113,7 +114,7 @@ export const writingContributorsTable = pgTable(
 export const sectionsTable = pgTable(
 	'sections',
 	{
-		name: text('name'),
+		name: text('name').notNull(),
 		content: json('content').array().$type<dataBlock[]>().notNull(),
 		writingId: varchar('writing_id', { length: 8 })
 			.notNull()
@@ -122,11 +123,16 @@ export const sectionsTable = pgTable(
 			}),
 		writerId: varchar('writer_id', { length: 8 }).references(() => userTable.id, {
 			onDelete: 'set null'
-		})
+		}),
+		parent: text('parent')
 	},
 	(table) => {
 		return {
-			pk: primaryKey({ columns: [table.name, table.writingId] })
+			pk: primaryKey({ columns: [table.name, table.writingId] }),
+			parentReference: foreignKey({
+				columns: [table.parent, table.writingId],
+				foreignColumns: [table.name, table.writingId]
+			}).onDelete('cascade')
 		};
 	}
 );

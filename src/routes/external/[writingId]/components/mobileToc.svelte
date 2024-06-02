@@ -51,8 +51,6 @@
 		display: flex;
 		flex-direction: column;
 		background-color: var(--backgroundColor);
-		padding-block: 0.5rem;
-		gap: 0.5rem;
 	}
 
 	.toggle {
@@ -71,8 +69,13 @@
 	.headers {
 		display: flex;
 		flex-direction: column;
+		margin-top: 0.25rem;
 		padding-left: 1.75rem;
-		gap: 0.5rem;
+		gap: 0.25rem;
+	}
+
+	.headers:empty {
+		display: none;
 	}
 
 	.header {

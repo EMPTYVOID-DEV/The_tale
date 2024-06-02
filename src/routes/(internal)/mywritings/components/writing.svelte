@@ -4,7 +4,7 @@
 	export let contribution: Contribution;
 </script>
 
-<a href="/mywritings/{contribution.writingId}/dashboard" class="writingLink">
+<a href="/mywritings/{contribution.writingId}/content" class="writingLink">
 	<WritingBackground background={contribution.writingBackground} />
 	<div class="layer">
 		<span class="name">{contribution.writingName}</span>

@@ -1,7 +1,7 @@
 import type { ThemeInput } from 'shiki/types.mjs';
 import type { WritingColors, WritingFonts } from './types.global';
 
-export const defaultBgUrl = '/backgrounds/default.jpg';
+export const defaultBgUrl = '/backgrounds/default.png';
 
 export const defaultColors: WritingColors = {
 	dark: { text: '#dfdafa', bg: '#040110', primary: '#6f3dd4' },

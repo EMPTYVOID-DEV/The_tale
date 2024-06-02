@@ -11,7 +11,7 @@
 <div class="location">
 	<HomeIcon />
 	{#each path as item, idx}
-		<span>{item}</span>
+		<span>{item.name}</span>
 		{#if idx < path.length - 1}
 			<RightIcon />
 		{/if}

@@ -30,8 +30,8 @@
 	<section class="input">
 		<h3>Background</h3>
 		<span
-			>The background displayed in search results and the writing description page can be either a
-			vibrant color or an engaging image. For the image click on it to upload a new one</span
+			>The background displayed in search results and the writing description page. click on it to
+			upload a new one</span
 		>
 		<input
 			type="file"
@@ -70,6 +70,7 @@
 		display: none;
 	}
 	.url {
+		display: contents;
 		--width: 100%;
 		--ratio: 3/1;
 		--radius: var(--border-radius);

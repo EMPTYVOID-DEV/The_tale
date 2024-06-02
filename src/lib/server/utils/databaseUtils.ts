@@ -13,7 +13,12 @@ import { generateId } from 'lucia';
 import { isOwner, isReferenceCreator, isSectionCreator } from './customMiddlewares';
 import { Section } from '$global/types.global';
 import type { dataBlock } from '@altron/altron/types';
-import { addSectionGraph, deleteSectionGraph, renameSection } from '$global/utils.global';
+import {
+	addSectionGraph,
+	deleteSectionGraph,
+	getParent,
+	renameSection
+} from '$global/utils.global';
 import { queryLimit } from '$global/const.global';
 
 export async function insertUser(newUser: User, key: Key) {
@@ -134,7 +139,7 @@ export async function updateSection(
 
 export async function addSection(
 	type: 'sibling' | 'child',
-	parentName: string,
+	adjacentName: string,
 	newSectionName: string,
 	userId: string,
 	writingId: string
@@ -144,12 +149,17 @@ export async function addSection(
 			where: eq(writingTable.id, writingId),
 			columns: { rootSection: true }
 		});
-		const status = addSectionGraph(rootSection, type, newSectionName, parentName);
+		const status = addSectionGraph(rootSection, type, newSectionName, adjacentName);
 		if (status != 'updated') return status;
+		const parent = getParent(rootSection, newSectionName);
 		await tx.update(writingTable).set({ rootSection }).where(eq(writingTable.id, writingId));
-		await tx
-			.insert(sectionsTable)
-			.values({ name: newSectionName, writerId: userId, writingId, content: [] });
+		await tx.insert(sectionsTable).values({
+			name: newSectionName,
+			writerId: userId,
+			writingId,
+			content: [],
+			parent
+		});
 		return status;
 	});
 }
