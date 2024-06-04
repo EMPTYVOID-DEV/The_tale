@@ -12,6 +12,7 @@
 		externalRef.style.setProperty('--foregroundColor', colors.text);
 		externalRef.style.setProperty('--backgroundColor', colors.bg);
 		externalRef.style.setProperty('--primaryColor', colors.primary);
+		externalRef.style.setProperty('--mutedColor', colors.muted);
 	}
 
 	async function loadFont(name: string, url: string, weight: string) {

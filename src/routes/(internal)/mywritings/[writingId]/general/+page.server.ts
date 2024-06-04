@@ -13,7 +13,8 @@ export const load: Load = async ({ params }) => {
 		columns: {
 			name: true,
 			description: true,
-			background: true
+			background: true,
+			id: true
 		}
 	});
 	return { settings: writingSettings };

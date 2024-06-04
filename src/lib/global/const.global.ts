@@ -4,8 +4,8 @@ import type { WritingColors, WritingFonts } from './types.global';
 export const defaultBgUrl = '/backgrounds/default.png';
 
 export const defaultColors: WritingColors = {
-	dark: { text: '#dfdafa', bg: '#040110', primary: '#6f3dd4' },
-	light: { text: '#333333', bg: '#F0F0F0', primary: '#8A6EE6' }
+	dark: { text: '#dfdafa', bg: '#040110', primary: '#6f3dd4', muted: '#aaaaaa' },
+	light: { text: '#333333', bg: '#F0F0F0', primary: '#8A6EE6', muted: '#888282' }
 };
 
 export const defaultFonts: WritingFonts = {

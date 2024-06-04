@@ -1,5 +1,6 @@
 <script>
 	import BackgroudForm from './components/backgroudForm.svelte';
+	import CopyId from './components/copyID.svelte';
 	import DeleteForm from './components/deleteForm.svelte';
 	import DescriptionForm from './components/descriptionForm.svelte';
 	import NameForm from './components/nameForm.svelte';
@@ -7,6 +8,7 @@
 </script>
 
 <div class="general">
+	<CopyId />
 	<NameForm />
 	<DescriptionForm />
 	<BackgroudForm />

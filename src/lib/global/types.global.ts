@@ -4,6 +4,7 @@ export type ColorSet = {
 	bg: string;
 	text: string;
 	primary: string;
+	muted: string;
 };
 
 export type WritingColors = {

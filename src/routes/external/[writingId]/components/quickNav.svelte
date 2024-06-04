@@ -11,15 +11,21 @@
 
 <div class="quickNav">
 	{#if neighbors.prev}
-		<a class="neighbor" href="/external/{$page.params.writingId}/{neighbors.prev.name}">
-			<span class="control"><LeftIcon /></span>
-			<span>{neighbors.prev.name}</span>
+		<a class="prev neighbor" href="/external/{$page.params.writingId}/{neighbors.prev.name}">
+			<span>Previous</span>
+			<div>
+				<LeftIcon />
+				<span>{neighbors.prev.name}</span>
+			</div>
 		</a>
 	{/if}
 	{#if neighbors.next}
-		<a class="neighbor" href="/external/{$page.params.writingId}/{neighbors.next.name}">
-			<span>{neighbors.next.name}</span>
-			<span class="control"><RightIcon /></span>
+		<a class="next neighbor" href="/external/{$page.params.writingId}/{neighbors.next.name}">
+			<span>Next</span>
+			<div>
+				<span>{neighbors.next.name}</span>
+				<RightIcon />
+			</div>
 		</a>
 	{/if}
 </div>
@@ -27,37 +33,35 @@
 <style>
 	.quickNav {
 		width: 100%;
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
+		display: flex;
 		align-items: center;
-		border-top: 1px solid var(--mutedColor);
+		border-top: 1px solid var(--foregroundColor);
 		padding-top: 3rem;
 		gap: 5%;
 	}
 
 	.neighbor {
-		width: 100%;
 		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 1rem;
-		padding: 0.5rem;
-		border: 1px solid var(--foregroundColor);
-		border-radius: var(--border-radius);
+		flex-direction: column;
+		gap: 0.25rem;
 	}
-	.control {
-		max-width: 32px;
-		aspect-ratio: 1/1;
+
+	.next {
+		margin-left: auto;
+	}
+
+	.neighbor > span {
+		font-size: var(--small);
+		color: var(--mutedColor);
+	}
+
+	.neighbor div {
 		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 0.25rem;
-		border: 1px solid var(--foregroundColor);
-		border-radius: 50%;
-		--icon: var(--foregroundColor);
+		gap: 0.5rem;
 	}
-	.neighbor span {
-		font-weight: 600;
+
+	.neighbor div span {
 		color: var(--foregroundColor);
+		font-weight: 600;
 	}
 </style>

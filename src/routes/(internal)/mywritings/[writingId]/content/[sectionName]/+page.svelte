@@ -42,7 +42,7 @@
 		<ReactiveInput
 			checkFunction={validateName}
 			value={data.sectionData.name}
-			label="New Section name (need to be unique)"
+			label="New Section name (need to be unique and does not contain special characters)"
 			on:change={(e) => {
 				data.sectionData.name = e.detail.value;
 			}}

@@ -57,6 +57,7 @@
 		<ColorPicker label="Background color" bind:hex={activeColorSet['bg']} isAlpha />
 		<ColorPicker label="Foreground color" bind:hex={activeColorSet['text']} isAlpha />
 		<ColorPicker label="Primary color" bind:hex={activeColorSet['primary']} isAlpha />
+		<ColorPicker label="Muted color" bind:hex={activeColorSet['muted']} isAlpha />
 	</section>
 	<svelte:fragment slot="submitter">
 		<SyncButton text="save" type="passive" />

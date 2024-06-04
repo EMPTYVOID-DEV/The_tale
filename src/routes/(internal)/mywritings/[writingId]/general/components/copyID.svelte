@@ -1,19 +1,18 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import Copy from '$components/other/copy.svelte';
-	$: id = $page.data.id;
+	$: id = $page.data.settings.id;
 </script>
 
 <div class="id">
 	<section class="input">
 		<h3>ID</h3>
-		<span>This is your CodeNest id.</span>
+		<span>This is {$page.data.settings.name} writing id.</span>
 		<Copy text={id} />
 	</section>
-	<span class="description"
-		>You will need this ID to share it with your community. This will make it easier for them to
-		find you</span
-	>
+	<span class="description">
+		Sharing this writing id with your community will make it easier to find
+	</span>
 </div>
 
 <style>
