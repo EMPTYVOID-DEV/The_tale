@@ -20,6 +20,9 @@ importers:
       '@vercel/blob':
         specifier: ^0.22.3
         version: 0.22.3
+      '@vercel/postgres':
+        specifier: ^0.8.0
+        version: 0.8.0
       arctic:
         specifier: ^1.2.1
         version: 1.2.1
@@ -28,13 +31,13 @@ importers:
         version: 9.4.3
       drizzle-orm:
         specifier: ^0.30.2
-        version: 0.30.4(@types/pg@8.11.4)(better-sqlite3@9.4.3)(pg@8.11.4)
+        version: 0.30.4(@neondatabase/serverless@0.7.2)(@types/pg@8.11.4)(@vercel/postgres@0.8.0)(better-sqlite3@9.4.3)(pg@8.11.4)
       lucia:
         specifier: ^3.1.1
         version: 3.1.1
       maildev:
         specifier: ^2.1.0
-        version: 2.1.0
+        version: 2.1.0(bufferutil@4.0.8)
       nodemailer:
         specifier: ^6.9.13
         version: 6.9.13
@@ -641,6 +644,9 @@ packages:
   '@napi-rs/wasm-runtime@0.1.2':
     resolution: {integrity: sha512-8JuczewTFIZ/XIjHQ+YlQUydHvlKx2hkcxtuGwh+t/t5zWyZct6YG4+xjHcq8xyc/e7FmFwf42Zj2YgICwmlvA==}
 
+  '@neondatabase/serverless@0.7.2':
+    resolution: {integrity: sha512-wU3WA2uTyNO7wjPs3Mg0G01jztAxUxzd9/mskMmtPwPTjf7JKWi9AW5/puOGXLxmZ9PVgRFeBVRVYq5nBPhsCg==}
+
   '@node-rs/argon2-android-arm-eabi@1.7.0':
     resolution: {integrity: sha512-udDqkr5P9E+wYX1SZwAVPdyfYvaF4ry9Tm+R9LkfSHbzWH0uhU6zjIwNRp7m+n4gx691rk+lqqDAIP8RLKwbhg==}
     engines: {node: '>= 10'}
@@ -1151,6 +1157,9 @@ packages:
   '@types/pg@8.11.4':
     resolution: {integrity: sha512-yw3Bwbda6vO+NvI1Ue/YKOwtl31AYvvd/e73O3V4ZkNzuGpTDndLSyc0dQRB2xrQqDePd20pEGIfqSp/GH3pRw==}
 
+  '@types/pg@8.6.6':
+    resolution: {integrity: sha512-O2xNmXebtwVekJDD+02udOncjVcMZQuTEQEMpKJ0ZRf5E7/9JJX3izhKUcUifBkyKpljyUM6BTgy2trmviKlpw==}
+
   '@types/pug@2.0.10':
     resolution: {integrity: sha512-Sk/uYFOBAB7mb74XcpizmH0KOR2Pv3D2Hmrh1Dmy5BmK3MpdSa5kqZcg6EKBdklU0bFXX9gCfzvpnyUehrPIuA==}
 
@@ -1221,6 +1230,10 @@ packages:
   '@vercel/blob@0.22.3':
     resolution: {integrity: sha512-l0t2KhbOO/I8ZNOl9zypYf1NE0837aO4/CPQNGR/RAxtj8FpdYKjhyUADUXj2gERLQmnhun+teaVs/G7vZJ/TQ==}
     engines: {node: '>=16.14'}
+
+  '@vercel/postgres@0.8.0':
+    resolution: {integrity: sha512-/QUV9ExwaNdKooRjOQqvrKNVnRvsaXeukPNI5DB1ovUTesglfR/fparw7ngo1KUWWKIVpEj2TRrA+ObRHRdaLg==}
+    engines: {node: '>=14.6'}
 
   abab@2.0.6:
     resolution: {integrity: sha512-j2afSsaIENvHZN2B8GOpF566vZ5WVk5opAiMTvWgaQT8DkbOqsTfvNAvHoRGU2zzP8cPoqys+xHTRDWW8L+/BA==}
@@ -1369,6 +1382,10 @@ packages:
 
   buffer@5.7.1:
     resolution: {integrity: sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ==}
+
+  bufferutil@4.0.8:
+    resolution: {integrity: sha512-4T53u4PdgsXqKaIctwF8ifXlRTTmEPJ8iEPWFdGZvcf7sbwYo6FKFEX9eNNAnzFZ7EzJAQ3CJeOtCRA4rDp7Pw==}
+    engines: {node: '>=6.14.2'}
 
   bytes@3.0.0:
     resolution: {integrity: sha512-pMhOfFDPiv9t5jjIXkHosWmkSyQbvsgEVNkz0ERHbuLh2T/7j4Mqqpz523Fe8MVY89KC6Sh/QfS2sM+SjgFDcw==}
@@ -2381,6 +2398,10 @@ packages:
     resolution: {integrity: sha512-Dp+A9JWxRaKuHP35H77I4kCKesDy5HUDEmScia2FyncMTOXASMyg251F5PhFoDA5uqBrDDffiLpbqnrZmNXW+g==}
     engines: {node: '>=10'}
 
+  node-gyp-build@4.8.1:
+    resolution: {integrity: sha512-OSs33Z9yWr148JZcbZd5WiAXhh/n9z8TxQcdMhIOlpN9AhWpLfvVFO73+m77bBABQMaY9XSvIa+qk0jlI7Gcaw==}
+    hasBin: true
+
   nodemailer@6.7.3:
     resolution: {integrity: sha512-KUdDsspqx89sD4UUyUKzdlUOper3hRkDVkrKh/89G+d9WKsU5ox51NWS4tB1XR5dPUdR4SP0E3molyEfOvSa3g==}
     engines: {node: '>=6.0.0'}
@@ -3049,6 +3070,10 @@ packages:
   url-parse@1.5.10:
     resolution: {integrity: sha512-WypcfiRhfeUP9vvF0j6rw0J3hrWrw6iZv3+22h6iRMJ/8z1Tj6XfLP4DsUix5MhMPnXpiHDoKyoZ/bdCkwBCiQ==}
 
+  utf-8-validate@6.0.3:
+    resolution: {integrity: sha512-uIuGf9TWQ/y+0Lp+KGZCMuJWc3N9BHA+l/UmHd/oUHwJJDeysyTRxNQVkbzsIWfGFbRe3OcgML/i0mvVRPOyDA==}
+    engines: {node: '>=6.14.2'}
+
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
@@ -3156,6 +3181,18 @@ packages:
     peerDependencies:
       bufferutil: ^4.0.1
       utf-8-validate: ^5.0.2
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+
+  ws@8.14.2:
+    resolution: {integrity: sha512-wEBG1ftX4jcglPxgFCMJmZ2PLtSbJ2Peg6TmpJFTbe9GZYOQCDPdMYu/Tm0/bGZkw8paZnJY45J4K2PZrLYq8g==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
     peerDependenciesMeta:
       bufferutil:
         optional: true
@@ -3531,6 +3568,10 @@ snapshots:
       '@emnapi/runtime': 1.1.0
       '@tybys/wasm-util': 0.8.1
     optional: true
+
+  '@neondatabase/serverless@0.7.2':
+    dependencies:
+      '@types/pg': 8.6.6
 
   '@node-rs/argon2-android-arm-eabi@1.7.0':
     optional: true
@@ -3935,6 +3976,12 @@ snapshots:
       pg-protocol: 1.6.1
       pg-types: 4.0.2
 
+  '@types/pg@8.6.6':
+    dependencies:
+      '@types/node': 20.11.30
+      pg-protocol: 1.6.1
+      pg-types: 2.2.0
+
   '@types/pug@2.0.10': {}
 
   '@types/semver@7.5.8': {}
@@ -4033,6 +4080,13 @@ snapshots:
       bytes: 3.1.2
       is-buffer: 2.0.5
       undici: 5.28.4
+
+  '@vercel/postgres@0.8.0':
+    dependencies:
+      '@neondatabase/serverless': 0.7.2
+      bufferutil: 4.0.8
+      utf-8-validate: 6.0.3
+      ws: 8.14.2(bufferutil@4.0.8)(utf-8-validate@6.0.3)
 
   abab@2.0.6: {}
 
@@ -4181,6 +4235,10 @@ snapshots:
     dependencies:
       base64-js: 1.5.1
       ieee754: 1.2.1
+
+  bufferutil@4.0.8:
+    dependencies:
+      node-gyp-build: 4.8.1
 
   bytes@3.0.0: {}
 
@@ -4419,9 +4477,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.30.4(@types/pg@8.11.4)(better-sqlite3@9.4.3)(pg@8.11.4):
+  drizzle-orm@0.30.4(@neondatabase/serverless@0.7.2)(@types/pg@8.11.4)(@vercel/postgres@0.8.0)(better-sqlite3@9.4.3)(pg@8.11.4):
     optionalDependencies:
+      '@neondatabase/serverless': 0.7.2
       '@types/pg': 8.11.4
+      '@vercel/postgres': 0.8.0
       better-sqlite3: 9.4.3
       pg: 8.11.4
 
@@ -4448,7 +4508,7 @@ snapshots:
 
   engine.io-parser@5.0.7: {}
 
-  engine.io@6.4.2:
+  engine.io@6.4.2(bufferutil@4.0.8):
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.17
@@ -4459,7 +4519,7 @@ snapshots:
       cors: 2.8.5
       debug: 4.3.4
       engine.io-parser: 5.0.7
-      ws: 8.11.0
+      ws: 8.11.0(bufferutil@4.0.8)
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -5074,7 +5134,7 @@ snapshots:
     dependencies:
       argparse: 2.0.1
 
-  jsdom@19.0.0:
+  jsdom@19.0.0(bufferutil@4.0.8):
     dependencies:
       abab: 2.0.6
       acorn: 8.11.3
@@ -5101,7 +5161,7 @@ snapshots:
       whatwg-encoding: 2.0.0
       whatwg-mimetype: 3.0.0
       whatwg-url: 10.0.0
-      ws: 8.16.0
+      ws: 8.16.0(bufferutil@4.0.8)
       xml-name-validator: 4.0.0
     transitivePeerDependencies:
       - bufferutil
@@ -5169,7 +5229,7 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  maildev@2.1.0:
+  maildev@2.1.0(bufferutil@4.0.8):
     dependencies:
       addressparser: 1.0.1
       async: 3.2.5
@@ -5179,12 +5239,12 @@ snapshots:
       dompurify: 2.5.0
       express: 4.19.2
       iconv-lite: 0.5.0
-      jsdom: 19.0.0
+      jsdom: 19.0.0(bufferutil@4.0.8)
       mime: 2.4.4
       nodemailer: 6.9.13
       rimraf: 3.0.2
       smtp-server: 3.11.0
-      socket.io: 4.6.0
+      socket.io: 4.6.0(bufferutil@4.0.8)
       uue: 3.1.2
     transitivePeerDependencies:
       - bufferutil
@@ -5293,6 +5353,8 @@ snapshots:
   node-abi@3.57.0:
     dependencies:
       semver: 7.6.0
+
+  node-gyp-build@4.8.1: {}
 
   nodemailer@6.7.3: {}
 
@@ -5724,10 +5786,10 @@ snapshots:
       ipv6-normalize: 1.0.1
       nodemailer: 6.7.3
 
-  socket.io-adapter@2.5.4:
+  socket.io-adapter@2.5.4(bufferutil@4.0.8):
     dependencies:
       debug: 4.3.4
-      ws: 8.11.0
+      ws: 8.11.0(bufferutil@4.0.8)
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -5740,13 +5802,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  socket.io@4.6.0:
+  socket.io@4.6.0(bufferutil@4.0.8):
     dependencies:
       accepts: 1.3.8
       base64id: 2.0.0
       debug: 4.3.4
-      engine.io: 6.4.2
-      socket.io-adapter: 2.5.4
+      engine.io: 6.4.2(bufferutil@4.0.8)
+      socket.io-adapter: 2.5.4(bufferutil@4.0.8)
       socket.io-parser: 4.2.4
     transitivePeerDependencies:
       - bufferutil
@@ -5998,6 +6060,10 @@ snapshots:
       querystringify: 2.2.0
       requires-port: 1.0.0
 
+  utf-8-validate@6.0.3:
+    dependencies:
+      node-gyp-build: 4.8.1
+
   util-deprecate@1.0.2: {}
 
   utils-merge@1.0.1: {}
@@ -6070,9 +6136,18 @@ snapshots:
 
   wrappy@1.0.2: {}
 
-  ws@8.11.0: {}
+  ws@8.11.0(bufferutil@4.0.8):
+    optionalDependencies:
+      bufferutil: 4.0.8
 
-  ws@8.16.0: {}
+  ws@8.14.2(bufferutil@4.0.8)(utf-8-validate@6.0.3):
+    optionalDependencies:
+      bufferutil: 4.0.8
+      utf-8-validate: 6.0.3
+
+  ws@8.16.0(bufferutil@4.0.8):
+    optionalDependencies:
+      bufferutil: 4.0.8
 
   xml-name-validator@4.0.0: {}
 
