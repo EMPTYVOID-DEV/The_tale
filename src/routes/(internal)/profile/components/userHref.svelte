@@ -1,11 +1,21 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import Copy from '$components/other/copy.svelte';
+	import SyncButton from '$components/button/syncButton.svelte';
+	import CopyIcon from '$icons/copyIcon.svelte';
 	import { PUBLIC_ORIGIN } from '$env/static/public';
+	import DoneIcon from '$icons/doneIcon.svelte';
+	let status: 'idle' | 'copying' = 'idle';
 
 	function constructProfileLink() {
 		const { id } = $page.data;
 		return `${PUBLIC_ORIGIN}/writers/${id}`;
+	}
+	function copyToClipboard() {
+		status = 'copying';
+		navigator.clipboard.writeText(constructProfileLink());
+		setTimeout(() => {
+			status = 'idle';
+		}, 1200);
 	}
 </script>
 
@@ -13,7 +23,11 @@
 	<section class="input">
 		<h3>ID</h3>
 		<span>This is your The_tale link.</span>
-		<Copy text={constructProfileLink()} />
+		<SyncButton
+			icon={status == 'idle' ? CopyIcon : DoneIcon}
+			text="Copy to my clipboard"
+			on:click={copyToClipboard}
+		/>
 	</section>
 	<span class="description"
 		>You can share this link with your community , making it easier for them to find your work.</span

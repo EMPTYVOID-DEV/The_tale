@@ -57,7 +57,9 @@ export const writingTable = pgTable('writing', {
 	name: text('name').notNull(),
 	description: text('description').notNull().default(''),
 	background: text('background').default(defaultBgUrl),
-	creationDate: date('creation_date').defaultNow(),
+	creationDate: date('creation_date', { mode: 'string' }).$defaultFn(() =>
+		new Date().toLocaleString('en-GB')
+	),
 	fonts: json('fonts').$type<WritingFonts>().default(defaultFonts),
 	colors: json('colors').$type<WritingColors>().default(defaultColors),
 	rootSection: json('root_section').$type<Section>(),

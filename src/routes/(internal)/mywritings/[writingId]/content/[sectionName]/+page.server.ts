@@ -28,6 +28,8 @@ export const actions: Actions = {
 		const name = fd.get('name').toString().toLowerCase();
 		const filesUploads = files.map((file) => uploadFile(file, file.name, 'sections'));
 		const results = await Promise.allSettled(filesUploads);
+		if (results.find((el) => el.status == 'rejected'))
+			throw new Error('One of the files did not get loaded.');
 		const validateName = getValidator(sectionNameSchema);
 		if (validateName(name).state == 'invalid')
 			return fail(400, { message: validateName(name).errorMsg });

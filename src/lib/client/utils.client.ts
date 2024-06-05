@@ -7,6 +7,8 @@ import { destructorFileName } from '$global/utils.global';
 import uuid from 'short-uuid';
 import type { dataBlock } from '@altron/altron/types';
 import { navHeight } from '$global/const.global';
+import { dev } from '$app/environment';
+import { PUBLIC_VERCEL_BLOB } from '$env/static/public';
 
 export function showToast(
 	header: string,
@@ -33,7 +35,9 @@ export function addBlockFile(el: dataBlock, formData: FormData) {
 	const filename = `${random}.${extension}`;
 	const file = new File([el.data.file], filename, { type: el.data.file.type });
 	el.data.file = null;
-	el.data.src = `/sections/${filename}`;
+	el.data.src = dev
+		? `/sections/${filename}`
+		: `https://${PUBLIC_VERCEL_BLOB}.public.blob.vercel-storage.com/sections/${filename}`;
 	formData.append('files', file);
 }
 
