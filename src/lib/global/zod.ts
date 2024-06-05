@@ -48,7 +48,7 @@ export const sectionNameSchema = z
 	.string()
 	.min(3, { message: 'Section name must be at least 3 letters long' })
 	.max(24, { message: "Section name lenght can't exceed 24 letters" })
-	.regex(/^\w+$/, { message: 'Section must only contain alphabet and numeric characters' });
+	.regex(/^[\w\s]+$/, { message: 'Section must only contain alphabet and numeric characters' });
 
 export function getValidator(schema: ZodSchema): (text: string) => ActionStatus {
 	return (text: string) => {

@@ -39,7 +39,7 @@
 
 <div class="reading">
 	<section class="search">
-		<h1>Explore Our Literary</h1>
+		<h1>Explore Collaborative Writings.</h1>
 		<SearchInput bind:value={query} />
 		<ShadowButton
 			--width="100%"

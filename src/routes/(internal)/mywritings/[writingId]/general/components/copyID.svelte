@@ -11,7 +11,7 @@
 		<Copy text={id} />
 	</section>
 	<span class="description">
-		Sharing this writing id with your community will make it easier to find
+		Sharing this writing id with your community will make it easier to find.
 	</span>
 </div>
 

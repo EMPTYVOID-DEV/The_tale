@@ -28,6 +28,7 @@ export function checkPath(pathname: string, checkLevel: PathCheckModes, checkerA
 		if (mode == 0 && pathname.startsWith(el)) return true;
 		if (mode == 1 && pathname.endsWith(el)) return true;
 		if (mode == 2 && pathname.includes(el)) return true;
+		if (mode == 3 && pathname === el) return true;
 	}
 	return false;
 }

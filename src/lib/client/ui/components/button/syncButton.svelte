@@ -7,7 +7,7 @@
 	export let type = 'primary';
 </script>
 
-<button on:click class={type} disabled={type == 'disabled'}>
+<button on:mouseover on:click class={type} disabled={type == 'disabled'}>
 	<svelte:component this={icon} />
 	<span>{text}</span>
 </button>

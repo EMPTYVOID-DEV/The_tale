@@ -3,10 +3,11 @@
 	import Reference from '$components/reference/reference.svelte';
 	import Avatar from '$components/other/avatar.svelte';
 	import SyncButton from '$components/button/syncButton.svelte';
-	import { goto } from '$app/navigation';
+	import { goto, preloadData } from '$app/navigation';
 	import BookIcon from '$icons/bookIcon.svelte';
 
 	export let data;
+	const externalPage = `/external/${data.info.id}/${data.info.rootSection?.name}`;
 	let owner = data.contributors.find((el) => el.id == data.info.ownerId);
 	let writers = data.contributors.filter((el) => el.id != data.info.ownerId);
 </script>
@@ -23,7 +24,7 @@
 		<section class="extra-info">
 			<div>
 				<h4>Owner</h4>
-				<a class="user" href="/reading/authors/{owner.id}">
+				<a class="user" href="/writers/{owner.id}">
 					<Avatar avatar={owner.avatar} />
 					<span class="owner">{owner.username}</span>
 				</a>
@@ -45,7 +46,7 @@
 			<h3>Writers</h3>
 			<div class="contributors">
 				{#each writers as writer}
-					<a class="user" href="/reading/authors/{writer.id}">
+					<a class="user" href="/writers/{writer.id}">
 						<Avatar avatar={writer.avatar} />
 						<span>{writer.username}</span>
 					</a>
@@ -60,7 +61,8 @@
 			<SyncButton
 				icon={BookIcon}
 				text="Start reading"
-				on:click={() => goto(`/external/${data.info.id}/${data.info.rootSection?.name}`)}
+				on:mouseover={() => preloadData(externalPage)}
+				on:click={() => goto(externalPage)}
 			/>
 		{:else}
 			<h4 class="empty">No content available for this writing yet.</h4>

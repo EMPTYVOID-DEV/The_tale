@@ -39,10 +39,7 @@
 				transition:scale={{ duration: 520, easing: quadInOut, start: 0, opacity: 0.2 }}
 			>
 				<h2>Delete account</h2>
-				<span
-					>This action will erase all content related to your account.We recommend backing all of
-					your writings</span
-				>
+				<span>This action will erase all content related to your account.</span>
 				<StaticInput
 					name="confirmation"
 					label={`Enter your "${$page.data.username}" to delete.`}

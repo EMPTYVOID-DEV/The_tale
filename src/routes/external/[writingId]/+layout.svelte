@@ -15,9 +15,10 @@
 		externalRef.style.setProperty('--mutedColor', colors.muted);
 	}
 
-	async function loadFont(name: string, url: string, weight: string) {
-		const font = await new FontFace(name, url, { display: 'swap', weight }).load();
-		document.fonts.add(font);
+	async function createFontPromise(name: string, url: string, weight: string) {
+		return new FontFace(name, url, { display: 'swap', weight })
+			.load()
+			.then((font) => document.fonts.add(font));
 	}
 
 	function handleMobileMedia() {
@@ -33,22 +34,28 @@
 		changeStatus(mobileMedia.matches);
 	}
 
-	onMount(async () => {
-		toggleTheme('dark');
-		handleMobileMedia();
+	async function loadFonts() {
 		const { body, heading } = data.fonts;
-		const headingUrl = `url(https://cdn.jsdelivr.net/fontsource/fonts/${heading}@latest/latin-700-normal.woff2)`;
+		const fontLoads = [];
 		const body400url = `url(https://cdn.jsdelivr.net/fontsource/fonts/${body}@latest/latin-400-normal.woff2)`;
 		const body600url = `url(https://cdn.jsdelivr.net/fontsource/fonts/${body}@latest/latin-600-normal.woff2)`;
-		await Promise.allSettled([
-			loadFont(body, body400url, '400'),
-			loadFont(body, body600url, '600'),
-			loadFont(heading, headingUrl, '700')
-		]).then((res) => {
+		const headingUrl = `url(https://cdn.jsdelivr.net/fontsource/fonts/${heading}@latest/latin-700-normal.woff2)`;
+
+		fontLoads.push(createFontPromise(body, body400url, '400'));
+		fontLoads.push(createFontPromise(body, body600url, '600'));
+		fontLoads.push(createFontPromise(heading, headingUrl, '700'));
+
+		Promise.allSettled(fontLoads).then((res) => {
 			if (res[0].status == 'fulfilled' && res[1].status == 'fulfilled')
 				externalRef.style.setProperty('--bodyFont', body);
 			if (res[2].status == 'fulfilled') externalRef.style.setProperty('--headerFont', heading);
 		});
+	}
+
+	onMount(async () => {
+		toggleTheme('dark');
+		handleMobileMedia();
+		loadFonts();
 	});
 </script>
 

@@ -7,7 +7,7 @@
 
 <a class="result" href="/reading/{result.id}">
 	<div class="context">
-		<a class="queryOwner" href="/reading/authors/{result.ownerId}">
+		<a class="queryOwner" href="/writers/{result.ownerId}">
 			<Avatar avatar={result.ownerAvatar} />
 			<span class="owner">{result.ownerUsername}</span>
 		</a>

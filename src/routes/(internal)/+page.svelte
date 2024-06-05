@@ -12,7 +12,7 @@
 		</h1>
 		<p>
 			Blogs, articles, docs or presentations? Tale's your go-to platform. Compose with a rich text
-			editor, format with flair. Templates, navigation, search - polished content anywhere.
+			editor, format with flair. Templates, navigation polished content anywhere.
 		</p>
 		<div class="actions">
 			<ShadowButton

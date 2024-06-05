@@ -1,18 +1,22 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import Copy from '$components/other/copy.svelte';
-	$: id = $page.data.id;
+	import { PUBLIC_ORIGIN } from '$env/static/public';
+
+	function constructProfileLink() {
+		const { id } = $page.data;
+		return `${PUBLIC_ORIGIN}/writers/${id}`;
+	}
 </script>
 
 <div class="id">
 	<section class="input">
 		<h3>ID</h3>
-		<span>This is your The_tale id.</span>
-		<Copy text={id} />
+		<span>This is your The_tale link.</span>
+		<Copy text={constructProfileLink()} />
 	</section>
 	<span class="description"
-		>You will need this ID to share it with your community. This will make it easier for them to
-		find you</span
+		>You can share this link with your community , making it easier for them to find your work.</span
 	>
 </div>
 
