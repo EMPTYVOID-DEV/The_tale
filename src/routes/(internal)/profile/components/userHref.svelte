@@ -21,7 +21,7 @@
 
 <div class="id">
 	<section class="input">
-		<h3>ID</h3>
+		<h3>Profile link</h3>
 		<span>This is your The_tale link.</span>
 		<SyncButton
 			icon={status == 'idle' ? CopyIcon : DoneIcon}

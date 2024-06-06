@@ -12,6 +12,7 @@
 		<li>Dashboard for writers</li>
 		<li>Search functionality for the writing page</li>
 		<li>Notification system</li>
+		<li>Custom storage for writings</li>
 	</div>
 </div>
 

@@ -35,8 +35,8 @@
 		width: 100%;
 		display: flex;
 		align-items: center;
-		border-top: 1px solid var(--foregroundColor);
-		padding-top: 3rem;
+		border-top: 1px solid hsl(from var(--mutedColor) h s l / 0.6);
+		padding-top: 2rem;
 		gap: 5%;
 	}
 

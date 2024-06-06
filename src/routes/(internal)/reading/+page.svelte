@@ -89,6 +89,7 @@
 	}
 	.search h1 {
 		color: var(--foregroundColor);
+		text-align: center;
 	}
 	.search span {
 		color: var(--mutedColor);

@@ -89,7 +89,7 @@
 		gap: 1rem;
 	}
 
-	.content.isOneSection {
+	.isOneSection {
 		grid-column: span 10 / span 10;
 	}
 
