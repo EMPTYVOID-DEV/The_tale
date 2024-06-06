@@ -2,12 +2,21 @@ import { fail, redirect, type Actions } from '@sveltejs/kit';
 import { uploadFile } from '$server/utils/uploadFile';
 import { checkSize, checkType, destructorFileName } from '$global/utils.global';
 import { db } from '$server/database/database';
-import { userTable } from '$server/database/schema';
+import { keyTable, userTable } from '$server/database/schema';
 import { eq } from 'drizzle-orm';
 import { descriptionSchema, getValidator, usernameSchema } from '$global/zod';
 import { lucia } from '$server/auth/lucia';
+import uuid from 'short-uuid';
+import { Argon2id } from 'oslo/password';
 
 export const actions: Actions = {
+	resetKey: async ({ locals }) => {
+		const { id } = locals.user;
+		const apiKey = uuid().generate();
+		const hashedApiKey = await new Argon2id().hash(apiKey);
+		await db.update(keyTable).set({ apiKey: hashedApiKey }).where(eq(keyTable.userId, id));
+		return { apiKey };
+	},
 	changeAvatar: async ({ request, locals }) => {
 		const fd = await request.formData();
 		const avatar = fd.get('avatar') as File;
