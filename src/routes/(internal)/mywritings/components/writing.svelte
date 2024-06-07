@@ -8,7 +8,11 @@
 	<WritingBackground background={contribution.writingBackground} />
 	<div class="layer">
 		<span class="name">{contribution.writingName}</span>
-		<span>{contribution.writingId}</span>
+		{#if contribution.mode}
+			<span>Private</span>
+		{:else}
+			<span>Public</span>
+		{/if}
 	</div>
 	<div class="layer">
 		<span>Role</span>

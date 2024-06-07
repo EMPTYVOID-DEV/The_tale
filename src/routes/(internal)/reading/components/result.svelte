@@ -17,6 +17,9 @@
 		{:else}
 			<p>{result.description}</p>
 		{/if}
+		<span class="tags">
+			{result.tags.join(' , ')}
+		</span>
 	</div>
 	<div class="bg">
 		<WritingBackground background={result.background} />
@@ -59,7 +62,7 @@
 		gap: 0.25rem;
 	}
 
-	.context :is(h4, p) {
+	.context :is(h4, p, .tags) {
 		color: var(--foregroundColor);
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
@@ -74,6 +77,18 @@
 	.context p {
 		font-size: var(--small);
 		-webkit-line-clamp: 3;
+	}
+
+	.context .tags {
+		text-transform: capitalize;
+		color: var(--mutedColor);
+		font-size: var(--small);
+		-webkit-line-clamp: 1;
+		margin-top: 0.5rem;
+	}
+
+	.tags:empty {
+		display: none;
 	}
 
 	.queryOwner {

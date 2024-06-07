@@ -115,3 +115,8 @@ export const altronTheme: ThemeInput = {
 };
 
 export const navHeight = 72;
+
+export const writingMode = {
+	public: false,
+	private: true
+} as const;

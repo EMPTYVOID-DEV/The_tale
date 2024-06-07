@@ -14,12 +14,6 @@
 
 <div class="reading">
 	<div class="wrapper">
-		<Background
-			background={data.info.background}
-			--width="100%"
-			--ratio="3/1"
-			--radius="var(--border-radius)"
-		/>
 		<h1>{data.info.name}</h1>
 		<section class="extra-info">
 			<div>
@@ -34,6 +28,12 @@
 				<span>{data.info.creationDate}</span>
 			</div>
 		</section>
+		<Background
+			background={data.info.background}
+			--width="100%"
+			--ratio="3/1"
+			--radius="var(--border-radius)"
+		/>
 		<section class="layer">
 			<h3>Description</h3>
 			{#if data.info.description.length === 0}
@@ -41,6 +41,14 @@
 			{:else}
 				<span>{data.info.description}</span>
 			{/if}
+		</section>
+		<section class="layer">
+			<h3>Tags</h3>
+			<div class="tags">
+				{#each data.info.tags as tag}
+					<span>{tag}</span>
+				{/each}
+			</div>
 		</section>
 		<section class="layer">
 			<h3>Writers</h3>
@@ -114,6 +122,19 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
+	}
+
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.tags span {
+		text-transform: capitalize;
+		background-color: rgb(from var(--primaryColor) r g b / 0.3);
+		border-radius: var(--border-radius);
+		padding: 0.25rem;
 	}
 
 	.user {

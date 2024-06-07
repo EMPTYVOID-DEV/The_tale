@@ -28,27 +28,32 @@ export async function insertUser(newUser: User, key: Key) {
 	});
 }
 
-export async function getMyContributions(userId: string) {
+export async function getMyContributions(userId: string, all: boolean) {
+	const queryCondition = all
+		? eq(writingContributorsTable.userId, userId)
+		: and(eq(writingContributorsTable.userId, userId), eq(writingTable.private, false));
 	return db
 		.select({
 			writingId: writingTable.id,
 			role: writingContributorsTable.role,
 			writingName: writingTable.name,
 			writingBackground: writingTable.background,
-			creationDate: writingTable.creationDate
+			creationDate: writingTable.creationDate,
+			mode: writingTable.private
 		})
 		.from(writingContributorsTable)
-		.where(eq(writingContributorsTable.userId, userId))
+		.where(queryCondition)
 		.innerJoin(writingTable, eq(writingContributorsTable.writingId, writingTable.id));
 }
 
-export async function addWriting(userId: string, writingName: string) {
+export async function addWriting(userId: string, writingName: string, mode: boolean) {
 	return db.transaction(async (tx) => {
 		const id = generateId(8);
 		await tx.insert(writingTable).values({
 			id,
 			name: writingName,
-			ownerId: userId
+			ownerId: userId,
+			private: mode
 		});
 		await tx.insert(writingContributorsTable).values({ role: 'owner', userId, writingId: id });
 		return id;
@@ -201,14 +206,18 @@ export async function queryWritings(query: string, page: number = 1) {
 			ownerAvatar: userTable.avatar,
 			name: writingTable.name,
 			description: writingTable.description,
+			tags: writingTable.tags,
 			id: writingTable.id
 		})
 		.from(writingTable)
 		.where(
-			or(
-				ilike(writingTable.name, `%${query}%`),
-				ilike(writingTable.id, query),
-				ilike(writingTable.ownerId, query)
+			and(
+				eq(writingTable.private, false),
+				or(
+					ilike(writingTable.name, `%${query}%`),
+					ilike(writingTable.id, query),
+					ilike(writingTable.ownerId, query)
+				)
 			)
 		)
 		.offset(offset)
@@ -218,7 +227,7 @@ export async function queryWritings(query: string, page: number = 1) {
 }
 
 export async function getAuthorInfo(authorId: string) {
-	const contributionsPromise = getMyContributions(authorId);
+	const contributionsPromise = getMyContributions(authorId, false);
 	const infoPromise = db.query.userTable.findFirst({
 		where: eq(userTable.id, authorId)
 	});
