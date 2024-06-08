@@ -17,7 +17,8 @@ export const lucia = new Lucia(adapter, {
 	},
 	sessionCookie: {
 		attributes: {
-			secure: !dev
+			secure: !dev,
+			sameSite: 'strict'
 		}
 	}
 });

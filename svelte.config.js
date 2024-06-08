@@ -21,8 +21,11 @@ const config = {
 
 		csp: {
 			directives: {
-				'script-src': ['self', 'wasm-unsafe-eval']
-			}
+				'script-src': ['self', 'wasm-unsafe-eval'],
+				'form-action': ['self'],
+				'base-uri': ['self']
+			},
+			mode: 'hash'
 		},
 		csrf: { checkOrigin: true },
 		adapter: adapter()

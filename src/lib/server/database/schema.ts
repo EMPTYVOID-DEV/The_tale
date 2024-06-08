@@ -19,7 +19,8 @@ export const userTable = pgTable('user', {
 	id: varchar('id', { length: 8 }).notNull().primaryKey(),
 	username: varchar('username', { length: 28 }).notNull(),
 	about: text('about').default(''),
-	avatar: text('avatar')
+	avatar: text('avatar'),
+	apiKey: text('api_key')
 });
 
 export const sessionTable = pgTable('session', {
@@ -44,8 +45,7 @@ export const keyTable = pgTable(
 		provider_name: text('provider_name').$type<'email' | 'github'>().notNull(),
 		provider_id: text('provider_id').notNull(),
 		secret: text('secret'),
-		verified: boolean('verified'),
-		apiKey: text('api_key')
+		verified: boolean('verified')
 	},
 	(table) => {
 		return {
