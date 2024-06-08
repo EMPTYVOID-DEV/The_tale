@@ -1,7 +1,5 @@
 <script>
-	import { getContext } from 'svelte';
-	const componentMap = getContext('componentMap');
-	const UploadIcon = componentMap.get('uploadIcon');
+	import UploadIcon from '$altron/icons/uploadIcon.svelte';
 	export let changeHandler;
 	export let label = '';
 	export let fileType = '*';

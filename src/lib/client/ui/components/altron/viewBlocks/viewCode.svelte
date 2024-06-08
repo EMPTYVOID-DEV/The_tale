@@ -2,13 +2,11 @@
 	import { altronTheme } from '$global/const.global';
 	import { getHighlighterCore } from 'shiki';
 	import getWasm from 'shiki/wasm';
-	import { SvelteComponent, getContext, onMount, type ComponentType } from 'svelte';
+	import CopyIcon from '$icons/copyIcon.svelte';
+	import DoneIcon from '$icons/doneIcon.svelte';
+	import { onMount } from 'svelte';
 	export let text: string;
 	export let lang: string;
-
-	const componentMap = getContext('componentMap') as Map<string, ComponentType<SvelteComponent>>;
-	const DoneIcon = componentMap.get('doneIcon');
-	const CopyIcon = componentMap.get('copyIcon');
 	let copyStatement = false;
 	let code = text;
 

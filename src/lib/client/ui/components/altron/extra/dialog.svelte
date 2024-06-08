@@ -1,8 +1,6 @@
 <script>
-	import { getContext } from 'svelte';
-	const componentMap = getContext('componentMap');
-	const MenuIcon = componentMap.get('menuIcon');
-	const Menu = componentMap.get('menu');
+	import Menu from './menu.svelte';
+	import MenuIcon from '$altron/icons/menuIcon.svelte';
 	let dialog = null;
 </script>
 

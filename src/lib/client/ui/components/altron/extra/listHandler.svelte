@@ -1,9 +1,7 @@
 <script>
 	import DeleteIcon from '$icons/deleteIcon.svelte';
 	import PlusIcon from '$icons/plusIcon.svelte';
-	import { getContext } from 'svelte';
-	const componentMap = getContext('componentMap');
-	const Textarea = componentMap.get('textArea');
+	import Textarea from './textArea.svelte';
 
 	export let items;
 	export let updateEntry;

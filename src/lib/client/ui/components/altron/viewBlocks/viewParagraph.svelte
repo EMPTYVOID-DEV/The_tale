@@ -9,5 +9,6 @@
 <style>
 	p {
 		color: var(--textColor);
+		white-space: pre-wrap;
 	}
 </style>

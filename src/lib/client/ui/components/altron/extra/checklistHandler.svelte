@@ -1,16 +1,14 @@
 <script>
-	import { getContext } from 'svelte';
 	import DeleteIcon from '$icons/deleteIcon.svelte';
 	import PlusIcon from '$icons/plusIcon.svelte';
+	import Checked from '$altron/icons/checkedIcon.svelte';
+	import UnChecked from '$altron/icons/unCheckedIcon.svelte';
+	import Textarea from './textArea.svelte';
 	export let updateEntry;
 	export let removeEntry;
 	export let addEntry;
 	export let checkEntry;
 	export let items;
-	const componentMap = getContext('componentMap');
-	const Checked = componentMap.get('checkedIcon');
-	const UnChecked = componentMap.get('unCheckedIcon');
-	const Textarea = componentMap.get('textArea');
 </script>
 
 <div class="checkListExtra">

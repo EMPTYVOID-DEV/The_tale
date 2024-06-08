@@ -1,9 +1,7 @@
 <script>
-	import { getContext } from 'svelte';
+	import Checked from '$altron/icons/checkedIcon.svelte';
+	import UnChecked from '$altron/icons/unCheckedIcon.svelte';
 	export let items;
-	const componentMap = getContext('componentMap');
-	const Checked = componentMap.get('checkedIcon');
-	const UnChecked = componentMap.get('unCheckedIcon');
 </script>
 
 <div class="checkListView">

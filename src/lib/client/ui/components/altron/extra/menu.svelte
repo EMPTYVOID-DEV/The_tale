@@ -1,12 +1,13 @@
 <script>
 	import { createEventDispatcher, getContext } from 'svelte';
+	import CloseIcon from '$icons/closeIcon.svelte';
+	import MenuIcon from '$altron/icons/menuIcon.svelte';
+	import UpIcon from '$icons/upIcon.svelte';
+	import DeleteIcon from '$icons/deleteIcon.svelte';
+	import DownIcon from '$icons/downIcon.svelte';
+
 	export let close;
-	const componentMap = getContext('componentMap');
-	const CloseIcon = componentMap.get('closeIcon');
-	const MenuIcon = componentMap.get('menuIcon');
-	const UpIcon = componentMap.get('upIcon');
-	const DeleteIcon = componentMap.get('deleteIcon');
-	const DownIcon = componentMap.get('downIcon');
+
 	const eventDispatcher = createEventDispatcher();
 	const setData = getContext('setData');
 	const workingBlock = getContext('getWorkingBlock')();
@@ -68,8 +69,6 @@
 		<span>Menu</span>
 	</div>
 	{#each options as option (option.label)}
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<div
 			class="option"
 			on:click={() => {
@@ -81,8 +80,7 @@
 			<span>{option.label}</span>
 		</div>
 	{/each}
-	<!-- svelte-ignore a11y-click-events-have-key-events -->
-	<!-- svelte-ignore a11y-no-static-element-interactions -->
+
 	<div
 		class="option"
 		on:click={() => {
@@ -127,9 +125,7 @@
 		width: 20px;
 		height: 20px;
 	}
-	.dropDown .option :global(path) {
-		fill: var(--primaryColor);
-	}
+
 	.dropDown .option:hover {
 		background-color: color-mix(in srgb, var(--primaryColor) 38%, white 0%);
 		border-radius: 4px;

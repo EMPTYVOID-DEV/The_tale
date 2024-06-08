@@ -18,5 +18,6 @@
 <style>
 	.viewHeader {
 		color: var(--textColor);
+		white-space: pre-wrap;
 	}
 </style>

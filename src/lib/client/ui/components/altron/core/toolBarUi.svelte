@@ -1,22 +1,28 @@
 <script>
+	import AttachmentIcon from '$altron/icons/attachmentIcon.svelte';
+	import ChecklistIcon from '$altron/icons/checklistIcon.svelte';
+	import CloseQuoteIcon from '$altron/icons/closeQuoteIcon.svelte';
+	import CodeIcon from '$altron/icons/codeIcon.svelte';
+	import HeaderIcon from '$altron/icons/headerIcon.svelte';
+	import ImageIcon from '$altron/icons/imageIcon.svelte';
+	import ListIcon from '$altron/icons/listIcon.svelte';
+	import ParagraphIcon from '$altron/icons/paragraphIcon.svelte';
+	import SpaceIcon from '$altron/icons/spaceIcon.svelte';
+	import CloseIcon from '$icons/closeIcon.svelte';
+	import PlusIcon from '$icons/plusIcon.svelte';
 	import { getContext } from 'svelte';
-
 	export let add;
-	const componentMap = getContext('componentMap');
 	const excludeBlocks = getContext('excludedBlocks');
-	const CloseIcon = componentMap.get('closeIcon');
-	const PlusIcon = componentMap.get('plusIcon');
 	let options = new Map([
-		['paragraph', componentMap.get('paragraphIcon')],
-		['header', componentMap.get('headerIcon')],
-		['image', componentMap.get('imageIcon')],
-		['list', componentMap.get('listIcon')],
-		['quote', componentMap.get('closeQuoteIcon')],
-		['code', componentMap.get('codeIcon')],
-		['space', componentMap.get('spaceIcon')],
-		['checklist', componentMap.get('checklistIcon')],
-		['attachment', componentMap.get('attachmentIcon')],
-		['embed', componentMap.get('embedIcon')]
+		['paragraph', ParagraphIcon],
+		['header', HeaderIcon],
+		['image', ImageIcon],
+		['list', ListIcon],
+		['quote', CloseQuoteIcon],
+		['code', CodeIcon],
+		['space', SpaceIcon],
+		['checklist', ChecklistIcon],
+		['attachment', AttachmentIcon]
 	]);
 	options = filterOptions(options);
 	let toggle = true;
@@ -36,9 +42,9 @@
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<span on:click={() => (toggle = !toggle)} class="control">
 		{#if toggle}
-			<svelte:component this={CloseIcon} />
+			<svelte:component this={CloseIcon} --icon="var(--textColor)" />
 		{:else}
-			<svelte:component this={PlusIcon} />
+			<svelte:component this={PlusIcon} --icon="var(--textColor)" />
 		{/if}
 	</span>
 	{#if toggle}

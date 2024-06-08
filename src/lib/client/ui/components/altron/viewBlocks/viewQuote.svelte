@@ -1,28 +1,28 @@
 <script>
-	import QuoteIcon from '$icons/quoteIcon.svelte';
-	import { getContext } from 'svelte';
-	const componentMap = getContext('componentMap');
-	const CloseQuoteIcon = componentMap.get('closeQuoteIcon');
-	const OpenQuoteIcon = componentMap.get('openQuoteIcon');
+	import CloseQuoteIcon from '$altron/icons/closeQuoteIcon.svelte';
+	import OpenQuoteIcon from '$altron/icons/openQuoteIcon.svelte';
 	export let text;
 	export let owner;
 </script>
 
 <div class="quote">
-	<QuoteIcon />
+	<OpenQuoteIcon />
 	<h4 class="quoteContent">{text}</h4>
-	<QuoteIcon />
-	<span class="quoteOwner">{owner}</span>
+	<CloseQuoteIcon />
+	<span class="quoteOwner">_{owner}</span>
 </div>
 
 <style>
 	.quote {
 		width: 100%;
-		display: flex;
 		color: var(--textColor);
 	}
+
+	.quote * {
+		display: inline;
+	}
+
 	.quoteOwner {
-		color: var(--primaryColor);
 		text-transform: capitalize;
 		font-weight: 600;
 	}

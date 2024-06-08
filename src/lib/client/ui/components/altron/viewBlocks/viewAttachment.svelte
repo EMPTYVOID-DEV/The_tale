@@ -1,13 +1,11 @@
 <script>
 	// @ts-ignore
 	import { mimeToFileNameMap } from '@altron/altron/consts';
+	import UploadIcon from '$altron/icons/uploadIcon.svelte';
 	export let src;
 	export let title;
 	export let type;
 	export let size;
-	import { getContext } from 'svelte';
-	const componentMap = getContext('componentMap');
-	const UploadIcon = componentMap.get('uploadIcon');
 </script>
 
 <div class="attachment">
