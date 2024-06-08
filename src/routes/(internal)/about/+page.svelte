@@ -15,6 +15,12 @@
 		<li>Notification system</li>
 		<li>Custom storage for writings</li>
 	</div>
+
+	<span class="link">
+		To learn more check out this writing <a href="https://the-tale.vercel.app/reading/rpdq6lhe"
+			>here</a
+		>
+	</span>
 </div>
 
 <style>
@@ -27,6 +33,10 @@
 		gap: 1rem;
 		color: var(--foregroundColor);
 		padding-inline: 2.5%;
+	}
+
+	a {
+		color: var(--primaryColor);
 	}
 
 	@media screen and (width < 768px) {

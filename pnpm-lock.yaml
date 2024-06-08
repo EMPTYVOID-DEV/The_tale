@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@altron/altron':
-        specifier: ^3.0.2
-        version: 3.0.2(svelte@4.2.12)
+        specifier: ^3.0.3
+        version: 3.0.3(svelte@4.2.12)
       '@lucia-auth/adapter-drizzle':
         specifier: ^1.0.4
         version: 1.0.7(lucia@3.1.1)
@@ -145,8 +145,8 @@ packages:
     resolution: {integrity: sha512-1Yjs2SvM8TflER/OD3cOjhWWOZb58A2t7wpE2S9XfBYTiIl+XFhQG2bjy4Pu1I+EAlCNUzRDYDdFwFYUKvXcIA==}
     engines: {node: '>=0.10.0'}
 
-  '@altron/altron@3.0.2':
-    resolution: {integrity: sha512-hv7BGRJ6nVJ2KHa1AWSOLKKJTzlDwKvaTR08sIzYN++rqxXH9LFTWYsGoek7+f2FaFsHx/sM/px/z5xQTFxN6g==}
+  '@altron/altron@3.0.3':
+    resolution: {integrity: sha512-19BWGjoqf6wYYp4NwnLVes4rzq4wzSj/Qv2uzkiE4Cr5+Nfvt2nwa/xXbRiUAwtxi1qLAXXKQZA1DUDJcAgz+w==}
     engines: {node: '>=16.14'}
     peerDependencies:
       svelte: ^4.0.0
@@ -3900,7 +3900,7 @@ snapshots:
 
   '@aashutoshrathi/word-wrap@1.2.6': {}
 
-  '@altron/altron@3.0.2(svelte@4.2.12)':
+  '@altron/altron@3.0.3(svelte@4.2.12)':
     dependencies:
       nanoid: 5.0.7
       svelte: 4.2.12
