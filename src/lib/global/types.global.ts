@@ -1,4 +1,5 @@
 import type { dataBlock } from '@altron/altron/types';
+import type { writingMode } from './const.global';
 
 export type ColorSet = {
 	bg: string;
@@ -23,6 +24,7 @@ export type Contribution = {
 	writingName: string;
 	writingBackground: string;
 	creationDate: string;
+	mode: boolean;
 };
 
 export type WritingContributors = {
@@ -78,7 +80,10 @@ export type QueryResult = {
 	ownerAvatar: string;
 	name: string;
 	description: string;
+	tags: string[];
 	id: string;
 };
 
 export type SectionsLocation = 'viewing' | 'editing';
+
+export type WritingMode = keyof typeof writingMode;

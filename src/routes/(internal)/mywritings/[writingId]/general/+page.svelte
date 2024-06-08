@@ -5,13 +5,15 @@
 	import DescriptionForm from './components/descriptionForm.svelte';
 	import NameForm from './components/nameForm.svelte';
 	import { Toaster } from 'svelte-sonner';
+	import TagsForm from './components/tagsForm.svelte';
 </script>
 
 <div class="general">
 	<CopyId />
 	<NameForm />
-	<DescriptionForm />
 	<BackgroudForm />
+	<DescriptionForm />
+	<TagsForm />
 	<DeleteForm />
 </div>
 

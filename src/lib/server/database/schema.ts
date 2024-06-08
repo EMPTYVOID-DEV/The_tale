@@ -13,12 +13,14 @@ import {
 } from 'drizzle-orm/pg-core';
 import type { dataBlock } from '@altron/altron/types';
 import { defaultBgUrl, defaultColors, defaultFonts } from '$global/const.global';
+import { sql } from 'drizzle-orm';
 
 export const userTable = pgTable('user', {
 	id: varchar('id', { length: 8 }).notNull().primaryKey(),
 	username: varchar('username', { length: 28 }).notNull(),
 	about: text('about').default(''),
-	avatar: text('avatar')
+	avatar: text('avatar'),
+	apiKey: text('api_key')
 });
 
 export const sessionTable = pgTable('session', {
@@ -60,12 +62,16 @@ export const writingTable = pgTable('writing', {
 	creationDate: date('creation_date', { mode: 'string' }).$defaultFn(() =>
 		new Date().toLocaleString('en-GB')
 	),
+	tags: text('tags')
+		.array()
+		.default(sql`'{}'::text[]`),
 	fonts: json('fonts').$type<WritingFonts>().default(defaultFonts),
 	colors: json('colors').$type<WritingColors>().default(defaultColors),
 	rootSection: json('root_section').$type<Section>(),
 	ownerId: varchar('owner_id', { length: 8 })
 		.notNull()
-		.references(() => userTable.id, { onDelete: 'cascade' })
+		.references(() => userTable.id, { onDelete: 'cascade' }),
+	private: boolean('private').default(false)
 });
 
 export const writingReferencesTable = pgTable(

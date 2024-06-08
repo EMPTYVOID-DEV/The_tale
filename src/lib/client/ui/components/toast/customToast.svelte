@@ -44,7 +44,7 @@
 		padding: 0.5rem;
 		border: 2px solid var(--main-color);
 		border-radius: var(--border-radius);
-		background-color: color-mix(in srgb, var(--main-color) 40%, transparent 60%);
+		background-color: color-mix(in srgb, var(--main-color) 30%, transparent 70%);
 	}
 	.toastContent {
 		display: flex;

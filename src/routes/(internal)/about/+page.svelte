@@ -1,10 +1,11 @@
 <div class="about">
 	<h1>What is this?</h1>
 	<p>
-		This is a personal project based on an idea I had in mind. It's not a full-blown app but rather
-		a platform where users can collaborate on creating blog posts, articles, and documentations.
+		This is considered a personal project for now. The idea of The_tale is simple: enable people to
+		collaborate in order to create writings and control everything from the structure, colors,
+		fonts, references, and more. A writing can be a simple blog post, an article with multiple
+		sections, or a full-blown document.
 	</p>
-
 	<h3>Features that can be added in the future</h3>
 	<div>
 		<li>Upvoting system for writings</li>

@@ -1,6 +1,8 @@
 import { ZodSchema, z } from 'zod';
 import type { ActionStatus } from './types.global';
 
+const alphRegex = /^[\w\s]+$/;
+
 export const emailSchema = z.string().email('Invalid email address');
 
 export const isNumberSchema = z.string().max(1).regex(/^\d$/);
@@ -48,7 +50,12 @@ export const sectionNameSchema = z
 	.string()
 	.min(3, { message: 'Section name must be at least 3 letters long' })
 	.max(24, { message: "Section name lenght can't exceed 24 letters" })
-	.regex(/^[\w\s]+$/, { message: 'Section must only contain alphabet and numeric characters' });
+	.regex(alphRegex, { message: 'Section must only contain alphabet and numeric characters' });
+
+export const tagSchema = z
+	.string()
+	.min(2, { message: 'Tag must be at least 2 letters long.' })
+	.max(18, { message: "Tag length can't exceed 18 letters." });
 
 export function getValidator(schema: ZodSchema): (text: string) => ActionStatus {
 	return (text: string) => {

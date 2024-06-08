@@ -3,7 +3,7 @@
 	import Dialog from '$components/other/dialog.svelte';
 	import StaticInput from '$components/input/staticInput.svelte';
 	import Select from '$components/other/select.svelte';
-	import type { Contribution } from '$global/types.global';
+	import type { Contribution, WritingMode } from '$global/types.global';
 	import PlusIcon from '$icons/plusIcon.svelte';
 	import ReactiveInput from '$components/input/reactiveInput.svelte';
 	import { getValidator, writingNameSchema } from '$global/zod';
@@ -14,10 +14,20 @@
 	import { showToast } from '$client/utils.client';
 	import { Toaster } from 'svelte-sonner';
 	import Writing from './components/writing.svelte';
+
+	type ModeElement = { value: WritingMode; label: WritingMode };
+
+	type OrderingCriteria = 'name' | 'role' | 'date' | 'mode';
+
+	let newWritingMode: ModeElement = { value: 'public', label: 'public' };
+
 	let contributions = $page.data.contributions as Contribution[];
+
 	const validateWritingName = getValidator(writingNameSchema);
+
 	const rolesOrder = ['writer', 'owner'];
-	const elements: { value: 'name' | 'role' | 'date'; label: string }[] = [
+
+	const elements: { value: OrderingCriteria; label: string }[] = [
 		{
 			value: 'name',
 			label: 'Order by name'
@@ -29,7 +39,16 @@
 		{
 			value: 'date',
 			label: 'Order by creation date'
+		},
+		{
+			value: 'mode',
+			label: 'Order by visibility '
 		}
+	];
+
+	const writingModes: ModeElement[] = [
+		{ value: 'public', label: 'public' },
+		{ value: 'private', label: 'private' }
 	];
 
 	function compareNames(a: string, b: string) {
@@ -62,15 +81,16 @@
 		else contributions = fullContributions.filter((el) => el.writingName.includes(query));
 	}
 
-	function order(orderCriteria: 'name' | 'role' | 'date') {
+	function order(orderCriteria: OrderingCriteria) {
 		if (orderCriteria == 'name')
 			contributions = contributions.sort((a, b) => compareNames(a.writingName, b.writingName));
 		else if (orderCriteria == 'date')
-			contributions = contributions.sort((a, b) => compareDates(a.creationDate, b.creationDate));
-		else
+			contributions = contributions.sort((a, b) => compareDates(b.creationDate, a.creationDate));
+		else if (orderCriteria == 'role')
 			contributions = contributions.sort(
 				(a, b) => rolesOrder.indexOf(b.role) - rolesOrder.indexOf(a.role)
 			);
+		else contributions = contributions.sort((a, b) => +b.mode - +a.mode);
 	}
 	order('name');
 </script>
@@ -94,7 +114,8 @@
 				</svelte:fragment>
 
 				<form
-					use:enhance={async () => {
+					use:enhance={async ({ formData }) => {
+						formData.append('mode', newWritingMode.value);
 						return ({ result, update }) => {
 							// @ts-ignore
 							if (result.type == 'failure') showToast('Error', result.data.message, 'danger');
@@ -109,6 +130,13 @@
 					transition:scale={{ duration: 520, easing: quadInOut, start: 0, opacity: 0.2 }}
 				>
 					<h3>Create a new writing</h3>
+					<Select
+						elements={writingModes}
+						value={[newWritingMode]}
+						clearable={false}
+						label="The writing visibility cannot be changed later"
+						on:change={(e) => (newWritingMode = e.detail.selected[0])}
+					/>
 					<ReactiveInput
 						checkFunction={validateWritingName}
 						label="Writing name"

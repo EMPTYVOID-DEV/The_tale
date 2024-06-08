@@ -45,8 +45,8 @@
 	<section class="input">
 		<h3>Colors</h3>
 		<span
-			>Change the colors that are used for your writing. For a better user experience, we need two
-			color sets: one for light mode and another for dark mode.</span
+			>Change the colors that are used for your writing.<br /> For a better user experience, we need
+			two color sets: one for light mode and another for dark mode.</span
 		>
 		<Tabs {tabs} {activeTab} on:change={handleTabChange} />
 		{#if activeTab == 0}

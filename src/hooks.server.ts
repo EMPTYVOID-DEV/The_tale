@@ -1,10 +1,12 @@
 import { lucia } from '$server/auth/lucia';
 import { db } from '$server/database/database';
-import { writingContributorsTable } from '$server/database/schema';
+import { userTable, writingContributorsTable } from '$server/database/schema';
 import { checkPath } from '$server/utils/authUtils';
 import { redirect, type Handle, type HandleServerError } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { and, eq } from 'drizzle-orm';
+import sha256 from 'crypto-js/sha256';
+import base64 from 'crypto-js/enc-base64';
 
 export const handleError: HandleServerError = async ({ error }) => {
 	console.log(error);
@@ -76,4 +78,26 @@ const authHook: Handle = async ({ resolve, event }) => {
 	return resolve(event);
 };
 
-export const handle = sequence(luciaHook, authHook);
+export const apiHook: Handle = async ({ resolve, event }) => {
+	const pathname = event.url.pathname;
+	if (checkPath(pathname, 'start', ['/api'])) {
+		const req = event.request;
+		const header = req.headers.get('authorization');
+		if (!header)
+			return new Response('Provide a token', {
+				status: 403
+			});
+		const key = header.split(' ').at(-1);
+		const hashedKey = sha256(key).toString(base64);
+		const user = await db.query.userTable.findFirst({ where: eq(userTable.apiKey, hashedKey) });
+		if (!user)
+			return new Response('Invalid a token', {
+				status: 403
+			});
+
+		event.locals.user = user;
+	}
+	return resolve(event);
+};
+
+export const handle = sequence(luciaHook, authHook, apiHook);

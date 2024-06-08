@@ -14,7 +14,8 @@ export const load: Load = async ({ params }) => {
 			name: true,
 			description: true,
 			background: true,
-			id: true
+			id: true,
+			tags: true
 		}
 	});
 	return { settings: writingSettings };
@@ -61,5 +62,12 @@ export const actions: Actions = {
 			return fail(400, { message: 'The confirmation text is not valid' });
 		await db.delete(writingTable).where(eq(writingTable.id, writingId));
 		redirect(303, '/mywritings');
+	},
+	updateTags: async ({ request, params }) => {
+		const writingId = params.writingId;
+		const fd = await request.formData();
+		const tagsString = fd.get('tags').toString();
+		const tags = JSON.parse(tagsString);
+		await db.update(writingTable).set({ tags }).where(eq(writingTable.id, writingId));
 	}
 };

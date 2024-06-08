@@ -6,6 +6,7 @@
 	import { Toaster } from 'svelte-sonner';
 	import LogoutForm from './components/logoutForm.svelte';
 	import AboutForm from './components/aboutForm.svelte';
+	import KeyForm from './components/keyForm.svelte';
 </script>
 
 <div class="profile">
@@ -13,6 +14,7 @@
 	<AvatarForm />
 	<UsernameForm />
 	<AboutForm />
+	<KeyForm />
 	<LogoutForm />
 	<DeleteForm />
 </div>

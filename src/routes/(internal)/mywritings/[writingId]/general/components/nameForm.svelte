@@ -52,7 +52,7 @@
 
 	@media screen and (max-width: 768px) {
 		.input {
-			--width: 80%;
+			--width: 100%;
 		}
 	}
 </style>

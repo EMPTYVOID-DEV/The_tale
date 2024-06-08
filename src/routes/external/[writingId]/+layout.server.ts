@@ -1,6 +1,6 @@
 import { db } from '$server/database/database';
 import { writingTable } from '$server/database/schema';
-import type { ServerLoad } from '@sveltejs/kit';
+import { error, type ServerLoad } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
 
 export const load: ServerLoad = async ({ params }) => {
@@ -10,8 +10,11 @@ export const load: ServerLoad = async ({ params }) => {
 		columns: {
 			colors: true,
 			fonts: true,
-			rootSection: true
+			rootSection: true,
+			private: true
 		}
 	});
+	if (!data) error(404);
+	if (data.private) error(403);
 	return { ...data };
 };
