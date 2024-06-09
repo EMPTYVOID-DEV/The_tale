@@ -114,6 +114,8 @@ export const altronTheme: ThemeInput = {
 	]
 };
 
+export const paddingTop = 104;
+
 export const navHeight = 72;
 
 export const writingMode = {

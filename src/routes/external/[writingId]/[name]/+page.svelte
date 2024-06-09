@@ -3,7 +3,7 @@
 	import { isMobileExternal, mobileAppear } from '$client/stores.js';
 	import AltronInstance from '$components/other/altronInstance.svelte';
 	import Section from '$components/sections/section.svelte';
-	import { navHeight } from '$global/const.global';
+	import { paddingTop } from '$global/const.global';
 	import { setContext } from 'svelte';
 	import Location from '../components/location.svelte';
 	import MobileToc from '../components/mobileToc.svelte';
@@ -20,7 +20,7 @@
 	setContext('location', 'viewing');
 </script>
 
-<div class="section" style:--navHeight="{navHeight}px">
+<div class="section" style:--paddingTop="{paddingTop}px">
 	{#if $mobileAppear}
 		<section
 			class="mobileSecondNav"
@@ -59,30 +59,30 @@
 <style>
 	.section {
 		width: 100%;
+		min-height: 100vh;
 		display: grid;
 		grid-template-columns: repeat(12, minmax(0, 1fr));
 		align-items: start;
-		margin-top: var(--navHeight);
+		padding-top: var(--paddingTop);
 		gap: 1rem;
 		padding-inline: 2.5%;
 		background-color: var(--backgroundColor);
-		padding-bottom: 1rem;
+		padding-bottom: 2rem;
 	}
 
 	.toc,
 	.secondNav {
-		height: calc(100vh - var(--navHeight));
+		height: calc(100vh - var(--paddingTop));
 		grid-column: span 2 / span 2;
 		overflow-y: scroll;
 		position: sticky;
-		top: var(--navHeight);
+		top: var(--paddingTop);
 		display: flex;
 		flex-direction: column;
 		gap: 0.75rem;
 	}
 
 	.content {
-		min-height: calc(100vh - var(--navHeight));
 		grid-column: span 8 / span 8;
 		display: flex;
 		flex-direction: column;
@@ -94,11 +94,11 @@
 	}
 
 	.mobileSecondNav {
+		height: calc(100vh - var(--paddingTop));
 		display: flex;
 		flex-direction: column;
 		gap: 0.75rem;
 		grid-column: span 12 / span 12;
-		height: calc(100vh - var(--navHeight));
 	}
 
 	@media screen and (width<1012px) {

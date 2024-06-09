@@ -47,7 +47,7 @@
 <style>
 	.mobileToc {
 		position: sticky;
-		top: var(--navHeight);
+		top: var(--paddingTop);
 		display: flex;
 		flex-direction: column;
 		background-color: var(--backgroundColor);

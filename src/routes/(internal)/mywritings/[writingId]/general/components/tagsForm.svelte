@@ -28,7 +28,7 @@
 	}
 
 	function removeTag(idx: number) {
-		tags.splice(idx);
+		tags.splice(idx, 1);
 		tags = tags;
 	}
 

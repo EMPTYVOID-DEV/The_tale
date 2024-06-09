@@ -23,7 +23,6 @@
 	}
 
 	.quoteOwner {
-		text-transform: capitalize;
 		font-weight: 600;
 	}
 	.quoteContent {

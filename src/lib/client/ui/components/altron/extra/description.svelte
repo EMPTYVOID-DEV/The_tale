@@ -15,7 +15,6 @@
 		gap: 6px;
 	}
 	.description span {
-		text-transform: capitalize;
 		font-weight: 600;
 	}
 	.description :is(span, p) {

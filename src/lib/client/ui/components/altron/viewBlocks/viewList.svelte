@@ -28,7 +28,6 @@
 	ol {
 		color: var(--textColor);
 		list-style: none;
-		text-transform: capitalize;
 		inset: unset;
 		width: 100%;
 		display: flex;
