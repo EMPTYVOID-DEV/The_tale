@@ -59,8 +59,8 @@ export const writingTable = pgTable('writing', {
 	name: text('name').notNull(),
 	description: text('description').notNull().default(''),
 	background: text('background').default(defaultBgUrl),
-	creationDate: date('creation_date', { mode: 'string' }).$defaultFn(() =>
-		new Date().toLocaleString('en-GB')
+	creationDate: date('creation_date', { mode: 'string' }).$defaultFn(
+		() => new Date().toISOString().split('T')[0]
 	),
 	tags: text('tags')
 		.array()

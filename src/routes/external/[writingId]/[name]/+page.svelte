@@ -20,7 +20,7 @@
 	setContext('location', 'viewing');
 </script>
 
-<div class="section" style:--paddingTop="{paddingTop}px">
+<div class="section">
 	{#if $mobileAppear}
 		<section
 			class="mobileSecondNav"
@@ -104,6 +104,7 @@
 	@media screen and (width<1012px) {
 		.content {
 			grid-column: span 12 / span 12;
+			gap: 0;
 		}
 	}
 </style>

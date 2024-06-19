@@ -2,14 +2,13 @@
 	import { goto } from '$app/navigation';
 	import { isMobileExternal, mobileAppear } from '$client/stores';
 	import ThemeToggle from '$components/other/themeToggle.svelte';
-	import { navHeight } from '$global/const.global';
 	import Logo from '$icons/logo.svelte';
 	import MenuClose from '$icons/menuCloseIcon.svelte';
 	import MenuOpen from '$icons/menuOpenIcon.svelte';
 	export let isOneSection: Boolean;
 </script>
 
-<nav class="navbar" style:height="{navHeight}px">
+<nav class="navbar">
 	<button class="logoWrapper" on:click={() => goto('/')}>
 		<Logo />
 	</button>
@@ -31,6 +30,7 @@
 	.navbar {
 		background-color: var(--backgroundColor);
 		width: 100%;
+		height: var(--navHeight);
 		display: flex;
 		align-items: center;
 		justify-content: space-between;

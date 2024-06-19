@@ -47,10 +47,11 @@
 <style>
 	.mobileToc {
 		position: sticky;
-		top: var(--paddingTop);
+		top: var(--navHeight);
 		display: flex;
 		flex-direction: column;
 		background-color: var(--backgroundColor);
+		padding-block: 0.5rem;
 	}
 
 	.toggle {

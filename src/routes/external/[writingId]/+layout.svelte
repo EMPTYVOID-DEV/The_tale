@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import Navbar from './components/navbar.svelte';
 	import { isMobileExternal, mobileAppear } from '$client/stores';
+	import { paddingTop, navHeight } from '$global/const.global';
 
 	export let data;
 	let externalRef: HTMLDivElement;
@@ -59,7 +60,12 @@
 	});
 </script>
 
-<div class="external" bind:this={externalRef}>
+<div
+	class="external"
+	bind:this={externalRef}
+	style:--paddingTop="{paddingTop}px"
+	style:--navHeight="{navHeight}px"
+>
 	<Navbar {isOneSection} on:change={(e) => toggleTheme(e.detail.theme)} />
 	<slot />
 </div>
