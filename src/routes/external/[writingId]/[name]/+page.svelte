@@ -94,7 +94,7 @@
 	}
 
 	.mobileSecondNav {
-		height: calc(100vh - var(--paddingTop));
+		height: calc(100vh - var(--navHeight));
 		display: flex;
 		flex-direction: column;
 		gap: 0.75rem;
@@ -104,7 +104,9 @@
 	@media screen and (width<1012px) {
 		.content {
 			grid-column: span 12 / span 12;
-			gap: 0;
+		}
+		.section {
+			padding-top: var(--navHeight);
 		}
 	}
 </style>

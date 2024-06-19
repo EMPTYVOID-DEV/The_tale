@@ -51,7 +51,6 @@
 		display: flex;
 		flex-direction: column;
 		background-color: var(--backgroundColor);
-		padding-block: 0.5rem;
 	}
 
 	.toggle {
