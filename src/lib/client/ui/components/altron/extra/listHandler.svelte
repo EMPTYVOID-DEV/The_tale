@@ -1,12 +1,20 @@
 <script>
-	import DeleteIcon from '$icons/deleteIcon.svelte';
-	import PlusIcon from '$icons/plusIcon.svelte';
-	import Textarea from './textArea.svelte';
+	import { getContext } from 'svelte';
 
+	/**@type {string[]}*/
 	export let items;
+	/**@type {(index:number,text:string)=>void}*/
 	export let updateEntry;
+	/**@type {(index:number)=>void}*/
 	export let removeEntry;
+	/**@type {(defaultVal: string)=>void}*/
 	export let addEntry;
+
+	/**@type {Map<string,import("svelte").SvelteComponent>}*/
+	const componentMap = getContext('componentMap');
+	const CloseIcon = componentMap.get('closeIcon');
+	const PlusIcon = componentMap.get('plusIcon');
+	const Textarea = componentMap.get('textArea');
 </script>
 
 <div class="itemsEdit">
@@ -22,24 +30,19 @@
 					updateEntry(index, text);
 				}}
 			/>
-			<!-- svelte-ignore a11y-click-events-have-key-events -->
-			<!-- svelte-ignore a11y-no-static-element-interactions -->
-			<span
+			<button
 				class="control"
 				on:click|stopPropagation={() => {
 					removeEntry(index);
-				}}><DeleteIcon --icon="#ff6ec7" /></span
+				}}><svelte:component this={CloseIcon} /></button
 			>
 		</div>
 	{/each}
-	<!-- svelte-ignore a11y-click-events-have-key-events -->
-	<!-- svelte-ignore a11y-no-static-element-interactions -->
-	<span
+	<button
 		class="control"
 		on:click|stopPropagation={() => {
-			// default value
 			addEntry('hello friend');
-		}}><PlusIcon --icon="#ff6ec7" /></span
+		}}><svelte:component this={PlusIcon} /></button
 	>
 </div>
 
@@ -47,7 +50,7 @@
 	.itemsEdit {
 		display: flex;
 		flex-direction: column;
-		gap: 12px;
+		gap: 10px;
 	}
 	.itemsEdit .itemEdit {
 		display: flex;
@@ -55,6 +58,7 @@
 		gap: 8px;
 	}
 	.itemsEdit .control {
+		all: unset;
 		cursor: pointer;
 		width: 2.2rem;
 		aspect-ratio: 1/1;
@@ -63,17 +67,16 @@
 		justify-content: center;
 		border-radius: 50%;
 		border: 2px solid var(--secondaryColor);
-		box-shadow:
-			0 0 5px var(--secondaryColor),
-			0 0 5px var(--secondaryColor),
+		box-shadow: 0 0 5px var(--secondaryColor), 0 0 5px var(--secondaryColor),
 			0 0 5px var(--secondaryColor);
+		--icon: var(--secondaryColor);
 	}
 	.itemsEdit .header {
-		font-weight: 700;
+		font-weight: 600;
 		color: var(--textColor);
 		font-size: var(--small);
 	}
-	.itemsEdit span:last-child {
+	.itemsEdit button:last-child {
 		align-self: center;
 	}
 </style>

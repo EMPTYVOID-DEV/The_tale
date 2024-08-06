@@ -1,9 +1,12 @@
 <script>
-	//@ts-ignore
 	import Select from 'svelte-select';
+	/**@type {string}*/
 	export let label;
+	/**@type {{value:string,label:string}[]}*/
 	export let elements;
+	/**@type {(detail:{value:string,label:string})=>void}*/
 	export let changeHandler;
+	/**@type {{value:string,label:string}}*/
 	export let preSelected;
 </script>
 
@@ -49,7 +52,7 @@
 	}
 	.select span {
 		font-size: var(--small);
-		font-weight: 700;
+		font-weight: 600;
 		color: var(--textColor);
 	}
 </style>

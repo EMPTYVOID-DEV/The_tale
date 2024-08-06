@@ -1,11 +1,12 @@
 <script>
+	/**@type {string}*/
 	export let src;
+	/**@type {string}*/
 	export let caption;
 </script>
 
 <div class="imageView">
-	<!-- svelte-ignore a11y-img-redundant-alt -->
-	<img {src} alt="Sorry the image did not load" />
+	<img {src} alt="Did not load" />
 	<span>{caption}</span>
 </div>
 

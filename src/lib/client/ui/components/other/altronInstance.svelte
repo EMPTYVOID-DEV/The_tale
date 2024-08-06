@@ -11,7 +11,6 @@
 <Altron
 	--width="100%"
 	--secondary-color="#ff6ec7"
-	--bg-color="var(--backgroundColor)"
 	--text-color="var(--foregroundColor)"
 	--primary-color="var(--primaryColor)"
 	--body-font="var(--bodyFont)"

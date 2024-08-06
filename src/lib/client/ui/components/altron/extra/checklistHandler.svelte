@@ -1,29 +1,33 @@
 <script>
-	import DeleteIcon from '$icons/deleteIcon.svelte';
-	import PlusIcon from '$icons/plusIcon.svelte';
-	import Checked from '$altron/icons/checkedIcon.svelte';
-	import UnChecked from '$altron/icons/unCheckedIcon.svelte';
-	import Textarea from './textArea.svelte';
+	import { getContext } from 'svelte';
+	/**@type {(index:number,text:string)=>void}*/
 	export let updateEntry;
+	/**@type {(index:number)=>void}*/
 	export let removeEntry;
+	/**@type {(defaultVal: { value: string; checked: boolean })=>void}*/
 	export let addEntry;
+	/**@type {(index:number,checked:boolean)=>void}*/
 	export let checkEntry;
+	/**@type {{ value: string; checked: boolean }[]}*/
 	export let items;
+	/**@type {Map<string,import("svelte").SvelteComponent>}*/
+	const componentMap = getContext('componentMap');
+	const CloseIcon = componentMap.get('closeIcon');
+	const PlusIcon = componentMap.get('plusIcon');
+	const Textarea = componentMap.get('textArea');
 </script>
 
 <div class="checkListExtra">
 	<span class="header">Check list items </span>
 	{#each items as item, index}
 		<div class="itemEdit">
-			{#if item.checked}
-				<button class="toggle" on:click|stopPropagation={() => checkEntry(index, false)}>
-					<svelte:component this={Checked} />
-				</button>
-			{:else}
-				<button class="toggle" on:click|stopPropagation={() => checkEntry(index, true)}>
-					<svelte:component this={UnChecked} /></button
-				>
-			{/if}
+			<input
+				type="checkbox"
+				bind:checked={item.checked}
+				on:change={(e) => {
+					checkEntry(index, e.currentTarget.checked);
+				}}
+			/>
 			<svelte:component
 				this={Textarea}
 				width={90}
@@ -33,24 +37,19 @@
 					updateEntry(index, text);
 				}}
 			/>
-			<!-- svelte-ignore a11y-click-events-have-key-events -->
-			<!-- svelte-ignore a11y-no-static-element-interactions -->
-			<span
+			<button
 				class="control"
 				on:click|stopPropagation={() => {
 					removeEntry(index);
-				}}><DeleteIcon --icon="#ff6ec7" /></span
+				}}><svelte:component this={CloseIcon} /></button
 			>
 		</div>
 	{/each}
-	<!-- svelte-ignore a11y-click-events-have-key-events -->
-	<!-- svelte-ignore a11y-no-static-element-interactions -->
-	<span
+	<button
 		class="control"
 		on:click|stopPropagation={() => {
-			// default value
-			addEntry({ value: 'hello friend', checked: false });
-		}}><PlusIcon --icon="#ff6ec7" /></span
+			addEntry({ value: 'hello friend', checked: true });
+		}}><svelte:component this={PlusIcon} /></button
 	>
 </div>
 
@@ -58,25 +57,27 @@
 	.checkListExtra {
 		display: flex;
 		flex-direction: column;
-		gap: 12px;
+		gap: 15px;
 	}
 	.checkListExtra > .header {
-		font-weight: 700;
+		margin-left: 10px;
+		font-weight: 600;
 		color: var(--textColor);
 		font-size: var(--small);
 	}
 	.itemEdit {
 		display: flex;
 		align-items: center;
-		gap: 8px;
+		gap: 10px;
 	}
-
-	.toggle {
-		all: unset;
-		--primaryColor: #ff6ec7;
+	.itemEdit input {
+		width: 1.2rem;
+		aspect-ratio: 1/1;
+		margin-right: 10px;
+		cursor: pointer;
 	}
-
 	.control {
+		all: unset;
 		cursor: pointer;
 		width: 2.2rem;
 		aspect-ratio: 1/1;
@@ -85,12 +86,11 @@
 		justify-content: center;
 		border-radius: 50%;
 		border: 2px solid var(--secondaryColor);
-		box-shadow:
-			0 0 5px var(--secondaryColor),
-			0 0 5px var(--secondaryColor),
+		box-shadow: 0 0 5px var(--secondaryColor), 0 0 5px var(--secondaryColor),
 			0 0 5px var(--secondaryColor);
+		--icon: var(--secondaryColor);
 	}
-	.checkListExtra span:last-child {
+	.checkListExtra button:last-child {
 		align-self: center;
 	}
 </style>

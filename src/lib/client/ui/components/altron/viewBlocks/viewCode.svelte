@@ -1,88 +1,71 @@
-<script lang="ts">
-	import { altronTheme } from '$global/const.global';
-	import { getHighlighterCore } from 'shiki';
-	import getWasm from 'shiki/wasm';
-	import CopyIcon from '$icons/copyIcon.svelte';
-	import DoneIcon from '$icons/doneIcon.svelte';
-	import { onMount } from 'svelte';
-	export let text: string;
-	export let lang: string;
-	let copyStatement = false;
-	let code = text;
+<script>
+	import { getContext } from 'svelte';
 
+	/**@type {string}*/
+	export let text;
+	/**@type {string}*/
+	export let lang;
+	/**@type {Map<string,import("svelte").SvelteComponent>}*/
+	const componentMap = getContext('componentMap');
+	const DoneIcon = componentMap.get('doneIcon');
+	const CopyIcon = componentMap.get('copyIcon');
+	let copyStatement = false;
 	function copyCode() {
 		navigator.clipboard.writeText(text);
 		copyStatement = true;
 		new Promise((res) => setTimeout(res, 800)).then(() => (copyStatement = false));
 	}
-	onMount(async () => {
-		const { bundledLanguages } = await import('shiki/langs');
-		const importFn = (bundledLanguages as any)[lang.toLowerCase()];
-		const highlighter = await getHighlighterCore({
-			loadWasm: getWasm,
-			themes: [altronTheme],
-			langs: []
-		});
-		await highlighter.loadLanguage(await importFn());
-		code = highlighter.codeToHtml(text, {
-			lang: lang.toLowerCase(),
-			theme: 'altronTheme'
-		});
-	});
 </script>
 
-<div class="viewCode">
-	<div class="lang">
+<div id="codeMdBlock" class={lang}>
+	<div id="lang">
 		<span>{lang}</span>
 		{#if !copyStatement}
 			<button on:click|stopPropagation={copyCode} class="control"
 				><svelte:component this={CopyIcon} /></button
 			>
 		{:else}
-			<svelte:component this={DoneIcon} />
+			<span><svelte:component this={DoneIcon} /></span>
 		{/if}
 	</div>
-	<div class="content">
-		{@html code}
-	</div>
+
+	<code>{text}</code>
 </div>
 
 <style>
-	.viewCode {
+	#codeMdBlock {
 		width: 100%;
 		display: flex;
 		flex-direction: column;
-		border: 1px solid var(--textColor);
-		border-radius: var(--border-radius);
+		gap: 5px;
+		border-radius: 5px;
+		background-color: color-mix(in srgb, var(--primaryColor) 40%, white 0%);
+		padding-bottom: 10px;
 		overflow: hidden;
+		color: var(--textColor);
+		--icon: var(--textColor);
 	}
 
-	.lang {
+	#codeMdBlock > code {
+		padding-left: 10px;
+	}
+
+	#codeMdBlock #lang {
 		width: 100%;
-		background-color: transparent;
+		background-color: var(--primaryColor);
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding-inline: 0.75rem;
-		padding-block: 0.25rem;
-		border-bottom: 1px solid var(--textColor);
+		padding-inline: 10px;
+		padding-block: 5px;
 	}
 
-	.lang span {
-		font-weight: 600;
-
+	#codeMdBlock #lang span {
+		font-weight: bold;
 		text-transform: capitalize;
-		color: var(--textColor);
 	}
 	.control {
 		all: unset;
 		cursor: pointer;
-	}
-	.content {
-		width: 100%;
-		background-color: color-mix(in srgb, var(--textColor) 8%, transparent 92%);
-		padding-inline: 0.75rem;
-		padding-block: 0.25rem;
-		color: var(--foregroundColor);
 	}
 </style>

@@ -1,58 +1,56 @@
 <script>
-	import AttachmentIcon from '$altron/icons/attachmentIcon.svelte';
-	import ChecklistIcon from '$altron/icons/checklistIcon.svelte';
-	import CloseQuoteIcon from '$altron/icons/closeQuoteIcon.svelte';
-	import CodeIcon from '$altron/icons/codeIcon.svelte';
-	import HeaderIcon from '$altron/icons/headerIcon.svelte';
-	import ImageIcon from '$altron/icons/imageIcon.svelte';
-	import ListIcon from '$altron/icons/listIcon.svelte';
-	import ParagraphIcon from '$altron/icons/paragraphIcon.svelte';
-	import SpaceIcon from '$altron/icons/spaceIcon.svelte';
-	import CloseIcon from '$icons/closeIcon.svelte';
-	import PlusIcon from '$icons/plusIcon.svelte';
+	import { fade } from 'svelte/transition';
+	import { elasticIn } from 'svelte/easing';
 	import { getContext } from 'svelte';
+
+	/**@type {(blockName:string)=>void}*/
 	export let add;
+	/**@type {string[]}*/
 	const excludeBlocks = getContext('excludedBlocks');
+	/**@type {Map<string,import("svelte").SvelteComponent>}*/
+	const componentMap = getContext('componentMap');
+	const CloseIcon = componentMap.get('closeIcon');
+	const PlusIcon = componentMap.get('plusIcon');
 	let options = new Map([
-		['paragraph', ParagraphIcon],
-		['header', HeaderIcon],
-		['image', ImageIcon],
-		['list', ListIcon],
-		['quote', CloseQuoteIcon],
-		['code', CodeIcon],
-		['space', SpaceIcon],
-		['checklist', ChecklistIcon],
-		['attachment', AttachmentIcon]
+		['paragraph', componentMap.get('paragraphIcon')],
+		['header', componentMap.get('headerIcon')],
+		['image', componentMap.get('imageIcon')],
+		['list', componentMap.get('listIcon')],
+		['quote', componentMap.get('closeQuoteIcon')],
+		['code', componentMap.get('codeIcon')],
+		['space', componentMap.get('spaceIcon')],
+		['checklist', componentMap.get('checklistIcon')],
+		['attachment', componentMap.get('attachmentIcon')],
+		['embed', componentMap.get('embedIcon')]
 	]);
 	options = filterOptions(options);
 	let toggle = true;
-	// here we re removing the options without icons (not loaded) also the excluded onces
 
+	// here we re removing the options without icons (not loaded) also the excluded onces
+	/**@param {Map<string,import("svelte").SvelteComponent>} map*/
 	function filterOptions(map) {
 		const entries = [...map];
 		const filteredEntrier = entries.filter(
-			(value) => value[1] != undefined && !excludeBlocks.find((el) => el == value[0])
+			(value) => value[1] && !excludeBlocks.find((el) => el == value[0])
 		);
 		return new Map(filteredEntrier);
 	}
 </script>
 
 <div class="toolBar">
-	<!-- svelte-ignore a11y-click-events-have-key-events -->
-	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<span on:click={() => (toggle = !toggle)} class="control">
 		{#if toggle}
-			<svelte:component this={CloseIcon} --icon="var(--textColor)" />
+			<svelte:component this={CloseIcon} />
 		{:else}
-			<svelte:component this={PlusIcon} --icon="var(--textColor)" />
+			<svelte:component this={PlusIcon} />
 		{/if}
 	</span>
 	{#if toggle}
 		<div class="options">
 			{#each options.entries() as option, index}
-				<!-- svelte-ignore a11y-click-events-have-key-events -->
-				<!-- svelte-ignore a11y-no-static-element-interactions -->
 				<span
+					in:fade|global={{ delay: 80 * index, duration: 300, easing: elasticIn }}
+					out:fade|global={{ delay: 80 * (6 - index), duration: 300, easing: elasticIn }}
 					class="option"
 					on:click|stopPropagation={() => {
 						const blockName = option[0];
@@ -74,7 +72,7 @@
 		grid-template-columns: repeat(2, auto);
 		align-items: center;
 		gap: 20px;
-		margin-top: 1.5rem;
+		margin-top: 35px;
 	}
 	.toolBar span {
 		display: flex;
@@ -88,6 +86,7 @@
 
 	.control {
 		border: 2px solid var(--textColor);
+		--icon: var(--textColor);
 	}
 
 	.options {
@@ -100,8 +99,6 @@
 	.option {
 		border: 2px solid var(--primaryColor);
 		position: relative;
-	}
-	.option > :global(svg path) {
-		fill: var(--primaryColor);
+		--icon: var(--primaryColor);
 	}
 </style>

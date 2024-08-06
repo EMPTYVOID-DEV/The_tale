@@ -1,9 +1,16 @@
 <script>
-	import UploadIcon from '$altron/icons/uploadIcon.svelte';
+	import { getContext } from 'svelte';
+	/**@type {(file:File)=>void}*/
 	export let changeHandler;
+	/**@type {string}*/
 	export let label = '';
+	/**@type {string}*/
 	export let fileType = '*';
+	/**@type {string}*/
 	export let currentFileName = 'default.png';
+	/**@type {Map<string,import("svelte").SvelteComponent>}*/
+	const componentMap = getContext('componentMap');
+	const UploadIcon = componentMap.get('uploadIcon');
 </script>
 
 <div class="input-container">
@@ -36,7 +43,7 @@
 
 	.input-container .header {
 		color: var(--textColor);
-		font-weight: 700;
+		font-weight: 600;
 		font-size: var(--small);
 	}
 
@@ -60,10 +67,10 @@
 		align-items: center;
 		gap: 5px;
 		border: 2px solid var(--secondaryColor);
-		padding-inline: 1rem;
+		padding-inline: 8px;
 		padding-block: 8px;
-		border-radius: 0.3rem;
-		box-shadow: 2px 2px 2px var(--secondaryColor);
+		border-radius: 0.5rem;
+		--icon: var(--secondaryColor);
 	}
 	.uploadBtn > span {
 		color: var(--textColor);

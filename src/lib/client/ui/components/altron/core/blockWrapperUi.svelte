@@ -1,6 +1,9 @@
 <script>
+	/** @type {boolean}*/
 	export let edited;
+	/** @type {boolean}*/
 	export let focused;
+	/** @type {string}*/
 	export let blockName;
 </script>
 
@@ -14,6 +17,10 @@
 		width: 100%;
 		position: relative;
 		cursor: pointer;
+		overflow-wrap: break-word;
+		hyphens: auto;
+		-webkit-hyphens: auto;
+		-ms-hyphens: auto;
 	}
 
 	.focused {
@@ -25,7 +32,7 @@
 
 	.focused,
 	.edited {
-		padding-top: 34px;
+		padding-top: 35px;
 		padding-bottom: 10px;
 		padding-inline: 15px;
 		border-radius: 8px;
